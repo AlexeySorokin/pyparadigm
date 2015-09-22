@@ -1,14 +1,14 @@
 # pyparadigm
 A project for automatic construction of morphological paradigms
 
-**1. Assigning words to paradigms according to full inflection table.**
+**1. Assigning words to paradigms according to full inflection table.**  
 python pyparadigm.py &lt;inflection_tables&gt;  &lt;LANGUAGE_CODE&gt;  &lt;words_by_paradigms_file&gt;  &lt;paradigm_codes_file&gt;   
 **&lt;inflection_tables&gt; :** file with paradigms in the format as in data/Latin/latin_noun_paradigms.txt  
 **&lt;LANGUAGE_CODE&gt; :** code of the language (only LA for 'Latin' and RU for 'Russian' are supported yet)  
 **&lt;words_by_paradigms_file&gt; :** output file containing words and paradigms in the format as in data/Latin/nouns_by_paradigms.txt  
 **&lt;paradigm_stats_file&gt; :** output file containing paradigms with one member for each paradigm
 
-**2. Automatic detection of paradigms**
+**2. Automatic detection of paradigms**  
 1. python transform_for_learning.py &lt;words_by_paradigm_file&gt;  &lt;inflection_tables&gt;  &lt;outfile_for_lemmas&gt;  &lt;outfile_for_paradigm_codes&gt;    
    *Transforms the output of pyparadigm to the format used in paradigms learning*  
    **&lt;words_by_paradigm_file&gt; :** first output file of step    **&lt;inflection_tables&gt; :** input file of step 1, is required only for ordering.  
