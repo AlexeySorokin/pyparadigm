@@ -51,6 +51,9 @@ class ParadigmFragment:
         return "".join(fragments)
 
     def extract_variables(self, word):
+        """
+        Извлекает значения переменных, возможные для данного слова
+        """
         # вначале находим позиции постоянных фрагментов
         const_fragments_positions = self._find_constant_fragments_positions(word)
         # нужно найти все возможные способы разбить на непустые переменные
@@ -113,6 +116,7 @@ class ParadigmFragment:
             answer.append((start_pos, index - start_index, pos))
         return answer
 
+    @staticmethod
     def _find_variable_positions(self, boundaries):
         '''
         находит позиции переменных на основе границ сегментов

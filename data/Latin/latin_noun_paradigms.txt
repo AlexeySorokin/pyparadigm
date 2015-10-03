@@ -17139,18 +17139,18 @@ competitiōnibus,competitio,абл,мн
 competitio,competitio,вок,ед
 competitiōnēs,competitio,вок,мн
 1319	competum
-um,competum,ном,ед
-a,competum,ном,мн
-ī,competum,ген,ед
-ōrum,competum,ген,мн
-ō,competum,дат,ед
-īs,competum,дат,мн
-um,competum,акк,ед
-a,competum,акк,мн
-ō,competum,абл,ед
-īs,competum,абл,мн
-um,competum,вок,ед
-a,competum,вок,мн
+competum,competum,ном,ед
+competa,competum,ном,мн
+competī,competum,ген,ед
+competōrum,competum,ген,мн
+competō,competum,дат,ед
+competīs,competum,дат,мн
+competum,competum,акк,ед
+competa,competum,акк,мн
+competō,competum,абл,ед
+competīs,competum,абл,мн
+competum,competum,вок,ед
+competa,competum,вок,мн
 1320	compilatio
 compilatio,compilatio,ном,ед
 compilatiōnēs,compilatio,ном,мн
@@ -51217,18 +51217,18 @@ mulsīs,mulsum,абл,мн
 mulsum,mulsum,вок,ед
 mulsa,mulsum,вок,мн
 3940	multijugum
-um,multijugum,ном,ед
-a,multijugum,ном,мн
-ī,multijugum,ген,ед
-ōrum,multijugum,ген,мн
-ō,multijugum,дат,ед
-īs,multijugum,дат,мн
-um,multijugum,акк,ед
-a,multijugum,акк,мн
-ō,multijugum,абл,ед
-īs,multijugum,абл,мн
-um,multijugum,вок,ед
-a,multijugum,вок,мн
+multijugum,multijugum,ном,ед
+multijuga,multijugum,ном,мн
+multijugī,multijugum,ген,ед
+multijugōrum,multijugum,ген,мн
+multijugō,multijugum,дат,ед
+multijugīs,multijugum,дат,мн
+multijugum,multijugum,акк,ед
+multijuga,multijugum,акк,мн
+multijugō,multijugum,абл,ед
+multijugīs,multijugum,абл,мн
+multijugum,multijugum,вок,ед
+multijuga,multijugum,вок,мн
 3941	multiloquium
 multiloquium,multiloquium,ном,ед
 multiloquia,multiloquium,ном,мн

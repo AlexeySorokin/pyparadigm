@@ -10,7 +10,7 @@ def extract_ordered_sequences(lists, min_differences=None, max_differences=None,
     Аргументы:
     ----------
     lists: list of lists
-    список упорядоченных списков L1, ..., Lm
+    список списков L1, ..., Lm
     min_differences: array-like, shape=(m, ) or None(default=None)
     набор [d1, ..., dm] минимальных разностей
     между соседними элементами порождаемых списков
@@ -45,6 +45,7 @@ def extract_ordered_sequences(lists, min_differences=None, max_differences=None,
     if (np.any(max_differences[1:] <= min_differences[1:]) or
         (max_differences[0] < min_differences[0])):
         return []
+    lists = [sorted(elem) for elem in lists]
     list_lengths = [len(elem) for elem in lists]
     if any(x == 0 for x in list_lengths):
         return []
@@ -175,6 +176,38 @@ def generate_monotone_sequences(first, length, upper, min_differences=None,
         max_differences[0] = first
     return extract_ordered_sequences(lists, min_differences, max_differences)
 
+def find_optimal_cover_elements(lists):
+    """
+    Аргументы:
+    -----------
+    lists: iterable
+        список списков
+
+    Возвращает:
+    ------------
+    optimal_covers: list of sets
+        список множеств S минимального размера,
+        таких что в каждом элементе lists хотя бы один элемент l \subseteq S
+    """
+    optimal_covers, optimal_cover_size = {tuple()}, 0
+    for lst in lists:
+        new_optimal_cover_size = None
+        new_optimal_covers = set()
+        # всё время поддерживаем минимальное покрытие
+        # для уже обработанного участка lists
+        if len(lst) > 0:
+            for elem in lst:
+                for cover in optimal_covers:
+                    new_cover = set(cover) | set(elem)
+                    if (new_optimal_cover_size is None
+                        or len(new_cover) < new_optimal_cover_size):
+                        new_optimal_covers = {tuple(sorted(new_cover))}
+                        new_optimal_cover_size = len(new_cover)
+                    elif len(new_cover) == new_optimal_cover_size:
+                        new_optimal_covers.add(tuple(sorted(new_cover)))
+            optimal_covers = new_optimal_covers
+            optimal_cover_size = new_optimal_cover_size
+    return optimal_covers, optimal_cover_size
 
 
 if __name__ == "__main__":
@@ -189,3 +222,5 @@ if __name__ == "__main__":
     print("")
     for elem in generate_monotone_sequences(3, 3, 8):
         print(elem)
+    lists = [[[]], [[3]], [[3]]]
+    print(find_optimal_cover_elements(lists))

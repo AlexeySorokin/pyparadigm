@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 
 import sys
 
@@ -8,20 +8,178 @@ from collections import defaultdict, OrderedDict
 import numpy as np
 import re
 
-from utility import extract_ordered_sequences
+from utility import extract_ordered_sequences, find_optimal_cover_elements
+from graph_utilities import Graph
+import common
+
+
+class LcsSearcher:
+    """
+    Класс для поиска наилучшей общей подпоследовательности
+    """
+
+    def __init__(self, gap=None, initial_gap=None, method='Hulden'):
+        self.gap = gap
+        self.initial_gap = initial_gap
+        self.method = method
+
+    def process_table(self, words):
+        self._make_automaton(words)
+        return self._find_best_subsequence()
+
+    def _make_automaton(self, words):
+        """
+        Строит ациклический ДКА для всех общих подпоследовательностей
+        """
+        # переписать на counter
+        self.word_weights_ = OrderedDict()
+        for word in words:
+            if word in self.word_weights_:
+                self.word_weights_[word] += 1
+            else:
+                self.word_weights_[word] = 1
+        word_graphs = [WordGraph.word_to_graph(x) for x in self.word_weights_]
+        self.common_subseq_automaton_ = reduce(lambda x, y: x.intersect(y), word_graphs)
+        return self
+
+    def _find_best_subsequence(self):
+        # проверяем, что уже построен автомат для подпоследовательностей
+        if self.gap is None and self.initial_gap is None:
+            # сразу ищем наиболее длинные подпоследовательности
+            lcs_candidates = self.common_subseq_automaton_.find_longest_words()
+        else:
+            gap = (self.gap if self.gap is not None
+                   else max(len(word) for word in self.word_weights_))
+            initial_gap = (self.initial_gap if self.initial_gap is not None
+                           else max(len(word) for word in self.word_weights_))
+            lcs_candidates = []
+            for lcs, possible_indexes in self.common_subseq_automaton_.find_longest_words():
+                new_indexes = [[] for _ in possible_indexes]
+                for i, form_indexes in enumerate(possible_indexes):
+                    for seq in form_indexes:
+                        if len(seq) == 1:
+                            if seq[0] <= initial_gap:
+                                continue
+                            new_indexes[i].append(seq)
+                            continue
+                        if ((gap + 1 >= max(((seq[j + 1] - v)
+                                             for (j, v) in enumerate(seq[:-1]))))
+                            and seq[0] <= initial_gap):
+                            new_indexes[i].append(seq)
+                if all(((len(elem) > 0) for elem in new_indexes)):
+                    lcs_candidates.append((lcs, new_indexes))
+            if len(lcs_candidates) == 0:
+                coordinate_automata = _make_coordinate_automata(self.common_subseq_automaton_)
+                coordinate_automata = [elem.make_unambigious_automaton(gap=gap, initial_gap=initial_gap)
+                                       for elem in coordinate_automata]
+                words_by_coordinates = \
+                    [elem.find_longest_words() for elem in coordinate_automata]
+                if any(len(x)==0 for x in words_by_coordinates):
+                    lcs_candidates = []
+                else:
+                    lengths = set(len(elem[0][0]) for elem in words_by_coordinates)
+                    # пытаемся найти общее слово среди слов максимальной длины,
+                    # принимаемых покоординатными автоматами
+                    if len(lengths) == 1:
+                        common_words = extract_common_words(words_by_coordinates)
+                        word_length = list(lengths)[0] - 1
+                    else:
+                        common_words = []
+                        word_length = min(lengths)
+                    # ищем общие слова, уменьшая их возможную длину
+                    while len(common_words) == 0 and word_length > 0:
+                        words_by_coordinates = [elem.words_of_fixed_length(word_length)
+                                                for elem in coordinate_automata]
+                        common_words = extract_common_words(words_by_coordinates)
+                    lcs_candidates = common_words
+        best_lcss = self._find_best_lcss(lcs_candidates)
+        return best_lcss
+
+    def _find_best_lcss(self, candidates):
+        """
+        Возвращает наилучшие общие последовательности на основе метода method
+        по списку общих подпоследовательностей и списка исходных слов
+        """
+        # candidates = [('песк', [[(0, 1, 2, 4)], [(0, 1, 2, 3)], [(0, 1, 2, 3)]]),
+        #               ('песо', [[(0, 1, 2, 3)], [(0, 1, 2, 4)], [(0, 1, 2, 4)]])]
+        # вначале приводим последовательности индексов в приличный вид
+        # lcs_sequences = [('песк', [[(0, 1, 2, 4)], [(0, 1, 2, 3)], [(0, 1, 2, 3)]]),
+        #                  ('песо', [[(0, 1, 2, 3)], [(0, 1, 2, 4)], [(0, 1, 2, 4))])]
+        if self.method == 'Hulden':
+            func = self.calculate_Hulden_gap_scores
+        else:
+            candidates = chain.from_iterable((((lcs, tuple(indexes))
+                                               for indexes in product(*lcs_indexes_list))
+                                              for lcs, lcs_indexes_list in candidates))
+            raise NotImplementedError
+        best_score, best_indexes, best_lcss = None, [], []
+        for lcs, indexes in candidates:
+            score, score_indexes = func(indexes)
+            if best_score is None or score < best_score:
+                best_lcss = [(lcs, elem) for elem in score_indexes]
+                best_score = score
+            elif score == best_score:
+                best_lcss.extend((lcs, elem) for elem in score_indexes)
+        return best_lcss
+
+    def calculate_Hulden_gap_scores(self, indexes):
+        """
+        Аргументы:
+        ----------
+        indexes: list, список индексов элементов общей подпоследовательности
+
+        Возвращает:
+        -----------
+        gap_positions_number: int, число непрерывных фрагментов в выравнивании для lcs
+        total_gaps_number: int, суммарное число разрывов в выравнивании для lcs
+        """
+        gap_positions = [[find_gap_positions(x, add_initial=True) for x in elem]
+                         for elem in indexes]
+        optimal_gap_positions_sets, optimal_cover_size =\
+                find_optimal_cover_elements(gap_positions)
+        total_best_score, best_indexes_combinations = None, []
+        for optimal_gap_positions in optimal_gap_positions_sets:
+            best_indexes_by_coordinate = [None] * len(indexes)
+            current_total_score = 0
+            for i, (coordinate_indexes, coordinate_gap_positions, weight) in\
+                    enumerate(zip(indexes, gap_positions, self.word_weights_.values())):
+                current_best_coordinate_indexes, best_score = [], None
+                if len(coordinate_indexes) > 0:
+                    for elem, elem_gap_positions in\
+                            zip(coordinate_indexes, coordinate_gap_positions):
+                        # пропускаем множества, содержащие неоптимальные индексы
+                        if any(x not in optimal_gap_positions for x in elem_gap_positions):
+                            continue
+                        score = len(elem_gap_positions)
+                        if best_score is None or score < best_score:
+                            best_score = score
+                            current_best_coordinate_indexes = [elem]
+                        elif best_score == score:
+                            current_best_coordinate_indexes.append(elem)
+                best_indexes_by_coordinate[i] = current_best_coordinate_indexes
+                current_total_score += weight * best_score
+            indexes_combibations = [list(elem) for elem in product(*best_indexes_by_coordinate)]
+            if total_best_score is None or current_total_score < total_best_score:
+                total_best_score = current_total_score
+                best_indexes_combinations = indexes_combibations
+            elif current_total_score == total_best_score:
+                best_indexes_combinations.extend(map(list, product(*best_indexes_by_coordinate)))
+        return (optimal_cover_size, total_best_score), best_indexes_combinations
 
 class WordGraph:
+    """
+    Класс для ациклических ДКА, где все состояния являются завершающими
+    """
 
     @classmethod
-    def wordtograph(cls, word):
-        '''
+    def word_to_graph(cls, word):
+        """
         Преобразует слово в ДКА, распознающий все его подслова
-        '''
+        """
         word_length = len(word)
-        trans = dict() # словарь для переходов
-        '''
-        positions_to_the_right[a] - позиции символа a справа от текущей позиции
-        '''
+        states = set(range(word_length + 1))  # состояния
+        trans = {_: dict() for _ in states}  # словарь для переходов
+        # positions_to_the_right[a] - позиции символа a справа от текущей позиции
         positions_to_the_right = defaultdict(tuple)
         for i, symbol in list(enumerate(word))[::-1]:
             '''
@@ -30,95 +188,292 @@ class WordGraph:
             positions_to_the_right[symbol] += (i,)
             for other_symbol, positions in positions_to_the_right.items():
                 # минимальный элемент в positions --- последний
-                trans[(i, other_symbol)] = (positions[-1]+1, positions)
-        graph = cls(trans)
+                trans[i][other_symbol] = [(positions[-1] + 1, (positions,))]
+        graph = cls(states, trans, start_state=0, dim=1)
         return graph
 
-    @classmethod
-    def get_lcs_candidates(cls, words):
-        word_graphs = [WordGraph.wordtograph(x) for x in words]
-        intersection_graph = reduce(lambda x, y: x.intersect(y), word_graphs)
-        lcs_candidates = intersection_graph.longestwords
-        return lcs_candidates
+    def __init__(self, states, transitions, start_state, dim):
+        """
+        Создаёт недетерминированный конечный автомат
+        с переходами из transitions
 
-    def __init__(self, transitions):
-        self.alphabet = {symbol for (state, symbol) in transitions}
-        self.states = {state for (state, symbol) in transitions} | set([i[0] for i in transitions.values()])
-        self.transitions = transitions
-        self.revtrans = {}
-        for (state, sym) in self.transitions:
-            if self.transitions[(state, sym)][0] in self.revtrans:
-                self.revtrans[self.transitions[(state, sym)][0]] += [(state, sym, self.transitions[(state, sym)][1])]
-            else:
-                self.revtrans[self.transitions[(state, sym)][0]] = [(state, sym, self.transitions[(state, sym)][1])]
+        states: iterable, множество состояний
+        transitions: dict, множество переходов
+            каждый переход имеет вид state: state_transitions, где
+            state \in states, transitions --- словарь вида symbol: data,
+            data --- список вида [(state_1, indexes_1), ... (state_m, indexes)m)],
+            перечисляющий все переходы из данного состояния по данному символу
+        start_state: object, стартовое состояние
+        """
+        # НИГДЕ НЕ ИСПОЛЬЗУЕТСЯ?
+        # self.alphabet = {symbol for (state, symbol) in transitions}
+        self.states_number = len(states)
+        self.dim = dim
+        self._make_transitions(start_state, states, transitions)  # перекодируем состояния
+        self._make_reverse_transitions()  # также сохраняем обратные переходы
 
     def __getattr__(self, attr):
-        if attr == 'longestwords':
-            self._maxpath()
-            return self.longestwords
+        if attr == 'longest_words':
+            return self._longest_words
         raise AttributeError("%r object has no attribute %r" % (self.__class__, attr))
 
     def intersect(self, other):
-        alphabet = self.alphabet & other.alphabet
-        stack = [(0, 0)]
-        statemap = {(0, 0): 0}
-        nextstate = 1
-        trans = {}
-        while len(stack) > 0:
-            (asource, bsource) = stack.pop()
-            for sym in alphabet:
-                if (asource, sym) in self.transitions and (bsource, sym) in other.transitions:
-                    atarget = self.transitions[(asource, sym)][0]
-                    btarget = other.transitions[(bsource, sym)][0]
-                    if (atarget,btarget) not in statemap:
-                        statemap[(atarget, btarget)] = nextstate
-                        nextstate += 1
-                        stack.append((atarget, btarget))
-                    flatten = lambda x: [y for l in x for y in flatten(l)] if type(x) is list else [x]
-                    trans[(statemap[(asource, bsource)], sym)] = (statemap[(atarget, btarget)], flatten([self.transitions[(asource, sym)][1], other.transitions[(bsource, sym)][1]]))
-        return WordGraph(trans)
+        """
+        Функция, строящая пересечение данного автомата
+        с другим автоматом other
+        """
+        # выполняем обход в глубину параллельно по обоим автоматам,
+        # проходя лишь по переходам, имеющимся и там, и там
+        new_start_state = (self.start_state, other.start_state)
+        new_states_stack = [new_start_state]
+        new_dim = self.dim + other.dim
+        processed_states = set()
+        new_trans = dict()
+        while len(new_states_stack) > 0:
+            source_state_pair = new_states_stack.pop()
+            if source_state_pair in processed_states:
+                continue  # состояние уже обработано
+            first_source_transitions = self.transitions[source_state_pair[0]]
+            second_source_transitions = other.transitions[source_state_pair[1]]
+            new_trans[source_state_pair] = dict()
+            current_transitions = new_trans[source_state_pair]
+            for symbol, first_data in first_source_transitions.items():
+                if symbol in second_source_transitions:
+                    current_transitions[symbol] = []
+                    second_data = second_source_transitions[symbol]
+                    for ((first_dest, first_indexes), (second_dest, second_indexes)) \
+                            in product(first_data, second_data):
+                        new_states_stack.append((first_dest, second_dest))
+                        # ТЕПЕРЬ ИНДЕКС --- ВСЕГДА СПИСОК КОРТЕЖЕЙ
+                        current_transitions[symbol].append(
+                            ((first_dest, second_dest), (first_indexes + second_indexes)))
+            processed_states.add(source_state_pair)
+        return WordGraph(processed_states, new_trans, new_start_state, new_dim)
 
-    def _backtrace(self, maxsources, maxlen, state, tempstring, indexes):
-        if state not in self.revtrans: # странный способ проверять на достижение начального состояния
-            tempstring.reverse()
-            indexes.reverse()
-            # В списке надо хранить пары виды (строка, индекс)
-            self.longestwords.append(("".join(tempstring), indexes))
-            return
-        for (backstate, symbol, idx) in self.revtrans[state]:
-            if maxlen[backstate] == maxlen[state] - 1:
-                self._backtrace(maxsources, maxlen, backstate, tempstring + [symbol], indexes+[idx])
+    def _make_transitions(self, start_state, states, transitions):
+        """
+        Перекодирует состояния натуральными числами и сохраняет переходы
+        """
+        # сохраняем индексы исходных состояний
+        self._states_map = list(states)
+        state_codes = {state: i for i, state in enumerate(self._states_map)}
+        self.start_state = state_codes[start_state]
+        self.transitions = [dict() for _ in range(self.states_number)]
+        for state in states:
+            state_code = state_codes[state]
+            current_transitions = self.transitions[state_code]
+            for symbol, data in transitions[state].items():
+                current_transitions[symbol] = \
+                    [(state_codes[other], indexes) for other, indexes in data]
+        return
 
-    def _maxpath(self):
-        tr = {}
-        for (state, sym) in self.transitions:
-            if state not in tr:
-                tr[state] = set()
-            tr[state].update({self.transitions[(state, sym)][0]})
-        S = {0}
-        maxlen = {}
-        maxsources = {}
-        for i in self.states:
-            maxlen[i] = 0
-            maxsources[i] = {}
-        step = 1
-        while len(S) > 0:
-            Snew = set()
-            for state in S:
-                if state in tr:
-                    for target in tr[state]:
-                        if maxlen[target] < step:
-                            maxsources[target] = {state}
-                            maxlen[target] = step
-                            Snew.update({target})
-                        elif maxlen[target] == step:
-                            maxsources[target] |= {state}
-            S = Snew
-            step += 1
-        endstates = [key for key, val in maxlen.items() if val == max(maxlen.values())]
-        self.longestwords = []
-        for w in endstates:
-            self._backtrace(maxsources, maxlen, w, [],[])
+    def _make_reverse_transitions(self):
+        """
+        Задаёт обратные переходы после того, как заданы прямые
+        """
+        self.revtrans = [dict() for _ in range(self.states_number)]
+        for state, state_transitions in enumerate(self.transitions):
+            for symbol, data in state_transitions.items():
+                for (other, indexes) in data:
+                    # если уже есть обратные переходы из other по symbol
+                    if symbol in self.revtrans[other]:
+                        self.revtrans[other][symbol].append((state, indexes))
+                    else:
+                        self.revtrans[other][symbol] = [(state, indexes)]
+        return
+
+    def find_longest_words(self):
+        """
+        Находит все пути максимальной длины из начального состояния
+
+        Возвращает:
+        -----------
+        answer: list
+            список пар вида (word, indexes), где word --- слово,
+            а indexes --- соответствующий набор индексов
+        """
+        if not hasattr(self, 'transition_graph_'):
+            self._make_transition_graph()
+        paths = self.transition_graph_.find_longest_paths(self.start_state)
+        return list(chain.from_iterable(self._extract_indexes_from_path(path)
+                                        for path in paths))
+
+    def words_of_fixed_length(self, k):
+        """
+        Находит слова длины k, принимаемые автоматом,
+        вместе с их индексами
+        """
+        if not hasattr(self, 'transition_graph_'):
+            self._make_transition_graph()
+        maximal_paths = self.transition_graph_.find_maximal_paths(self.start_state)
+        answer = []
+        for path in maximal_paths:
+            # пути упорядочены по убыванию длин, поэтому последующие точно не подойдут
+            if len(path) < k + 1:
+                break
+            path = path[:(k + 1)]
+            answer.extend(self._extract_indexes_from_path(path))
+        return answer
+
+    def make_unambigious_automaton(self, gap, initial_gap):
+        """
+        Возвращает граф, получаемый из автомата преобразованием
+        пар (состояние, индекс последнего прочитанного символа)
+        в новое состояние и соответствующием заданием переходов.
+        При этом невозможны переходы вида
+        (s_1, i_1) -> (a, (s_2, i_2)) для i_2 - i_1 > gap + 1
+        и s_0 -> (a, (s, i)) для i > initial_gap.
+        """
+        new_start_state = self.start_state
+        new_transitions = {self.start_state: dict()}
+        new_states_queue = []  # очередь для порождения новых состояний
+        # Добавляем в очередь все пары (состояние, индекс),
+        # достижимые из начального состояния
+        for symbol, data in self.transitions[self.start_state].items():
+            for state, indexes in data:
+                # indexes = [(x_11, ..., x_1k), ..., (x_m1, ..., x_ml)],
+                # а нам нужны наборы (x_1i_1, ..., x_mi_m)
+                for index in map(tuple, product(*indexes)):
+                    if (np.array(index) > initial_gap).any():
+                        continue
+                    pair = ((state, index))
+                    # компоненты индекса по каждой координате должны быть кортежом
+                    index = tuple((x,) for x in index)
+                    if pair not in new_transitions:
+                        new_states_queue.append(pair)
+                        new_transitions[pair] = dict()
+                    if symbol in new_transitions[self.start_state]:
+                        new_transitions[self.start_state][symbol].append((pair, index))
+                    else:
+                        new_transitions[self.start_state][symbol] = [(pair, index)]
+        # добавляем все необходимые состояния с помощью очереди
+        for pair in new_states_queue:
+            state, index = pair
+            state_transitions = self.transitions[state]
+            current_pair_transitions = dict()
+            for symbol, data in state_transitions.items():
+                for (other, indexes) in data:
+                    for other_index in map(tuple, product(*indexes)):
+                        diff = np.array(other_index) - np.array(index)
+                        if (diff > 0).all() and (diff <= gap + 1).all():
+                            # разрыв между позициями последовательных символов
+                            # не превышает gap для всех координат
+                            new_pair = (other, other_index)
+                            if new_pair not in new_transitions:
+                                new_states_queue.append(new_pair)
+                                new_transitions[new_pair] = dict()
+                            # компоненты индекса по каждой координате должны быть кортежом
+                            other_index = tuple((x,) for x in other_index)
+                            if symbol in current_pair_transitions:
+                                current_pair_transitions[symbol].append((new_pair, other_index))
+                            else:
+                                current_pair_transitions[symbol] = [(new_pair, other_index)]
+            new_transitions[pair] = current_pair_transitions
+        return WordGraph(new_transitions.keys(), new_transitions, new_start_state, self.dim)
+
+    def _make_edge_labels(self):
+        """
+        Создаёт словарь вида (пара вершин): метки рёбер между данными вершинами
+        """
+        self.edge_labels_ = dict()
+        for state, state_transitions in enumerate(self.transitions):
+            for symbol, data in state_transitions.items():
+                for (other, indexes) in data:
+                    pair = (state, other)
+                    if pair not in self.edge_labels_:
+                        self.edge_labels_[pair] = []
+                    self.edge_labels_[pair].append((symbol, indexes))
+        return
+
+    def _make_transition_graph(self):
+        """
+        Добавляет в поле self.transition_graph_
+        граф, полученный из автомата удалением меток с рёбер
+        """
+        if not hasattr(self, 'edge_labels_'):
+            self._make_edge_labels()
+        self.transition_graph_ = Graph(self.edge_labels_.keys())
+        return self
+
+    def _extract_indexes_from_path(self, path):
+        """
+        Возвращает слова, принимаемые на данном пути,
+        вместе с соответствующими индексами
+        """
+        if len(path) <= 1:
+            return [("", [])]
+        if not hasattr(self, 'edge_labels_'):
+            self._make_edge_labels()
+        state_pairs = [(elem, path[i + 1]) for i, elem in enumerate(path[:-1])]
+        # edge_labels_on_path = [[('п', ((0,), (0,), (0,)))], [('е', ((1,), (1,), (1,)))],
+        #                        [('с', ((2,), (2,), (2,)))], [('к', ((4,), (3,), (3,)))]]
+        edge_labels_on_path = [self.edge_labels_[state_pair] for state_pair in state_pairs]
+        words_with_indexes = [zip(*elem) for elem in product(*edge_labels_on_path)]
+        # words_with_indexes = [('песк', [((0,), (0,), (0,)), ((1,), (1,), (1,)),
+        #                                 ((2,), (2,), (2,)), ((4,), (3,), (3,))])]
+        words_with_indexes = [("".join(first), list(second))
+                              for first, second in words_with_indexes]
+        answer = [None] * len(words_with_indexes)
+        for i, (word, data) in enumerate(words_with_indexes):
+            lists = [elem for elem in zip(*data)]
+            word_indexes = [extract_ordered_sequences(elem) for elem in lists]
+            # word_indexes = [list(map(tuple, product(*elem))) for elem in lists]
+            # word_indexes = [[(0, 1, 2, 4)], [(0, 1, 2, 3)], [(0, 1, 2, 3)]]
+            answer[i] = (word, word_indexes)
+        return answer
+
+
+def _make_coordinate_automata(automaton):
+    """
+    Строит автоматы c теми же переходами, что и в self.common_subseq_automaton_,
+    с индексами, берущимися отдельно по каждой координате.
+    """
+    # вначале строим таблицы для покоординатных автоматов
+    new_states = set(range(automaton.states_number))
+    new_start_state = automaton.start_state
+    new_transitions = [None] * automaton.dim
+    for i in range(automaton.dim):
+        new_transitions[i] = [dict() for _ in range(automaton.states_number)]
+    for state, state_transitions in enumerate(automaton.transitions):
+        for symbol, data in state_transitions.items():
+            for i, coordinate_transitions in enumerate(new_transitions):
+                coordinate_transitions[state][symbol] = []
+            for other, indexes in data:
+                for i, (coordinate_transitions, coordinate_indexes) \
+                        in enumerate(zip(new_transitions, indexes)):
+                    coordinate_transitions[state][symbol].append((other, (coordinate_indexes,)))
+    new_automata = [WordGraph(new_states, trans, new_start_state, dim=1)
+                    for trans in new_transitions]
+    return new_automata
+
+
+def extract_common_words(words_by_coordinates):
+    """
+    Получает на вход набор из m списков вида
+    [(w_{j1}, i_j(w_{j1})), ..., (w_{jk_j}, i_j(w_{jk_j}))]
+    и возвращает список вида [(w, [is(w)]], содержащий только те слова w,
+    которые встречаются во всех списках, вместе с новыми индексами i(w).
+    В is(w) входят все кортежи (x_1, ..., x_m), где x_j --- элемент i_j(w).
+    """
+    words_by_coordinates_dicts = [dict() for _ in words_by_coordinates]
+    for words_dict, words_with_indexes in zip(words_by_coordinates_dicts,
+                                              words_by_coordinates):
+        for word, word_indexes in words_with_indexes:
+            if len(word_indexes) != 1:
+                raise TypeError("Only one-dimensional indexes are accepted.")
+            if word in words_dict:
+                words_dict[word].extend(map(tuple, word_indexes[0]))
+            else:
+                words_dict[word] = [tuple(x) for x in word_indexes[0]]
+    tuplify = (lambda x: x if isinstance(x, tuple) else (x,))
+    common_words_data = \
+        reduce((lambda first, second: {key: (tuplify(value) + tuplify(second[key]))
+                                       for key, value in first.items() if key in second}),
+               words_by_coordinates_dicts)
+    common_words_indexes = list((word, list(indexes))
+                                for word, indexes in common_words_data.items())
+    return common_words_indexes
+
 
 ##########################################
 
@@ -126,10 +481,9 @@ def vars_to_string(baseform, varlist):
     """Input: baseform, variable list
        Output: string of type '0=baseform,1=var1,2=var2...'"""
     varlist = tuple(varlist)
-    answer =  ",".join((("{0}={1}".format(i, word))
-                        for i, word in enumerate((baseform,) + varlist)))
+    answer = ",".join((("{0}={1}".format(i, word))
+                       for i, word in enumerate((baseform,) + varlist)))
     return answer
-
 
 
 def extract_tables(tables):
@@ -137,143 +491,61 @@ def extract_tables(tables):
     Input: list of tables
     Output: Dictionary of paradigm tables with the list of their members.
     """
-    words_by_vartables = defaultdict(set)
-    for lemma, table, forms_with_vars, var_spans in tables:
+    words_by_vartables = defaultdict(list)
+    for lemma, table, forms_with_vars, var_spans in sorted(tables, key=(lambda x: x[0])):
         forms_with_vars = tuple(forms_with_vars)
         to_add = (lemma, tuple(var_spans))
-        words_by_vartables[forms_with_vars].add(to_add)
+        words_by_vartables[forms_with_vars].append(to_add)
     return words_by_vartables
+
 
 ##########################################
 
-def extract_best_lcss(lcs_candidates, forms, method='Hulden'):
-    '''
-    Возвращает наилучшие общие последовательности на основе метода method
-    по списку общих подпоследовательностей и списка исходных слов
-    '''
-    # вначале приводим последовательности индексов в приличный вид
-    # lcs_sequences = [('песк', [[0, 1, 2, 4], [0, 1, 2, 3], [0, 1, 2, 3]]),
-    #                  ('песо', [[0, 1, 2, 3], [0, 1, 2, 4], [0, 1, 2, 4]])]
-    lcs_sequences = [(lcs, extract_index_sequences(indexes)) for lcs, indexes in lcs_candidates]
-    # lcss = ['песк'], lcss_indexes = [[[[0, 1, 2, 4], [0, 1, 2, 3], [0, 1, 2, 3]]]]
-    lcss, lcss_indexes = extract_best_sequence(lcs_sequences, forms, method)
-    # best_lcss = [('песк',  [[0, 1, 2, 4], [0, 1, 2, 3], [0, 1, 2, 3]])]
-    best_lcss = list(chain.from_iterable([[(lcs, indexes) for indexes in lcs_indexes]
-                                          for lcs, lcs_indexes in zip(lcss, lcss_indexes)]))
-    return best_lcss
-
-def extract_index_sequences(indexes):
-    '''
-    Преобразует индексы, хранящиеся в автомате, в нужный формат
-    '''
-    parsed_indexes = list(zip(*indexes))
-    # a = []
-    # for item in parsed_indexes:
-    #    a.append(list(map(sorted, item)))
-    # parsed_indexes = a
-    parsed_indexes = [list(map(sorted, elem)) for elem in parsed_indexes]
-    index_sequences = list(map(extract_ordered_sequences, parsed_indexes))
-    return index_sequences
-
-def extract_best_sequence(lcs_sequences, table, method='Hulden'):
-    '''
-    Извлекает наилучшую из наиболее длинных общих последовательностей
-
-    Аргументы:
-    ----------
-    lcs_sequences: list, список наибольших общих подпоследовательностей
-    table: list, список словоформ
-    method: str ('Hulden', остальные пока не реализованы),
-    метод извлечения наилучшей подпоследовательности
+def _make_correct_table(table):
+    """
+    Удаляет из таблицы пропуски
 
     Возвращает:
     -----------
-    lcss: list, список наилучших lcs
-    table_indexes: list of lists,
-    список списков наилучших наборов индексов для каждой из наилучших lcs
-    '''
-    best_score = None
-    best_lcss, best_indexes = [], []
-    for lcs, indexes in lcs_sequences:
-        best_lcs_indexes, score = extract_best_indexes(indexes, table, method)
-        if best_score is None or score < best_score:
-            best_lcss = [lcs]
-            best_indexes = [best_lcs_indexes]
-            best_score = score
-        elif score == best_score:
-            best_lcss.append(lcs)
-            best_indexes.append(best_lcs_indexes)
-        else:
-            print(table)
-            pass
-    return best_lcss, best_indexes
+    correct_indices: list of ints --- индексы словоформ, не равных пропуску,
+    correct_table: list of strs --- таблица корректных слвооформ
+    """
+    correct_indices, correct_table = [], []
+    for i, form in enumerate(table):
+        if form not in ['—', '-']:  # прочерки бывают разные...
+            correct_indices.append(i)
+            correct_table.append(form)
+    return correct_indices, correct_table
 
-def get_gap_scores(args):
-    '''
-    Аргументы:
-    ----------
-    args: list, список позиций разрывов lcs в строках
 
-    Возвращает:
-    -----------
-    gap_positions_number: int, число непрерывных фрагментов в выравнивании для lcs
-    total_gaps_number: int, суммарное число разрывов в выравнивании для lcs
-    '''
-    gap_positions_number = len(reduce((lambda x, y: x|y),
-                                      (set(elem) for elem in args),
-                                      set()))
-    total_gaps_number = sum(len(elem) for elem in args)
-    return (gap_positions_number, total_gaps_number)
-
-def extract_best_indexes(indexes, table, method='Hulden'):
-    if method == 'Hulden':
-        # indexes = [[[0,1,2,3]], [[0,1,2,4]], [[0,1,2,4]]
-        # вместо списков индексов из indexes
-        # gap_indexes хранит позиции разрывов в этих списках
-        # gap_indexes = [[[]], [[2]], [[2]]]
-        gap_indexes = [list(map(find_gap_positions, elem)) for elem in indexes]
-        # gap_indexes_combibations хранит все возможные наборы позиций разрыва
-        # вместе с номерами списков, откуда взяты эти позиции
-        # gap_indexes_combinations = [((0, []), (0, [2]), (0, [2]))]
-        gap_indexes_combinations = list(product(*(enumerate(x) for x in gap_indexes)))
-        # enumerated_index_combinations хранит парами номера списков индексов
-        # в списке возможных вариантов позиций разрывов для каждой словоформы
-        # и номера разрывов в этих списках
-        # enumerated_index_combinations = [([0,0,0], [[], [2], [2]])]
-        enumerated_index_combinations =\
-            [tuple(map(list, zip(*elem))) for elem in gap_indexes_combinations]
-        # enumerated_index_combinations =\
-        #     [tuple(map(list, zip(*elem))) for elem in
-        #      product(*(enumerate(x) for x in gap_indexes))]
-        combinations_positions_with_scores = [(elem[0], get_gap_scores(elem[1]))
-                                              for elem in enumerated_index_combinations]
-        _, best_score = min(combinations_positions_with_scores, key=(lambda x: x[1]))
-        best_combinations_positions =\
-            np.where([(x[1] == best_score) for x in combinations_positions_with_scores])
-        best_indexes_positions = [combinations_positions_with_scores[elem[0]][0]
-                                  for elem in best_combinations_positions]
-        best_indexes = [[form_indexes[i] for form_indexes, i in zip(indexes, elem)]
-                        for elem in best_indexes_positions]
-    else:
-        raise NotImplementedError
-    return best_indexes, best_score
-
-def find_gap_positions(lst):
-    '''
+def find_gap_positions(lst, add_initial=False):
+    """
     Находит те позиции i в упорядоченном списке lst, что lst[i+1] > lst[i] + 1
-    '''
-    if len(lst) <= 1:
+
+    Аргументы:
+    ----------
+    lst: list, упорядоченный список целых чисел
+    add_initial: bool, индикатор учёта начального разрыва
+
+    Возвращает:
+    -----------
+    gap_positions: list, набор позиций i, таких что lst[i+1] > lst[i] + 1
+    """
+    if len(lst) == 0:
         return []
     gap_positions = []
+    if add_initial and lst[0] > 0:
+        gap_positions.append(0)
     prev = lst[0]
-    for i, curr in enumerate(lst[1:]):
+    for i, curr in enumerate(lst[1:], 1):
         if curr > prev + 1:
             gap_positions.append(i)
         prev = curr
     return gap_positions
 
+
 def compute_paradigm(table, indexes, var_beginnings):
-    '''
+    """
     Аргументы:
     ----------
     table: list
@@ -298,21 +570,21 @@ def compute_paradigm(table, indexes, var_beginnings):
     Выход:
     --------
     paradigm = ['1+о+2', '1+2+ом', '1+2+ов']
-    '''
+    """
     paradigm = []
     vars_number = len(var_beginnings) - 1
     for form, form_indexes in zip(table, indexes):
         var_spans = []
         curr = var_beginnings[0]
         for next in var_beginnings[1:]:
-            var_spans.append((form_indexes[curr], form_indexes[next-1] + 1))
+            var_spans.append((form_indexes[curr], form_indexes[next - 1] + 1))
             curr = next
         var_spans.append((len(form), None))
         fragments_list = []
         if var_spans[0][0] > 0:
             fragments_list.append(form[:var_spans[0][0]])
         for i in range(1, vars_number + 1):
-            fragments_list += [str(i), form[var_spans[i-1][1]:var_spans[i][0]]]
+            fragments_list += [str(i), form[var_spans[i - 1][1]:var_spans[i][0]]]
         form_with_vars = "+".join(fragments_list)
         if form_with_vars.endswith("+"):
             form_with_vars = form_with_vars[:-1]
@@ -320,26 +592,11 @@ def compute_paradigm(table, indexes, var_beginnings):
         paradigm.append(form_with_vars)
     return paradigm
 
+
 # вход/выход
 
-ru_cases = ['им', 'род', 'дат', 'вин', 'тв', 'пр']
-ru_numbers = ['ед', 'мн']
-
-la_cases = ['ном', 'ген', 'дат', 'акк', 'абл', 'вок']
-la_numbers = ['ед', 'мн']
-
-def make_categories_marks(language):
-    '''
-    Возвращает допустимые грамматические описания в зависимости от языка
-    '''
-    if language == 'RU':
-        marks = list(map(tuple, product(ru_cases, ru_numbers)))
-    elif language == 'LA':
-        marks = list(map(tuple, product(la_cases, la_numbers)))
-    return marks
-
 def read_input(infile, language, method='first'):
-    '''
+    """
     Аргументы:
     ----------
     infile: файл с записями вида
@@ -359,12 +616,13 @@ def read_input(infile, language, method='first'):
     Возвращает:
     ----------
     tables: список вида [(лемма_1, формы_1), (лемма_2, формы_2), ...]
-    '''
+    """
     # сразу создаём функцию, которая проверяет, следует ли добавлять форму
     # в список. Так делаем, чтобы if вызывался только 1 раз
-    marks = make_categories_marks(language)
+    marks = common.get_categories_marks(language)
     if method == 'first':
         add_checker = (lambda x: (x is not None) and len(x) == 0)
+
         def table_adder(lemma, table_dict):
             forms = [(elem[0] if len(elem) > 0 else '-') for elem in table_dict.values()]
             # возвращает список, потому что в случае 'all'
@@ -379,12 +637,12 @@ def read_input(infile, language, method='first'):
         sys.exit("Method must be 'first' or 'all'.")
     tables = []
     current_table_dict = OrderedDict((mark, []) for mark in marks)
-    has_forms = False # индикатор того, нашлись ли у слова словоформы
+    has_forms = False  # индикатор того, нашлись ли у слова словоформы
     with open(infile, 'r', encoding='utf-8') as fin:
         for line in fin:
-            line = line.strip() # всегда удаляйте лишние пробелы по краям строчек
-            line = line.strip('\ufeff') # удалим метку кодировки
-            splitted_line = line.split(',') # используйте говорящие имена переменных
+            line = line.strip()  # всегда удаляйте лишние пробелы по краям строчек
+            line = line.strip('\ufeff')  # удалим метку кодировки
+            splitted_line = line.split(',')  # используйте говорящие имена переменных
             if len(splitted_line) == 1:
                 # строчка вида i_1 <лемма_1>
                 if has_forms:
@@ -407,6 +665,7 @@ def read_input(infile, language, method='first'):
             tables += table_adder(lemma, current_table_dict)
     return tables
 
+
 def output_paradigms(tables_by_paradigm, outfile, short_outfile=None):
     with open(outfile, "w", encoding='utf-8') as fout:
         if short_outfile is not None:
@@ -417,7 +676,7 @@ def output_paradigms(tables_by_paradigm, outfile, short_outfile=None):
                 short_outfile = None
         count = 1
         for paradigm, var_values in sorted(tables_by_paradigm.items(),
-                                           key=(lambda x:len(x[1])),
+                                           key=(lambda x: (len(x[1]), x[0])),
                                            reverse=True):
             paradigm_str = "#".join(paradigm) + "\n"
             fout.write(paradigm_str)
@@ -432,42 +691,51 @@ def output_paradigms(tables_by_paradigm, outfile, short_outfile=None):
             fshort.close()
 
 
-# красиво преобразуем файл
+def test():
+    # first = WordGraph.word_to_graph('строка')
+    # second = WordGraph.word_to_graph('штора')
+    # other = first.intersect(second)
+    # print(other.longest_words(gap=1))
+
+    words = ['песок', 'песком', 'песков']
+    # words = ['брассист', 'растр']
+    lcs_searcher = LcsSearcher(gap=None)
+    best_lcss = lcs_searcher.process_table(words)
+    print(best_lcss)
+    return
+
 
 if __name__ == "__main__":
+    # test()
     args = sys.argv[1:]
-    if len(args) != 4:
-        sys.exit("Pass input file, language code, output file and output stats file")
-    infile, language, outfile, stats_outfile = args
-    # infile = "lat_nouns.txt"
+    if len(args) != 6:
+        sys.exit("Pass input file, language code, maximal gap in lcs, "
+                 "maximal initial gap, output file and output stats file")
+    infile, language, gap, initial_gap, outfile, stats_outfile = args
+    gap, initial_gap = map(int, (gap, initial_gap))
+    if gap < 0:
+        gap = None
+    if initial_gap < 0:
+        initial_gap = None
     tables = read_input(infile, language)
 
     filtered_tables = []
-    for num, (lemma, table) in enumerate(tables):
-        if num % 100 == 1:
-            print(num)
-        # получаем lcs вместе с индексами
-        # lemma = 'песок', tables = ['песок', 'песком', 'песков']
-        correct_indices, correct_table = [], []
-        for i, form in enumerate(table):
-            if form not in ['—', '-']: # прочерки бывают разные...
-                correct_indices.append(i)
-                correct_table.append(form)
-        # lcs_candidates = [('песк', [[(0,), (0,), (0,)], [(1,), (1,), (1,)], [(2,), (2,), (2,)], [(4,), (3,), (3,)]]),\
-        #                   ('песо', [[(0,), (0,), (0,)], [(1,), (1,), (1,)], [(2,), (2,), (2,)], [(3,), (4,), (4,)]]),]
-        lcs_candidates = WordGraph.get_lcs_candidates(correct_table)
-        # best_lcss = [('песк',  [[0, 1, 2, 4], [0, 1, 2, 3], [0, 1, 2, 3]])]
-        best_lcss = extract_best_lcss(lcs_candidates, correct_table)
 
+    lcs_searcher = LcsSearcher(gap=gap, initial_gap=initial_gap)
+    for num, (lemma, table) in enumerate(tables):
+        if num % 100 == 0:
+            print(num, lemma)
+        correct_indices, correct_table = _make_correct_table(table)
+        best_lcss = lcs_searcher.process_table(correct_table)
         for lcs, lcs_indexes in best_lcss:
-            gap_positions = reduce((lambda x,y:(x|y)),
+            gap_positions = reduce((lambda x, y: (x | y)),
                                    map(set, map(find_gap_positions, lcs_indexes)), set())
             # gap_positions = [2]
             gap_positions = sorted(gap_positions)
             # var_beginnings = [0, 3, 4]
-            var_beginnings = [0] + [i+1 for i in gap_positions] + [len(lcs)]
+            var_beginnings = [0] + [i for i in gap_positions] + [len(lcs)]
             # lcs_vars = ['пес', 'к']
-            lcs_vars = [lcs[i:j] for i,j in zip(var_beginnings[:-1], var_beginnings[1:])]
+            lcs_vars = [lcs[i:j] for i, j in zip(var_beginnings[:-1], var_beginnings[1:])]
             # paradigm_repr = ['1+о+2', '1+2+ом', '1+2+ов']
             paradigm_repr = compute_paradigm(correct_table, lcs_indexes, var_beginnings)
             # вспоминаем, что парадигма могла быть дефектной
