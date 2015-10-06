@@ -117,7 +117,7 @@ class ParadigmFragment:
         return answer
 
     @staticmethod
-    def _find_variable_positions(self, boundaries):
+    def _find_variable_positions(boundaries):
         '''
         находит позиции переменных на основе границ сегментов
         '''
