@@ -1,4 +1,4 @@
-﻿import numpy as np
+import numpy as np
 import bisect
 import re
 import itertools
@@ -26,7 +26,8 @@ class ParadigmFragment:
                     raise ValueError("Variable should be present only once")
             else:
                 self.const_fragments_indexes.append(i)
-        self.max_var_number = max(x for x, _ in self.variable_indexes)
+        self.max_var_number = (max(x for x, _ in self.variable_indexes)
+                               if len(self.variable_indexes) > 0 else 0)
 
     def substitute(self, var_values):
         '''

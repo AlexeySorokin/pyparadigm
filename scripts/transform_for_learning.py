@@ -7,6 +7,7 @@
 
 import sys
 import re
+from collections import defaultdict
 
 '''
 Использование:
@@ -21,7 +22,7 @@ if __name__ == '__main__':
         sys.exit("Pass infile, file with ordering, outfile for lemmas and outfile for paradigm codes")
     infile, words_file, lemmas_outfile, paradigm_codes_outfile = args
     paradigms, paradigms_number = dict(), 0
-    word_paradigms = dict()
+    word_paradigms = defaultdict(list)
     with open(infile, "r", encoding="utf8") as fin:
         for line in fin:
             line = line.strip()
@@ -37,8 +38,8 @@ if __name__ == '__main__':
                 if matches is not None:
                     lemma = matches.groups()[0]
                     rest = matches.groups()[1]
-                    word_paradigms[lemma] = (current_paradigm_code, rest)
-    word_order = dict()
+                    word_paradigms[lemma].append((current_paradigm_code, rest))
+    word_order = defaultdict(list)
     with open(words_file, "r", encoding = "utf8") as fin:
         for line in fin:
             line = line.strip()
@@ -51,9 +52,10 @@ if __name__ == '__main__':
         for paradigm, code in sorted(paradigms.items(), key=(lambda x: x[1])):
             fout.write("{0:<4}{1}\n".format(code, paradigm))
     with open(lemmas_outfile, "w", encoding="utf8") as fout:
-        for lemma, (code, rest) in sorted(word_paradigms.items(),
-                                          key=(lambda x: word_order[x[0]])):
-            fout.write("{0}\t{1}\t{2}\n".format(lemma, code, rest))
+        for lemma, lemma_info in sorted(word_paradigms.items(),
+                                        key=(lambda x: word_order[x[0]])):
+            for code, rest in lemma_info:
+                fout.write("{0}\t{1}\t{2}\n".format(lemma, code, rest))
 
 
 

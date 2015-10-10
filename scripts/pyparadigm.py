@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import sys
 
@@ -25,15 +25,27 @@ class LcsSearcher:
 
     def process_table(self, words):
         self._make_automaton(words)
-        return self._find_best_subsequence()
+        best_lcss = self._find_best_subsequence()
+        # надо распределить индексы по омонимичным формам
+        final_best_lcss = []
+        for lcs, indexes in best_lcss:
+            new_indexes = [None] * len(words)
+            for word, word_indexes in zip(self.word_weights_.keys(), indexes):
+                for form_index in self._form_indexes_by_word[word]:
+                    new_indexes[form_index] = word_indexes
+            final_best_lcss.append((lcs, new_indexes))
+        if len(final_best_lcss) == 0:
+            final_best_lcss = [("", [[] for word in words])]
+        return final_best_lcss
 
     def _make_automaton(self, words):
         """
         Строит ациклический ДКА для всех общих подпоследовательностей
         """
-        # переписать на counter
         self.word_weights_ = OrderedDict()
-        for word in words:
+        self._form_indexes_by_word = defaultdict(list)
+        for i, word in enumerate(words):
+            self._form_indexes_by_word[word].append(i)
             if word in self.word_weights_:
                 self.word_weights_[word] += 1
             else:
@@ -622,7 +634,6 @@ def read_input(infile, language, method='first'):
     marks = common.get_categories_marks(language)
     if method == 'first':
         add_checker = (lambda x: (x is not None) and len(x) == 0)
-
         def table_adder(lemma, table_dict):
             forms = [(elem[0] if len(elem) > 0 else '-') for elem in table_dict.values()]
             # возвращает список, потому что в случае 'all'
@@ -630,9 +641,25 @@ def read_input(infile, language, method='first'):
             return [(lemma, forms)]
     elif method == 'all':
         add_checker = (lambda x: x is not None)
-        # пока не очень понимаю, что возвращать в этом случае,
-        # поэтому оставлю без реализации
-        raise NotImplementedError
+        def table_adder(lemma, table_dict):
+            form_variants_list = list(table_dict.values())
+            for i, form_variants in enumerate(form_variants_list):
+                if len(form_variants) == 0:
+                    form_variants_list[i] = ['-']
+            # либо для каждой формы одинаковое число вариантов,
+            # либо для некоторых 1, а для других одно и то же k>1
+            form_variants_counts = set(len(x) for x in form_variants_list)
+            if len(form_variants_counts) == 2:
+                min_count, max_count = sorted(form_variants_counts)
+                if min_count == 1:
+                    for i, form_variants in enumerate(form_variants_list):
+                        if len(form_variants) == 1:
+                            form_variants_list[i] *= max_count
+                else:
+                    form_variants_list = [[elem[0]] for elem in form_variants_list]
+            elif len(form_variants_counts) >= 2:
+                form_variants_list = [[elem[0]] for elem in form_variants_list]
+            return [(lemma, list(elem)) for elem in zip(*form_variants_list)]
     else:
         sys.exit("Method must be 'first' or 'all'.")
     tables = []
@@ -708,16 +735,17 @@ def test():
 if __name__ == "__main__":
     # test()
     args = sys.argv[1:]
-    if len(args) != 6:
-        sys.exit("Pass input file, language code, maximal gap in lcs, "
-                 "maximal initial gap, output file and output stats file")
-    infile, language, gap, initial_gap, outfile, stats_outfile = args
+    if len(args) != 7:
+        sys.exit("Pass input file, language code, paradigm_extraction_method, "
+                 "maximal gap in lcs, maximal initial gap, "
+                 "output file and output stats file")
+    infile, language, method, gap, initial_gap, outfile, stats_outfile = args
     gap, initial_gap = map(int, (gap, initial_gap))
     if gap < 0:
         gap = None
     if initial_gap < 0:
         initial_gap = None
-    tables = read_input(infile, language)
+    tables = read_input(infile, language, method=method)
 
     filtered_tables = []
 
@@ -733,7 +761,10 @@ if __name__ == "__main__":
             # gap_positions = [2]
             gap_positions = sorted(gap_positions)
             # var_beginnings = [0, 3, 4]
-            var_beginnings = [0] + [i for i in gap_positions] + [len(lcs)]
+            if lcs != "":
+                var_beginnings = [0] + [i for i in gap_positions] + [len(lcs)]
+            else:
+                var_beginnings = [0]
             # lcs_vars = ['пес', 'к']
             lcs_vars = [lcs[i:j] for i, j in zip(var_beginnings[:-1], var_beginnings[1:])]
             # paradigm_repr = ['1+о+2', '1+2+ом', '1+2+ов']
