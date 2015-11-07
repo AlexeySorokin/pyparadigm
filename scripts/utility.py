@@ -29,24 +29,20 @@ def extract_ordered_sequences(lists, min_differences=None, max_differences=None,
     if m == 0:
         return []
     if min_differences is None:
-        min_differences = np.zeros(dtype=float, shape=(m,))
+        min_differences = [0.0] * m
         min_differences[0] = -np.inf
     else:
-        min_differences = np.array(min_differences)
-        if min_differences.shape != (m,):
+        if len(min_differences) != m:
             raise ValueError("Lists and min_differences must have equal length")
     if max_differences is None:
-        max_differences = np.empty(dtype=float, shape=(m,))
-        max_differences.fill(np.inf)
+        max_differences = [np.inf] * m
     else:
-        max_differences = np.array(max_differences)
-        if max_differences.shape != (m,):
+        if len(max_differences) != m:
             raise ValueError("Lists and min_differences must have equal length")
-    if (np.any(max_differences[1:] <= min_differences[1:]) or
-        (max_differences[0] < min_differences[0])):
+    if any(x < y for x, y in zip(max_differences, min_differences)):
         return []
-    lists = [sorted(elem) for elem in lists]
-    list_lengths = [len(elem) for elem in lists]
+    lists = [sorted(lst) for lst in lists]
+    list_lengths = [len(x) for x in lists]
     if any(x == 0 for x in list_lengths):
         return []
     min_indexes = [find_first_larger_indexes([x + d for x in lists[i]], lists[i+1], strict_min)
@@ -56,7 +52,7 @@ def extract_ordered_sequences(lists, min_differences=None, max_differences=None,
     answer = []
     # находим минимальную позицию первого элемента
     startpos = bisect.bisect_left(lists[0], min_differences[0])
-    if startpos == len(lists[0]):
+    if startpos == list_lengths[0]:
         return []
     endpos = bisect.bisect_right(lists[0], max_differences[0])
     sequence, index_sequence = [lists[0][startpos]], [startpos]
@@ -106,7 +102,7 @@ def extract_ordered_sequences(lists, min_differences=None, max_differences=None,
                 index_sequence[-1] += 1
             if i == 0 and index_sequence[0] == endpos:
                 break
-            sequence = sequence[:i] + [lists[i][index_sequence[-1]]]
+            sequence[i:] = [lists[i][index_sequence[-1]]]
     return answer
 
 def find_first_larger_indexes(first, second, strict=True):
@@ -143,7 +139,7 @@ def _find_first_indexes(first, second, pred):
     '''
     m, n = len(first), len(second)
     i, j = 0, 0
-    indexes = np.empty(dtype=int, shape=(m,))
+    indexes = [-1] * m
     while i < m and j < n:
         if pred(first[i], second[j]):
             indexes[i] = j
@@ -151,28 +147,25 @@ def _find_first_indexes(first, second, pred):
         else:
             j += 1
     if i < m:
-        indexes[i:] = n
+        indexes[i:m] = [n] * (m - i)
     return indexes
 
 def generate_monotone_sequences(first, length, upper, min_differences=None,
                                 max_differences=None):
-    lists = [np.arange(first, upper) for _ in range(length)]
-    if len(lists) == 0:
+    if length == 0:
         return []
+    lists = [list(range(first, upper)) for _ in range(length)]
     if min_differences is not None:
-        min_differences = np.array(min_differences)
-        if min_differences.shape != (length-1,):
-            raise ValueError("Min_differences must be of shape (length - 1, )")
+        if len(min_differences) != length - 1:
+            raise ValueError("Min_differences must be of length (length - 1)")
     else:
-        min_differences = np.zeros(shape=(length,), dtype = int)
+        min_differences = [0] * length
         min_differences[0] = first
     if max_differences is not None:
-        max_differences = np.array(max_differences)
-        if max_differences.shape != (length-1,):
-            raise ValueError("Min_differences must be of shape (length - 1, )")
+        if len(max_differences) != length - 1:
+            raise ValueError("Max_differences must be of shape (length - 1)")
     else:
-        max_differences = np.empty(shape=(length,), dtype = int)
-        max_differences.fill(upper - first)
+        max_differences = [(upper - first)] * length
         max_differences[0] = first
     return extract_ordered_sequences(lists, min_differences, max_differences)
 

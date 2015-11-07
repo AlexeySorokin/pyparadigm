@@ -78,6 +78,13 @@ def gain_ratio(a):
     '''
     return  1.0 - conditional_entropy(a) / entropy_normalized(np.sum(a, axis = 0))
 
+def JensenShannon(p, q):
+    """
+    calculates Jensen-Shannon divergence between two distributions
+    """
+    p, q = np.asarray(p), np.asarray(q)
+    return 2.0 * scs.entropy(p+q) - scs.entropy(p) - scs.entropy(q)
+
 def precision(a):
     '''
     takes tuple (TN, FN, FP, TP) or array
@@ -201,4 +208,7 @@ if __name__ == '__main__':
     print (chi_squared_generalized(a))
     b = np.array([[3, 1],[2, 2]])
     print (chi_squared(b))
+    p = [0.5, 0.25, 0.25, 0.0]
+    q = [0.25, 0.0, 0.5, 0.25]
+    print(JensenShannon(p, q))
 

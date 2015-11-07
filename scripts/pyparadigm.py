@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import sys
 
 from functools import reduce
@@ -10,12 +8,23 @@ import re
 
 from utility import extract_ordered_sequences, find_optimal_cover_elements
 from graph_utilities import Graph
-import common
+from common import LEMMA_KEY, get_categories_marks, get_possible_lemma_marks
 
 
 class LcsSearcher:
     """
     Класс для поиска наилучшей общей подпоследовательности
+
+    Атрибуты:
+    ---------
+    gap, int or None(optional, default=None):
+        максимальный пробел между элементами LCS в середине слова,
+        gap=None --- допустим любой пробел
+    initial_gap, int or None(optional, default=None):
+        максимальный пропуск до первого элемента LCS,
+        initial_gap=None --- допустим любой пробел
+    method, str('Hulden', optional, default='Hulden'):
+        метод для определения наилучшей LCS
     """
 
     def __init__(self, gap=None, initial_gap=None, method='Hulden'):
@@ -24,6 +33,9 @@ class LcsSearcher:
         self.method = method
 
     def process_table(self, words):
+        """
+        Вычисляет LCS для words
+        """
         self._make_automaton(words)
         best_lcss = self._find_best_subsequence()
         # надо распределить индексы по омонимичным формам
@@ -42,6 +54,8 @@ class LcsSearcher:
         """
         Строит ациклический ДКА для всех общих подпоследовательностей
         """
+        # словарь для частот словоформ в таблице,
+        # чтобы не хранить несколько раз один и тот же автомат
         self.word_weights_ = OrderedDict()
         self._form_indexes_by_word = defaultdict(list)
         for i, word in enumerate(words):
@@ -51,11 +65,15 @@ class LcsSearcher:
             else:
                 self.word_weights_[word] = 1
         word_graphs = [WordGraph.word_to_graph(x) for x in self.word_weights_]
+        # вычисляем автомат для общих подпоследовательностей
         self.common_subseq_automaton_ = reduce(lambda x, y: x.intersect(y), word_graphs)
         return self
 
     def _find_best_subsequence(self):
-        # проверяем, что уже построен автомат для подпоследовательностей
+        '''
+        Ищет наиболее длинное слово, принимаемое self.common_subseq_automaton_
+        и удовлетворяющее условиям на gap и initial_gap
+        '''
         if self.gap is None and self.initial_gap is None:
             # сразу ищем наиболее длинные подпоследовательности
             lcs_candidates = self.common_subseq_automaton_.find_longest_words()
@@ -65,22 +83,31 @@ class LcsSearcher:
             initial_gap = (self.initial_gap if self.initial_gap is not None
                            else max(len(word) for word in self.word_weights_))
             lcs_candidates = []
+            # вначале находим самые длинные подпоследовательности
+            # и пытаемся найти удовлетворяющую требованиям на разрывы
             for lcs, possible_indexes in self.common_subseq_automaton_.find_longest_words():
                 new_indexes = [[] for _ in possible_indexes]
+                # form_indexes --- варианты набора индексов для словоформы
                 for i, form_indexes in enumerate(possible_indexes):
+                    # перебираем возможные наборы индексов и оставляем
+                    # только те, где максимальный разрыв между соседними
+                    # элементами не превышает self.gap, а начальный разрыв
+                    # не превышает self.initial_gap
                     for seq in form_indexes:
                         if len(seq) == 1:
                             if seq[0] <= initial_gap:
-                                continue
-                            new_indexes[i].append(seq)
+                                new_indexes[i].append(seq)
                             continue
                         if ((gap + 1 >= max(((seq[j + 1] - v)
                                              for (j, v) in enumerate(seq[:-1]))))
                             and seq[0] <= initial_gap):
                             new_indexes[i].append(seq)
+                # если для всех словоформ нашёлся подходящий набор индексов
+                # то сохраняем подпоследовательность
                 if all(((len(elem) > 0) for elem in new_indexes)):
                     lcs_candidates.append((lcs, new_indexes))
             if len(lcs_candidates) == 0:
+                # строим автоматы для индексов отдельно по каждой словоформе
                 coordinate_automata = _make_coordinate_automata(self.common_subseq_automaton_)
                 coordinate_automata = [elem.make_unambigious_automaton(gap=gap, initial_gap=initial_gap)
                                        for elem in coordinate_automata]
@@ -216,9 +243,8 @@ class WordGraph:
             data --- список вида [(state_1, indexes_1), ... (state_m, indexes)m)],
             перечисляющий все переходы из данного состояния по данному символу
         start_state: object, стартовое состояние
+        dim: int, число координат в индексах переходов
         """
-        # НИГДЕ НЕ ИСПОЛЬЗУЕТСЯ?
-        # self.alphabet = {symbol for (state, symbol) in transitions}
         self.states_number = len(states)
         self.dim = dim
         self._make_transitions(start_state, states, transitions)  # перекодируем состояния
@@ -312,8 +338,7 @@ class WordGraph:
 
     def words_of_fixed_length(self, k):
         """
-        Находит слова длины k, принимаемые автоматом,
-        вместе с их индексами
+        Находит слова длины k, принимаемые автоматом, вместе с их индексами
         """
         if not hasattr(self, 'transition_graph_'):
             self._make_transition_graph()
@@ -434,7 +459,6 @@ class WordGraph:
             answer[i] = (word, word_indexes)
         return answer
 
-
 def _make_coordinate_automata(automaton):
     """
     Строит автоматы c теми же переходами, что и в self.common_subseq_automaton_,
@@ -457,7 +481,6 @@ def _make_coordinate_automata(automaton):
     new_automata = [WordGraph(new_states, trans, new_start_state, dim=1)
                     for trans in new_transitions]
     return new_automata
-
 
 def extract_common_words(words_by_coordinates):
     """
@@ -509,7 +532,6 @@ def extract_tables(tables):
         to_add = (lemma, tuple(var_spans))
         words_by_vartables[forms_with_vars].append(to_add)
     return words_by_vartables
-
 
 ##########################################
 
@@ -631,10 +653,12 @@ def read_input(infile, language, method='first'):
     """
     # сразу создаём функцию, которая проверяет, следует ли добавлять форму
     # в список. Так делаем, чтобы if вызывался только 1 раз
-    marks = common.get_categories_marks(language)
+    marks = get_categories_marks(language)
     if method == 'first':
         add_checker = (lambda x: (x is not None) and len(x) == 0)
         def table_adder(lemma, table_dict):
+            # вычисляем формы для леммы
+            table_dict[LEMMA_KEY] = [lemma]
             forms = [(elem[0] if len(elem) > 0 else '-') for elem in table_dict.values()]
             # возвращает список, потому что в случае 'all'
             # придётся возвращать несколько парадигм, то есть список
@@ -642,6 +666,8 @@ def read_input(infile, language, method='first'):
     elif method == 'all':
         add_checker = (lambda x: x is not None)
         def table_adder(lemma, table_dict):
+            # вычисляем формы для леммы
+            table_dict[LEMMA_KEY] = [lemma]
             form_variants_list = list(table_dict.values())
             for i, form_variants in enumerate(form_variants_list):
                 if len(form_variants) == 0:
@@ -663,7 +689,8 @@ def read_input(infile, language, method='first'):
     else:
         sys.exit("Method must be 'first' or 'all'.")
     tables = []
-    current_table_dict = OrderedDict((mark, []) for mark in marks)
+    table_keys = [LEMMA_KEY] + marks
+    current_table_dict = OrderedDict((mark, []) for mark in table_keys)
     has_forms = False  # индикатор того, нашлись ли у слова словоформы
     with open(infile, 'r', encoding='utf-8') as fin:
         for line in fin:
@@ -674,7 +701,7 @@ def read_input(infile, language, method='first'):
                 # строчка вида i_1 <лемма_1>
                 if has_forms:
                     tables += table_adder(lemma, current_table_dict)
-                    current_table_dict = OrderedDict((mark, []) for mark in marks)
+                    current_table_dict = OrderedDict((mark, []) for mark in table_keys)
                     has_forms = False
                 splitted_line = splitted_line[0].split("\t")
                 # lemma = splitted_line[-1]
@@ -684,7 +711,7 @@ def read_input(infile, language, method='first'):
             else:
                 form, form_lemma = splitted_line[:2]
                 mark = tuple(splitted_line[2:])
-                if form not in ['—', '-'] and form_lemma == lemma:
+                if form not in ['—', '-', ''] and form_lemma == lemma:
                     if add_checker(current_table_dict.get(mark, None)):
                         current_table_dict[mark].append(form)
                         has_forms = True
@@ -717,6 +744,21 @@ def output_paradigms(tables_by_paradigm, outfile, short_outfile=None):
         if short_outfile is not None:
             fshort.close()
 
+def _extract_lemma_forms(language, table_dict, lemma):
+    '''
+    Вычисляет начальную форму для слова на основе форм для категорий
+    Для русского или латинского форма извлекается из Nom,Sg, потом из Nom,Pl,
+    если обе эти ячейки пусты, то возвращается лемма
+    '''
+    answer = [lemma]
+    for key in get_possible_lemma_marks(language):
+        forms = table_dict[key]
+        if len(forms) > 0:
+            answer = forms
+            break
+    if lemma not in answer:
+        lemma.append(answer)
+    return answer
 
 def test():
     # first = WordGraph.word_to_graph('строка')
