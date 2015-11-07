@@ -156,7 +156,7 @@ def cv_mode(testing_mode, multiclass, find_flection,
             # в случае, если мы вернули вероятности,
             # то надо ещё извлечь классы
             uncoded_predictions = extract_classes_from_probs(prediction_probs[i],
-                                                             cls.max_probs_ratio)
+                                                             cls.min_probs_ratio)
             if multiclass:
                 predictions[i] = [[x] for x in np.take(cls.classes_, uncoded_predictions)]
             else:
@@ -332,7 +332,7 @@ if __name__ == '__main__':
                     # statprof.start()
                     cv_mode(testing_mode, multiclass=multiclass, find_flection=find_flection,
                             paradigm_file=paradigm_file, infile=infile, fraction=fraction, nfolds=nfolds,
-                            selection_method=selection_method, feature_fraction=feature_fraction,
+                            selection_method=selection_method, nfeatures=feature_fraction,
                             output_train_dir=output_train_dir_, output_pred_dir=output_pred_dir_)
                     # statprof.stop()
                     # with open("statprof.stat", "w") as fout:

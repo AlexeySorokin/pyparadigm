@@ -40,65 +40,102 @@ def make_flection_paradigms_table(paradigms_table):
 # ДОБАВИТЬ ПОДДЕРЖКУ АКТИВНЫХ ПАРАДИГМ
 
 class ParadigmClassifier(BaseEstimator, ClassifierMixin):
-    '''
-    Класс, применяющий метод опорных векторов для классификации парадигм
-    '''
+    """
+    Класс для определения парадигмы по лемме с помощью заданного классификатора
+
+    Аргументы:
+    -----------
+    paradigm_table: dict, словарь вида {<парадигма>: <код>}
+    multiclass: bool, optional(default=False),
+        возможен ли возврат нескольких меток для одной леммы
+    find_flection: bool, optional(default=False),
+        отделяяется ли окончание слова перед классификацией,
+        в текущей версии ухудшает качество классификации
+    max_length: int, optional(default=False),
+        максимальная длина признаков в классификации
+    classifier: classifier-like, optional(default=sklearn.linear_model.logistic_regression),
+        классификатор, непосредственно выполняющий классификацию,
+        обязан поддерживать метод set_params
+    selection_method: str, optional(default='ambiguity'), метод отбора признаков
+    nfeatures: int, float or None(default=None),
+        количество оставляемых признаков, если nfeatures \in [0, 1),
+        то интерпретируется как доля оставляемых признаков,
+        nfeatures=None означает отсутствие отбора признаков
+    smallest_prob: float, default=0.01,
+        минимальная разрешённая ненулевая вероятность класса
+    min_probs_ratio: float, default=0.9,
+        минимально возможное отношение вероятности класса к максимальной,
+        при которой данный класс возвращается при multiclass=True
+    """
     def __init__(self, paradigm_table, multiclass=False, find_flection=False,
-                 max_length=5, use_prefixes=False, SVM_params = None,
-                 selection_method='ambiguity', nfeatures=None, feature_fraction=1.0,
-                 smallest_prob = 0.01, max_probs_ratio=0.9):
+                 max_length=5, use_prefixes=False,
+                 classifier=sklm.LogisticRegression, classifier_params = None,
+                 selection_method='ambiguity', nfeatures=None,
+                 smallest_prob = 0.01, min_probs_ratio=0.9):
         self.paradigm_table = paradigm_table
         self.multiclass = multiclass
         self.find_flection=find_flection  # индикатор отделения окончания перед классификацией
         self.max_length = max_length
         self.use_prefixes = use_prefixes
-        self.SVM_params = SVM_params
-        self.is_fitted = False
+        self.classifier = classifier
+        self.classifier_params = classifier_params
         self.selection_method = selection_method
         self.nfeatures = nfeatures
-        self.feature_fraction = feature_fraction
         self.smallest_prob = smallest_prob
-        self.max_probs_ratio = max_probs_ratio
+        self.min_probs_ratio = min_probs_ratio
 
     def fit(self, X, y):
-        if self.SVM_params is None:
-            self.SVM_params = dict()
-        self.classifier = sklm.LogisticRegression(**self.SVM_params)
+        """
+        Обучает классификатор на данных
+        """
+        if self.classifier_params is None:
+            self.classifier_params = dict()
+        self.classifier.set_params(self.classifier_params)
         self._prepare_fragmentors()
         # если отделяем флексии
-        if self.find_flection:
-            (self._flection_codes_mapping,
-                self._flection_paradigm_table,
-                self._flection_lengths) = make_flection_paradigms_table(self.paradigm_table)
-            self._flection_paradigm_classifier = ParadigmClassifier(self._flection_paradigm_table,
-                                                                    find_flection=False,
-                                                                    max_length=5,
-                                                                    feature_fraction=0.1)
+        # if self.find_flection:
+        #     (self._flection_codes_mapping,
+        #         self._flection_paradigm_table,
+        #         self._flection_lengths) = make_flection_paradigms_table(self.paradigm_table)
+        #     self._flection_paradigm_classifier = ParadigmClassifier(self._flection_paradigm_table,
+        #                                                             find_flection=False,
+        #                                                             max_length=5,
+        #                                                             feature_fraction=0.1)
         X_train, y = self._preprocess_input(X, y, create_features=True,
                                             retain_multiple=self.multiclass, return_y=True)
         N, _ = X_train.shape
 
         if self.nfeatures is None:
-            try:
-                self.feature_fraction = float(self.feature_fraction)
-            except:
-                self.feature_fraction = 1.0
+            self.nfeatures = self.features_number
+        if 0.0 < self.nfeatures and self.nfeatures < 1.0:
+            # преобразуем долю признаков в их число
             self.nfeatures = int(self.features_number * self.feature_fraction)
         X_train = self._select_features(X_train, y)
-        print("Training...")
+        # print("Training...")
         self.classifier.fit(X_train, y)
         self.classes_ = self.classifier.classes_
-        self.is_fitted = True
         return self
 
     def predict(self, X):
+        """
+        Применяет классификатор к данным
+
+        Аргументы:
+        -----------
+        X, list of strs, список лемм, парадигму которых надо определить
+
+        Возвращает:
+        ------------
+        answer, list of lists, для каждого объекта возвращается список классов
+        """
         # print("Predicting...")
         probs = self.predict_proba(X)
+        # реальная нумерация классов может не совпадать с нумерацией внутри классификатора
         if not self.multiclass:
             answer = [[x] for x in np.take(self.classes_, np.argmax(probs, axis=1))]
         else:
             answer = [np.take(self.classes_, elem)
-                      for elem in extract_classes_from_probs(probs, self.max_probs_ratio)]
+                      for elem in extract_classes_from_probs(probs, self.min_probs_ratio)]
         return answer
 
     def fit_predict(self, X, y):
@@ -108,13 +145,28 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         return self.predict(X)
 
     def predict_proba(self, X):
+        """
+        Предсказывает вероятности классов. Даже если используется обычный predict,
+        данная функция всё равно вызывается.
+
+        Аргументы:
+        -----------
+        X, list of strs, список лемм, парадигму которых надо определить
+
+        Возвращает:
+        -----------
+        probs, array-like, shape=(len(X), self.nclasses_)
+            вероятности классов для объектов тестовой выборки
+        """
+        # преобразование входа в матрицу объекты-признаки
         X_train = self._preprocess_input(X, retain_multiple=False)
         X_train = self.selector.transform(X_train)
         # print("Predicting probabilities...")
         probs = self.classifier.predict_proba(X_train)
         # print("Calculating answer...")
         answer = np.zeros(dtype=np.float64, shape=probs.shape)
-        # чтобы не делать индексацию при каждом поиске парадигмы
+        # чтобы не делать индексацию при каждом поиске парадигмы,
+        # сохраняем обработчики для каждого из возможных классов
         temp_fragmentors = [self._paradigm_fragmentors[i]  for i in self.classes_]
         temp_fragmentors_indexes = [self._fragmentors_indexes[i] for i in self.classes_]
         for i, (word, word_probs, final_word_probs) in enumerate(zip(X, probs, answer)):
@@ -126,7 +178,6 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                 # проверяем, что вероятность достаточно велика
                 if prob < probs_sum * self.smallest_prob / (1.0 - self.smallest_prob):
                     break
-                # best_class = self.classes_[class_index]
                 fragmentor_index = temp_fragmentors_indexes[class_index]
                 # ищем в массиве fits_to_fragmentor индикатор того,
                 # подходит ли слово под парадигму
@@ -145,6 +196,16 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         '''
         Преобразует значения вероятностей на логарифмическую шкалу
         по формуле q = (log(p/(1-p)) + L) / 2L, где L = log(p_0 / (1- p_0))
+
+        Аргументы:
+        -----------
+        X, list of strs, список лемм, парадигму которых надо определить
+
+        Возвращает:
+        -----------
+        minus_log_probs, array-like, shape=(len(X), self.nclasses_)
+            логарифмические ``вероятности'' классов для объектов тестовой выборки
+        """
         '''
         probs = self.predict_proba(X)
         probs = np.maximum(probs, self.smallest_prob)
@@ -177,22 +238,36 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                              for word, label in zip(X, y_flections)]
         return X_stemmed, y_flections, flection_features
 
-    def _preprocess_input(self, X, y=None, create_features=False, retain_multiple=False, return_y=False):
+    def _preprocess_input(self, X, y=None, create_features=False,
+                          retain_multiple=False, return_y=False):
         """
         Преобразует список слов в матрицу X_train
-        X_train[i][j] = 1 <=> self.features[i] --- подслово #X[i]#
+        X_train[i][j] = 1 <=> self.features[j] --- подслово #X[i]#
+
+        Аргументы:
+        ----------
+        X: list of strs, список лемм, парадигму которых надо определить
+        y: list of lists or None, список, i-ый элемент которого содержит классы
+            для X[i] из обучающей выборки
+        create_features: bool, optional(default=False), создаются ли новые признаки
+            или им сопоставляется значение ``неизвестный суффикс/префикс''
+        retain_multiple: bool, optional(default=False), может ли возвращаться
+            несколько меток классов для одного объекта
+        return_y: возвращается ли y (True в случае обработки обучающей выборки,
+            т.к. в этом случае y преобразуется из списка списков в один список)
         """
         if self.find_flection:
-            print("FLECTION CLASSIFIER: ")
+            # print("FLECTION CLASSIFIER: ")
             X, flection_classes, flection_features = self._find_flections(X, y, create_features)
-            print("MAIN CLASSIFIER: ")
+            # print("MAIN CLASSIFIER: ")
         else:
             flection_classes = [None] * len(X)
             self._flection_features_number = 0
         if create_features:
-            # создаём новые признаки как раньше в функции _collect_features
+            # создаём новые признаки, вызывается при обработке обучающей выборки
             self.features_number = 0
             features, self.feature_codes = [], dict()
+            #  признаки для суффиксов, не встречавшихся в обучающей выборки
             features.extend(("-" * length + "#")
                             for length in range(1, self.max_length+1))
             if self.use_prefixes:
@@ -208,6 +283,7 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                 features_number += 1
                 return code
         else:
+            # новые признаки не создаются, вызывается при обработке контрольной выборки
             features_number = self.features_number
             # создаём функцию для обработки неизвестных признаков
             def _process_unknown_feature(feature, is_prefix=False):
@@ -257,11 +333,15 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         for codes, labels, flection_label in zip(X_with_temporary_codes, y, flection_classes):
             if self.find_flection:
                 codes.append(flection_label)
+            # каждый объект обучающей выборки размножается k раз,
+            # где k --- число классов, к которым он принадлежит, например, пара
+            # X[i]=x, y[i]=[1, 2, 6] будет преобразована в <x, 1>, <x, 2>, <x, 6>
             number_of_rows_to_add = 1 if not(retain_multiple) else len(labels)
             for i in range(number_of_rows_to_add):
                 rows.extend([curr_row for _ in codes])
                 cols.extend(codes)
                 curr_row += 1
+        # сохраняем преобразованные данные в разреженную матрицу
         data = np.ones(shape=(len(rows,)), dtype=float)
         X_train = csr_matrix((data, (rows, cols)),
                              shape=(curr_row, self.features_number))
@@ -271,14 +351,17 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
             return X_train
 
     def _add_feature(self, feature):
-        '''
+        """
         Добавление нового признака
-        '''
+        """
         self.features.append(feature)
         self.feature_codes[feature] = self.features_number
         self.features_number += 1
 
     def _select_features(self, X, y):
+        """
+        Осуществляет отбор признаков
+        """
         self.selector = MulticlassFeatureSelector(
                 local=True, method=self.selection_method, min_count=3, nfeatures=self.nfeatures)
         X = self.selector.fit_transform(X, y)
@@ -286,9 +369,11 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         return X
 
     def _prepare_fragmentors(self):
-        '''
-        Предвычисление обработчиков парадигм
-        '''
+        """
+        Предвычисление обработчиков шаблонов, соответствующих леммам.
+        Поскольку таких шаблонов существенно меньше, чем парадигм,
+        то вычислять их по ходу нецелесообразно.
+        """
         self._paradigm_fragmentors = dict()
         self._fragmentors_indexes = dict()
         self._fragmentors_list = []
@@ -296,11 +381,13 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         fragmentors_indexes_by_patterns = dict()
         fragmentors_number = 0
         for paradigm, code in self.paradigm_table.items():
+            # вычисляем шаблон для леммы
             pattern = paradigm.split("#")[0]
             if pattern == "-":
                 pattern = paradigm.split("#")[1]
             fragmentor_index = fragmentors_indexes_by_patterns.get(pattern, -1)
             if fragmentor_index < 0:
+                # если такой шаблон леммы ещё не возникал, то сохраняем новый обработчик
                 self._fragmentors_list.append(ParadigmFragment(pattern))
                 fragmentors_indexes_by_patterns[pattern] = fragmentors_number
                 fragmentor_index = fragmentors_number
@@ -311,12 +398,13 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         return
 
 
-def extract_classes_from_probs(probs, max_probs_ratio):
+def extract_classes_from_probs(probs, min_probs_ratio):
     """
     Возвращает список классов по их вероятностям
     в случае мультиклассовой классификации
     """
-    max_allowed_probs = np.max(probs, axis=1).reshape((probs.shape[0], 1)) * max_probs_ratio
+    # возможно, имеет смысл возвращать разреженную матрицу
+    max_allowed_probs = np.max(probs, axis=1).reshape((probs.shape[0], 1)) * min_probs_ratio
     remaining_positions = np.where(probs >= max_allowed_probs)
     answer = [[] for _ in range(probs.shape[0])]
     for row, col in zip(*remaining_positions):
