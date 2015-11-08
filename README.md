@@ -21,8 +21,8 @@ python3 pyparadigm.py  &lt;inflection_tables&gt;  &lt;LANGUAGE_CODE&gt; &lt;maxi
 **&lt;paradigms_with_codes&gt; :** output file with paradigms and their codes
 
 2a. python learn_paradigms.py [-p] [-m] [-T &lt;train_data_dir&gt;] [-O &lt;test_output_dir&gt;] cross-validation &lt;paradigms_with_codes&gt;  &lt;lemmas_with_codes&gt; &lt;max_feature_lengths&gt;  &lt;feature_fractions&gt; &lt;train_data_fractions&gt; &lt;folds_number&gt;  [&lt;feature_selection_method&gt; ]  
-   **-p :** if True, class probabilities are also predicted,  
-   **-m :** if True, multiple paradigms for one lemma can be predicted,  
+   **-p :** if True, class probabilities are also predicted. Default value is False,   
+   **-m :** if True, multiple paradigms for one lemma can be predicted. Default value is False,  
    **train_data_dir :** a directory to output train data splits,  
    **test_output_dir :** a directory to output classification results,  
    **&lt;paradigms_with_codes&gt; :** second outfile of the previous step,  
