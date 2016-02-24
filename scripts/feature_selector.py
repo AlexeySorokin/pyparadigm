@@ -6,14 +6,14 @@
 # -------------------------------------------------------------------------------
 
 import sys
-from functools import reduce
+from itertools import product
 
 import numpy as np
-from scipy.sparse import issparse, csc_matrix, csr_matrix
+from scipy.sparse import issparse, csc_matrix, csr_matrix, spdiags
 
-from sklearn.base import TransformerMixin
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import Binarizer as SK_Binarizer
+from sklearn.preprocessing import Binarizer as SK_Binarizer, LabelBinarizer as SK_LabelBinarizer
 from sklearn.feature_selection.base import SelectorMixin
 from sklearn.utils import check_array
 from sklearn.utils.extmath import safe_sparse_dot
@@ -21,8 +21,32 @@ from sklearn.utils.validation import check_is_fitted
 
 from routines.statistic import odds_ratio, information_gain, bns
 
+np.seterr(invalid='ignore')
 
-class MulticlassFeatureSelector(SelectorMixin):
+class ZeroFeatureRemover(BaseEstimator, SelectorMixin):
+    """
+    Класс, удаляющий все признаки, которые в обучающей выборке принимали только нулевое значение
+    """
+    def __init__(self):
+        pass
+
+    def fit(self, X, y=None):
+        # X = check_array(X, accept_sparse=['csr', 'csc'], dtype='bool')
+        if issparse(X):
+            X = X.tocsc()
+        self.mask_ = np.zeros(shape=(X.shape[1],), dtype=bool)
+        self.mask_[np.unique(X.nonzero()[1])] = True
+        return self
+
+    def _get_support_mask(self):
+        """
+        Возвращает булеву маску для признаков
+        """
+        check_is_fitted(self, "mask_")
+        return self.mask_
+
+
+class MulticlassFeatureSelector(BaseEstimator, SelectorMixin):
     """
     Класс, реализующий различные стратегии выбора признаков
     для мультиклассовой классификации
@@ -40,8 +64,12 @@ class MulticlassFeatureSelector(SelectorMixin):
         минимальное число, которое признак должен встретиться
         в обучающей выборке, чтобы он мог быть отобран
 
-    nfeatures: int, optional(default=-1)
+    nfeatures: int or float, optional(default=-1)
         число признаков, если -1, то оставляются все признаки
+        если передаётся число от 0 до 1, то оставляется соответствующая доля признаков
+
+    minfeatures: int, optional(default=100)
+        минимальное число признаков, которое будет оставлено
 
     threshold: float, array or None, optional(default=None)
         пороговое значение веса признаков,
@@ -66,16 +94,18 @@ class MulticlassFeatureSelector(SelectorMixin):
         значение для инициализации генератора случайных чисел
     """
 
-    _METHODS = ['ambiguity', 'log_odds', 'information gain']
-    _CONTINGENCY_METHODS = ['log_odds', 'information gain']
+    _METHODS = ['ambiguity', 'log_odds', 'information gain', 'bns', 'count']
+    _CONTINGENCY_METHODS = ['log_odds', 'information gain', 'bns']
 
     def __init__(self, local=True, method='ambiguity', min_count=2,
-                 nfeatures=-1, threshold=None, binarization_method='log_odds',
-                 divide_to_bins=True, bins_number=10, order='fixed', random_state=0):
+                 nfeatures=-1, minfeatures=100, threshold=None,
+                 binarization_method='log_odds', divide_to_bins=True, bins_number=10,
+                 order='fixed', random_state=0):
         self.local = local
         self.method = method
         self.min_count = min_count
         self.nfeatures = nfeatures
+        self.minfeatures = minfeatures
         self.threshold = threshold
         self.binarization_method = binarization_method
         self.divide_to_bins = divide_to_bins
@@ -87,24 +117,51 @@ class MulticlassFeatureSelector(SelectorMixin):
         if self.method not in self._METHODS:
             raise ValueError("Method should be one of {0}".format(
                 ", ".join(self._METHODS)))
-        X = check_array(X, accept_sparse='csr')
+        X = check_array(X, accept_sparse=('csr', 'csc'))
+        if issparse(X):
+            X = X.tocsc()
         self._N, self._ndata_features = X.shape
 
-        self.classes_, y = np.unique(y, return_inverse=True)
-        nclasses = self.classes_.shape[0]
-        Y_new = np.zeros(shape=(self._N, nclasses), dtype=int)
-        Y_new[np.arange(self._N), y] = 1
+        # РЕАЛИЗОВАТЬ БИНАРНУЮ КЛАССИФИКАЦИЮ
 
-        if (self.threshold is None and (self.nfeatures is None or
-                                        self.nfeatures >= self._ndata_features or
-                                        self.nfeatures == -1)):
-            # не нужно отбирать признаки
-            self.scores_ = np.ones(shape=(nclasses, self._ndata_features))
+        label_binarizer = SK_LabelBinarizer()
+        Y_new = label_binarizer.fit_transform(y)
+        self.classes_ = label_binarizer.classes_
+        nclasses = self.classes_.shape[0]
+
+        if (isinstance(self.nfeatures, float) and 0.0 <= self.nfeatures and self.nfeatures < 1.0):
+            self.nfeatures = int(self.nfeatures * self._ndata_features)
+        elif self.nfeatures in [None, -1]:
             self.nfeatures = self._ndata_features
+        elif not isinstance(self.nfeatures, int) or self.nfeatures < 0:
+            raise TypeError("nfeatures must be positive int, float in [0.0, 1.0), -1 or None")
+        self.nfeatures = max([self.nfeatures, self.minfeatures])
+
+        # вынесено в отдельную функцию удаление редких признаков
+        # X_binary = check_array(X, accept_sparse=['csr', 'csc'], dtype='bool')
+        # не работает, т.к. берётся максимум
+        counts = np.ravel((X > 0).sum(axis=0))
+        curr_min_count = self.min_count
+        while curr_min_count > 0:
+            frequent_features_indexes = np.where(counts >= curr_min_count)[0]
+            if any(frequent_features_indexes):
+                break
+            curr_min_count -= 1
+        X = X[:,frequent_features_indexes]
+        curr_nfeatures = frequent_features_indexes.shape[0]
+
+        if (self.threshold is None and self.nfeatures >=  curr_nfeatures):
+            # не нужно отбирать признаки
+            self.nfeatures = curr_nfeatures
+            # print(self.min_count, self.nfeatures, self._ndata_features)
+            self.scores_ = np.ones(shape=(nclasses, self.nfeatures))
+            mask = np.ones(shape=(self.nfeatures), dtype=bool)
         else:
-            print("Fitting selector...")
+            # print("Fitting selector...")
             self.scores_ = self._calculate_scores(X, Y_new)
-        self._make_mask()
+            mask = self._get_mask_on_remaining()
+        self.mask_ = np.zeros(dtype=bool, shape=(self._ndata_features,))
+        self.mask_[frequent_features_indexes] = mask
         return self
 
     def _calculate_scores(self, X, Y):
@@ -126,7 +183,7 @@ class MulticlassFeatureSelector(SelectorMixin):
                                   divide_to_bins=self.divide_to_bins,
                                   bins_number=self.bins_number)
             binarizer.fit(X, Y)
-            scores = binarizer.scores_
+            scores = np.atleast_2d(binarizer.joint_scores_)
         return scores
 
     def _calculate_scores_for_binary(self, X, Y):
@@ -146,14 +203,14 @@ class MulticlassFeatureSelector(SelectorMixin):
             scores[i][j] показывает полезность i-го признака для j-го класса
         """
         classes_counts = Y.sum(axis=0)  # встречаемость классов
-        counts = X.sum(axis=0).A1  # встречаемость признаков
+        counts = np.ravel(X.sum(axis=0))  # встречаемость признаков
         # совместная встречаемость признаков и классов
         counts_by_classes = safe_sparse_dot(Y.T, X)
 
         # обнуляем редко встречающиеся признаки
-        rare_indices = np.where(counts < self.min_count)
-        counts[rare_indices] = 0
-        counts_by_classes[:, rare_indices] = 0
+        # rare_indices = np.where(counts < self.min_count)
+        # counts[rare_indices] = 0
+        # counts_by_classes[:, rare_indices] = 0
 
         if self.method in self._CONTINGENCY_METHODS:
             # вычисляем таблицы сопряжённости
@@ -169,8 +226,10 @@ class MulticlassFeatureSelector(SelectorMixin):
                                                [class_count - count, count]]
             if self.method == 'log_odds':
                 func = (lambda x: odds_ratio(x, alpha=0.1))
-            else:
+            elif self.method == 'information_gain':
                 func = information_gain
+            elif self.method == 'bns':
+                func = bns
             # КАК СДЕЛАТЬ БЕЗ ПРЕОБРАЗОВАНИЙ
             scores = np.array([[func(contingency_table[i][j])
                                 for j in range(self._ndata_features)]
@@ -184,14 +243,13 @@ class MulticlassFeatureSelector(SelectorMixin):
         scores[np.isnan(scores)] = 0.0
         return scores
 
-    def _make_mask(self):
+    def _get_mask_on_remaining(self):
         """
         Извлекает булеву маску для признаков на основе весов
         """
         if self.nfeatures >= self._ndata_features:
             self.mask_ = np.ones(dtype=bool, shape=(self._ndata_features,))
             return
-        self.mask_ = np.zeros(dtype=bool, shape=(self._ndata_features,))
         if not self.local:
             raise NotImplementedError()
         else:
@@ -203,7 +261,9 @@ class MulticlassFeatureSelector(SelectorMixin):
             # сортируем индексы для каждого класса
             # indexes_to_select = list(self._extract_feature_indexes(classes_order))
             # mask[indexes_to_select] = True
-            self.mask_ = self._extract_feature_indexes(classes_order)
+            mask = self._extract_feature_indexes(classes_order)
+            self.selected_scores_ = self.scores_[:,mask]
+        return mask
 
     def _extract_feature_indexes(self, classes_order):
         """
@@ -219,11 +279,14 @@ class MulticlassFeatureSelector(SelectorMixin):
         # сортируем признаки по полезности отдельно для каждого класса
         # argsort нужен для стабильности сортировки
         sorted_feature_indexes = np.argsort(-self.scores_, axis=1)
-        selected = np.zeros(shape=self.mask_.shape, dtype=bool)
-        for indexes in sorted_feature_indexes.T:
-            np.put(selected, indexes, True)
-            if np.count_nonzero(selected) >= self.nfeatures:
-                break
+        selected = np.zeros(shape=self.scores_.shape[1], dtype=bool)
+        if sorted_feature_indexes.shape[1] > 1:
+            for indexes in sorted_feature_indexes.T:
+                np.put(selected, indexes, True)
+                if np.count_nonzero(selected) >= self.nfeatures:
+                    break
+        else:
+            selected[sorted_feature_indexes[0,:self.nfeatures]] = True
         return selected
 
     def _get_support_mask(self):
@@ -232,6 +295,74 @@ class MulticlassFeatureSelector(SelectorMixin):
         """
         check_is_fitted(self, "mask_")
         return self.mask_
+
+
+class DummyFeatureWeighter(BaseEstimator, TransformerMixin):
+    """
+    Взвешивает признаки в соответствии с переданным вектором весов
+
+    """
+    def __init__(self, weights, transformation=None, min_prob=None):
+        """
+        weights: 1-dimensional array of float, вектор весов
+        transformation: None, 'log', 'inverse_log', optional(default=None):
+            если 'log', то данные преобразуются на логарифмическую шкалу
+        min_prob: None or float, optional(default=None):
+            минимальное значение вероятности, играет роль только при transformation='inverse_log',
+            когда данные имеют смысл вероятностей
+        """
+        self.weights = weights
+        self.transformation = transformation
+        self.min_prob = min_prob
+
+    def fit(self, X, y=None):
+        if self.transformation is None:
+            self.weights_ = np.array(self.weights)
+        elif self.transformation == 'log':
+            self.weights_ = np.log(self.weights + 1.0)
+        elif self.transformation == 'inverse_log':
+            if not isinstance(self.min_prob, float) or self.min_prob <= 0.0 or self.min_prob >= 1.0:
+                raise ValueError("self.min_prob must be a float between 0.0 and 1.0")
+            self.weights_ = np.log(max(self.weights, self.min_prob)) - np.log(self.min_prob)
+        else:
+            raise ValueError()
+        self.weights_ = np.ravel(self.weights_)
+        self.length = self.weights_.shape[0]
+        return self
+
+    def transform(self, X):
+        check_array(X, accept_sparse=['csr', 'csc'])
+        if issparse(X):
+            mult = spdiags(self.weights_, 0, self.length, self.length)
+            X *= mult
+        else:
+            X *= self.weights_
+        return X
+
+class SelectingFeatureWeighter(BaseEstimator, TransformerMixin):
+    """
+    Отбирает признаки в соответствии с переданным методом
+    и взвешивает их в соответствии с получившимися при отборе весами
+    """
+    def __init__(self, selector=MulticlassFeatureSelector, selector_params=None,
+                 transformation=None, min_prob=None):
+        self.selector = selector
+        self.selector_params = selector_params
+        self.transformation = transformation
+        self.min_prob = min_prob
+
+    def fit(self, X, y=None):
+        if self.selector_params is None:
+            self.selector_params = dict()
+        self.selector.set_params(**self.selector_params)
+        scores_ = self.selector.fit(X, y).scores_[:,self.selector.mask_]
+        self.dummy_weighter = DummyFeatureWeighter(weights=scores_,
+                                                   transformation=self.transformation,
+                                                   min_prob=self.min_prob).fit(X)
+        return self
+
+    def transform(self, X):
+        return self.dummy_weighter.transform(self.selector.transform(X))
 
 
 class Binarizer(TransformerMixin):
@@ -260,7 +391,7 @@ class Binarizer(TransformerMixin):
         """
         Обучает бинаризатор на данных
         """
-        print("Fitting binarizer...")
+        # print("Fitting binarizer...")
         methods = Binarizer._UNSUPERVISED_METHODS + Binarizer._SUPERVISED_METHODS
         if self.method not in methods:
             raise ValueError("Method should be one of {0}".format(", ".join(methods)))
@@ -275,15 +406,18 @@ class Binarizer(TransformerMixin):
             if y is None:
                 raise ValueError("y must not be None for supervised binarizers.")
             # вынести в отдельную функцию
-            y = np.array(y)
-            if len(y.shape) == 1:
-                self.classes_, y = np.unique(y, return_inverse=True)
-                nclasses = self.classes_.shape[0]
-                Y_new = np.zeros(shape=(y.shape[0], nclasses), dtype=int)
-                Y_new[np.arange(y.shape[0]), y] = 1
-            else:
-                self.classes_ = np.arange(y.shape[1])
-                Y_new = y
+            # y = np.array(y)
+            # if len(y.shape) == 1:
+            #     self.classes_, y = np.unique(y, return_inverse=True)
+            #     nclasses = self.classes_.shape[0]
+            #     Y_new = np.zeros(shape=(y.shape[0], nclasses), dtype=int)
+            #     Y_new[np.arange(y.shape[0]), y] = 1
+            # else:
+            #     self.classes_ = np.arange(y.shape[1])
+            #     Y_new = y
+            label_binarizer = SK_LabelBinarizer()
+            Y_new = label_binarizer.fit_transform(y)
+            self.classes_ = label_binarizer.classes_
             if X.shape[0] != Y_new.shape[0]:
                 raise ValueError("X and y have incompatible shapes.\n"
                                  "X has %s samples, but y has %s." %
@@ -368,7 +502,8 @@ class Binarizer(TransformerMixin):
         values, counts = \
             _collect_column_statistics(column, y, classes_number=classes_number, precision=6)
         if self.method in Binarizer._CONTINGENCY_METHODS:
-            if classes_number == 2:
+            # бинарная классификация
+            if classes_number <= 2:
                 counts = [counts]
             else:
                 summary_counts = np.sum(counts, axis=1)
@@ -449,7 +584,10 @@ class BinDivider(TransformerMixin):
             for i in np.arange(nfeat):
                 if self.maxima_[i] > self.bins_number[i]:
                     continue
-                column = X[:, i].toarray().flatten()
+                if issparse(X):
+                    column = X[:, i].toarray().ravel()
+                else:
+                    column = X[:, i]
                 if (column == column.astype(int)).all():
                     self.maxima_[i] = self.bins_number[i]
         self.diff_ = self.maxima_ - self.minima_
@@ -489,7 +627,7 @@ def _collect_column_statistics(column, y, classes_number=None, precision=6):
     Вычисляет частоты значений в column в зависимости от значений y
     """
     y = np.asarray(y, dtype=int)
-    if len(y.shape) == 0:
+    if len(y.shape) == 0 or y.shape[1] == 1:
         # преобразуем y к бинаризованному виду
         classes_, y = np.unique(y, return_inverse=True)
         nclasses = classes_.shape[0]
@@ -498,6 +636,7 @@ def _collect_column_statistics(column, y, classes_number=None, precision=6):
         y_new[np.arange(nobj), y] = 1
     else:
         nobj, nclasses = y.shape
+        y_new = y
     if issparse(column):
         column = column.toarray().flatten()
     else:
@@ -511,7 +650,7 @@ def _collect_column_statistics(column, y, classes_number=None, precision=6):
         value_coder = lambda x: x
         reverse_value_coder = lambda x: x
     value_counts = dict()
-    for val, label in zip(column, y):
+    for val, label in zip(column, y_new):
         val = value_coder(val)
         if val not in value_counts:
             value_counts[val] = np.zeros(shape=nclasses)
@@ -574,9 +713,18 @@ def test_bin_divider():
     data = bin_divider.fit_transform(data)
     print(data.toarray())
 
+def test_feature_selector():
+    # X = list(product([0, 1, 2], [0, 1], [0, 1]))
+    # y = [0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1]
+    X = list(product([0, 1], repeat=3))
+    y = [0, 1, 0, 0, 0, 1, 1, 1]
+    selector = MulticlassFeatureSelector(nfeatures=2)
+    X_new = selector.fit_transform(X, y)
+    print(X_new)
 
 if __name__ == "__main__":
-    test_bin_divider()
+    test_feature_selector()
+    # test_bin_divider()
     # a = [3, 2, 3, 1, 2]
     # a = np.array(a)
     # print(_sort_feature_indexes_by_scores(a))

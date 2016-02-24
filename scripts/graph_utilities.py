@@ -187,7 +187,184 @@ def _backtrace_longest_paths(finals, source, length, predecessors):
     return answer
 
 
-def test():
+class TrieNode:
+    """
+    Класс для представления узла дерева
+    """
+    NOT_A_NODE = None
+
+    def __init__(self, index, data=None, is_terminal=False):
+        self.index = index
+        self.data = data
+        self.is_terminal = False
+        self.children = dict()
+
+    def set_child(self, c, child):
+        self.children[c] = child
+
+    def child(self, c):
+        return self.children.get(c, TrieNode.NOT_A_NODE)
+
+    def has_child(self, c):
+        return (c in self.children)
+
+
+class Trie:
+
+    def __init__(self):
+        self.root = TrieNode(0)
+        self.nodes = [self.root]
+        self.nodes_number = 1
+        self.size = 0
+
+    def __len__(self):
+        return self.size
+
+    def __contains__(self, item):
+        curr = self.root
+        for a in item:
+            curr = curr.child(a)
+            if curr == TrieNode.NOT_A_NODE:
+                return False
+        return curr.is_terminal
+
+    def __setitem__(self, key, value):
+        curr = self.root
+        for i, a in enumerate(key):
+            child = curr.child(a)
+            if child == TrieNode.NOT_A_NODE:
+                curr = self._add_descendant(curr, key[i:])
+                break
+            else:
+                curr = child
+        if not curr.is_terminal:
+            self.size += 1
+        curr.is_terminal = True
+        curr.data = value
+
+    def __getitem__(self, item):
+        node = self.get_node(item)
+        if node is None:
+            raise KeyError("{0} is not in trie".format(key))
+        return node.data
+
+    def get(self, key, default=None):
+        node = self.get_node(key)
+        return node.data if node else default
+
+    def _add_descendant(self, curr, key):
+        for a in key:
+            node = TrieNode(index=self.nodes_number)
+            curr.set_child(a, node)
+            curr = node
+            self.nodes.append(node)
+            self.nodes_number += 1
+        return curr
+
+    def get_node(self, key):
+        curr = self.root
+        for a in key:
+            curr = curr.child(a)
+            if curr == TrieNode.NOT_A_NODE:
+                return None
+        if curr.is_terminal:
+            return curr
+        else:
+            return None
+
+    def partial_path(self, key):
+        """
+        Возвращает максиммальный путь от корня, помеченный префиксом key
+        """
+        answer = [self.root]
+        curr = self.root
+        for a in key:
+            curr = curr.child(a)
+            if curr == TrieNode.NOT_A_NODE:
+                break
+            answer.append(curr)
+        return answer
+
+    def path(self, key):
+        """
+        Возвращает все вершины на ветке, помеченной key
+        """
+        answer = self.partial_path(key)
+        if len(answer) == len(key) + 1:
+            return answer
+        else:
+            return None
+
+    def traverse(self, only_terminals=False, return_keys=False):
+        """
+        Обход дерева в глубину
+        """
+        stack, key, color = [[self.root, "", False]], "", False
+        answer = []
+        while len(stack) > 0:
+            # print(stack)
+            prev_color = color
+            node, letter, color = stack[-1]
+            key = key[:-1] if prev_color else key
+            if color:
+                if node.is_terminal >= only_terminals:
+                    to_append = (node, key) if return_keys else node
+                    answer.append(to_append)
+                stack.pop()
+            else:
+                # print(key, letter)
+                key += letter
+                stack[-1][2] = True
+                for c, child in node.children.items():
+                    stack.append([child, c, False])
+        # print(answer)
+        return answer
+
+    def print_all(self):
+        for node in self.nodes:
+            print("{0} {1} {2}".format(
+                node.index, " ".join("{0} {1}".format(first, second.index)
+                                     for first, second in node.children.items()),
+                node.data))
+
+    def __str__(self):
+        return ("{{{0}}}".format(", ".join(
+            ("{0}: {1}".format(key.__repr__(), node.data.__repr__())
+             for node, key in self.traverse(only_terminals=True, return_keys=True)))))
+
+def prune_dead_branches(trie):
+    traversal = trie.traverse()
+    has_terminal_descendants = [False] * trie.nodes_number
+    for node in traversal:
+        if (node.is_terminal or
+                any(has_terminal_descendants[child.index] for child in node.children.values())):
+            has_terminal_descendants[node.index] = True
+    # trie.print_all()
+    pruned_trie = Trie()
+    if has_terminal_descendants[trie.root.index]:
+        new_node_indexes, new_nodes_number = [-1] * trie.nodes_number, 0
+        for i, (node, flag) in enumerate(zip(trie.nodes, has_terminal_descendants)):
+            if flag:
+                new_node_indexes[i] = new_nodes_number
+                new_nodes_number += 1
+        new_nodes = [TrieNode(i) for i in range(new_nodes_number)]
+        for node, new_index in zip(trie.nodes, new_node_indexes):
+            if new_index >= 0:
+                new_node = new_nodes[new_index]
+                new_node.is_terminal = node.is_terminal
+                new_node.data = node.data
+                for c, child in node.children.items():
+                    new_child_index = new_node_indexes[child.index]
+                    if new_child_index >= 0:
+                        new_node.set_child(c, new_nodes[new_child_index])
+        pruned_trie.nodes = new_nodes
+        pruned_trie.root = new_nodes[0]
+        pruned_trie.nodes_number = new_nodes_number
+        pruned_trie.size = len(trie)
+    # pruned_trie.print_all()
+    return pruned_trie
+
+def test_graph():
     """
     Тесты
     """
@@ -195,6 +372,18 @@ def test():
     graph = Graph(transitions)
     print(graph.find_longest_paths(0))
 
+def test_trie():
+    trie = Trie()
+    for s in ['abc', 'cac', 'ac', 'bc', 'c', 'cab']:
+        trie[s] = s
+    print(trie)
+    trie.get_node('cac').is_terminal = False
+    trie.get_node('bc').is_terminal = False
+    trie['ba'] = 'ba'
+    trie = prune_dead_branches(trie)
+    print(trie)
+
+
 
 if __name__ == "__main__":
-    test()
+    test_trie()

@@ -50,6 +50,31 @@ class LcsSearcher:
             final_best_lcss = [("", [[] for word in words])]
         return final_best_lcss
 
+    def calculate_paradigm(self, lemma, table):
+        correct_indices, correct_table = _make_correct_table(table)
+        best_lcss = self.process_table(correct_table)
+        paradigms_with_vars = []
+        for lcs, lcs_indexes in best_lcss:
+            # gap_positions = [2]
+            gap_positions = reduce((lambda x, y: (x | y)),
+                                   map(set, map(find_gap_positions, lcs_indexes)), set())
+            gap_positions = sorted(gap_positions)
+            # var_beginnings = [0, 3, 4]
+            if lcs != "":
+                var_beginnings = [0] + [i for i in gap_positions] + [len(lcs)]
+            else:
+                var_beginnings = [0]
+            # lcs_vars = ['пес', 'к']
+            lcs_vars = [lcs[i:j] for i, j in zip(var_beginnings[:-1], var_beginnings[1:])]
+            # paradigm_repr = ['1+о+2', '1+2+ом', '1+2+ов']
+            paradigm_repr = compute_paradigm(correct_table, lcs_indexes, var_beginnings)
+            # вспоминаем, что парадигма могла быть дефектной
+            final_paradigm_repr = ['-' for form in table]
+            for i, form in zip(correct_indices, paradigm_repr):
+                final_paradigm_repr[i] = form
+            paradigms_with_vars.append((final_paradigm_repr, lcs_vars))
+        return paradigms_with_vars
+
     def _make_automaton(self, words):
         """
         Строит ациклический ДКА для всех общих подпоследовательностей
@@ -130,6 +155,7 @@ class LcsSearcher:
                         words_by_coordinates = [elem.words_of_fixed_length(word_length)
                                                 for elem in coordinate_automata]
                         common_words = extract_common_words(words_by_coordinates)
+                        word_length -= 1
                     lcs_candidates = common_words
         best_lcss = self._find_best_lcss(lcs_candidates)
         return best_lcss
@@ -197,10 +223,10 @@ class LcsSearcher:
                             current_best_coordinate_indexes.append(elem)
                 best_indexes_by_coordinate[i] = current_best_coordinate_indexes
                 current_total_score += weight * best_score
-            indexes_combibations = [list(elem) for elem in product(*best_indexes_by_coordinate)]
+            indexes_combinations = [list(elem) for elem in product(*best_indexes_by_coordinate)]
             if total_best_score is None or current_total_score < total_best_score:
                 total_best_score = current_total_score
-                best_indexes_combinations = indexes_combibations
+                best_indexes_combinations = indexes_combinations
             elif current_total_score == total_best_score:
                 best_indexes_combinations.extend(map(list, product(*best_indexes_by_coordinate)))
         return (optimal_cover_size, total_best_score), best_indexes_combinations
@@ -528,7 +554,7 @@ def extract_tables(tables):
     """
     words_by_vartables = defaultdict(list)
     for lemma, table, forms_with_vars, var_spans in sorted(tables, key=(lambda x: x[0])):
-        forms_with_vars = tuple(forms_with_vars)
+        forms_with_vars = tuple(forms_with_vars) if isinstance(forms_with_vars, list) else forms_with_vars
         to_add = (lemma, tuple(var_spans))
         words_by_vartables[forms_with_vars].append(to_add)
     return words_by_vartables
@@ -710,7 +736,10 @@ def read_input(infile, language, method='first'):
                     print(index)
             else:
                 form, form_lemma = splitted_line[:2]
-                mark = tuple(splitted_line[2:])
+                if language != 'RU_verbs':
+                    mark = tuple(splitted_line[2:])
+                else:
+                    mark = ",".join(splitted_line[2:])
                 if form not in ['—', '-', ''] and form_lemma == lemma:
                     if add_checker(current_table_dict.get(mark, None)):
                         current_table_dict[mark].append(form)
@@ -732,10 +761,13 @@ def output_paradigms(tables_by_paradigm, outfile, short_outfile=None):
         for paradigm, var_values in sorted(tables_by_paradigm.items(),
                                            key=(lambda x: (len(x[1]), x[0])),
                                            reverse=True):
-            paradigm_str = "#".join(paradigm) + "\n"
-            fout.write(paradigm_str)
+            if isinstance(paradigm, str):
+                paradigm_str = paradigm
+            else:
+                paradigm_str = "#".join(paradigm)
+            fout.write(paradigm_str + "\n")
             if short_outfile is not None:
-                fshort.write("{0:<6}".format(count) + paradigm_str)
+                fshort.write("{0:<6}".format(count) + paradigm_str + "\n")
                 first_elem_str = vars_to_string(*(sorted(var_values)[0]))
                 fshort.write("{0:<6}{1}\n".format(len(var_values), first_elem_str))
                 count += 1
@@ -766,17 +798,23 @@ def test():
     # other = first.intersect(second)
     # print(other.longest_words(gap=1))
 
-    words = ['песок', 'песком', 'песков']
-    # words = ['брассист', 'растр']
-    lcs_searcher = LcsSearcher(gap=None)
+    words = ['mainehikas', 'kaampi']
+    lcs_searcher = LcsSearcher(gap=1, initial_gap=0)
     best_lcss = lcs_searcher.process_table(words)
     print(best_lcss)
+
+    # words = ['песок', 'песком', 'песков']
+    # # words = ['брассист', 'растр']
+    # lcs_searcher = LcsSearcher(gap=None)
+    # best_lcss = lcs_searcher.process_table(words)
     return
 
 
 if __name__ == "__main__":
     # test()
     args = sys.argv[1:]
+    if len(args) == 0:
+        test()
     if len(args) != 7:
         sys.exit("Pass input file, language code, paradigm_extraction_method, "
                  "maximal gap in lcs, maximal initial gap, "
@@ -788,34 +826,14 @@ if __name__ == "__main__":
     if initial_gap < 0:
         initial_gap = None
     tables = read_input(infile, language, method=method)
-
-    filtered_tables = []
-
+    paradigms_with_vars = []
     lcs_searcher = LcsSearcher(gap=gap, initial_gap=initial_gap)
     for num, (lemma, table) in enumerate(tables):
         if num % 100 == 0:
             print(num, lemma)
-        correct_indices, correct_table = _make_correct_table(table)
-        best_lcss = lcs_searcher.process_table(correct_table)
-        for lcs, lcs_indexes in best_lcss:
-            gap_positions = reduce((lambda x, y: (x | y)),
-                                   map(set, map(find_gap_positions, lcs_indexes)), set())
-            # gap_positions = [2]
-            gap_positions = sorted(gap_positions)
-            # var_beginnings = [0, 3, 4]
-            if lcs != "":
-                var_beginnings = [0] + [i for i in gap_positions] + [len(lcs)]
-            else:
-                var_beginnings = [0]
-            # lcs_vars = ['пес', 'к']
-            lcs_vars = [lcs[i:j] for i, j in zip(var_beginnings[:-1], var_beginnings[1:])]
-            # paradigm_repr = ['1+о+2', '1+2+ом', '1+2+ов']
-            paradigm_repr = compute_paradigm(correct_table, lcs_indexes, var_beginnings)
-            # вспоминаем, что парадигма могла быть дефектной
-            final_paradigm_repr = ['-' for form in table]
-            for i, form in zip(correct_indices, paradigm_repr):
-                final_paradigm_repr[i] = form
-            filtered_tables.append([lemma, table, final_paradigm_repr, lcs_vars])
-
-    tables_by_paradigm = extract_tables(filtered_tables)
+        paradigms_with_vars.append(lcs_searcher.calculate_paradigm(lemma, table))
+    tables_by_paradigm = extract_tables(list(chain.from_iterable(
+        [(lemma, table, paradigm_repr, lcs_vars)
+         for paradigm_repr, lcs_vars in elem]
+        for (lemma, table), elem in zip(tables, paradigms_with_vars))))
     output_paradigms(tables_by_paradigm, outfile, stats_outfile)

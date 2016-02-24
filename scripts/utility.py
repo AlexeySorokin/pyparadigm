@@ -169,6 +169,7 @@ def generate_monotone_sequences(first, length, upper, min_differences=None,
         max_differences[0] = first
     return extract_ordered_sequences(lists, min_differences, max_differences)
 
+
 def find_optimal_cover_elements(lists):
     """
     Аргументы:
@@ -177,9 +178,9 @@ def find_optimal_cover_elements(lists):
         список списков
 
     Возвращает:
-    ------------
+  ------------
     optimal_covers: list of sets
-        список множеств S минимального размера,
+      список множеств S минимального размера,
         таких что в каждом элементе lists хотя бы один элемент l \subseteq S
     """
     optimal_covers, optimal_cover_size = {tuple()}, 0
@@ -202,6 +203,28 @@ def find_optimal_cover_elements(lists):
             optimal_cover_size = new_optimal_cover_size
     return optimal_covers, optimal_cover_size
 
+
+def make_tail_maximal_indexes(lst):
+    """
+    Аргументы:
+    -----------
+    lst: list, список объектов, поддерживающих операцию сравнения
+
+    Возвращает:
+    -----------
+    tail_maximal_indexes: list of ints,
+        tail_maximal_indexes[j] = argmax(lst[j:])
+    """
+    length = len(lst)
+    if length == 0:
+        return []
+    answer, curr_max, curr_argmax = [None] * length, lst[-1], length - 1
+    answer[-1] = length - 1
+    for i, v in enumerate(lst[::-1][1:], 2):
+        if v > curr_max:
+            curr_max, curr_argmax = v, length - i
+        answer[length - i] = curr_argmax
+    return answer[::-1]
 
 if __name__ == "__main__":
     l1 = [1, 4, 8]

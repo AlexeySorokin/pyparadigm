@@ -136,7 +136,7 @@ def symmetric_f_measure(a):
     TN, FN, FP, TP = tuple(a)
     return 1.0 - 0.5 * (FN + FP) / (max([TN, TP]) + 0.5 * (FN + FP))
 
-def bns(a):
+def bns(a, alpha = 0.1):
     '''
     takes tuple (TN, FN, FP, TP) or array
     ( TN FN
@@ -144,6 +144,7 @@ def bns(a):
     '''
     a = np.asarray(a, dtype = 'float64').reshape(4)
     assert np.all(a >= 0)
+    a += alpha
     TN, FN, FP, TP = tuple(a)
     pos, neg = TP + FN, TN + FP
     tpr, fpr = TP / pos, FP / neg

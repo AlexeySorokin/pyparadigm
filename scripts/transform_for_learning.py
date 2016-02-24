@@ -12,8 +12,8 @@ import getopt
 
 '''
 Использование:
-transform_for_learning.py paradigms word_paradigms lemmas_outfile paradigm_codes_outfile
-Файл paradigms --- выдача pyparadigm,
+transform_for_learning.py paradigm_stats paradigms word_paradigms lemmas_outfile paradigm_codes_outfile
+Файлы paradigms paradigm_stats --- выдача pyparadigm,
 Word_paradigms --- исходный файл с парадигмами по словам, используется только для задания порядка слов
 '''
 
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     code = 0
     if mode == 'lemmas':
         # файл со статистиками используется только в случае обработки лемм
-        with open(stats_file) as fin:
+        with open(stats_file, 'r', encoding="utf8") as fin:
             while True:
                 line = fin.readline()
                 if line == "":
