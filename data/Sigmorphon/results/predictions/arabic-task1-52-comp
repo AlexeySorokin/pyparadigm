@@ -1,0 +1,1809 @@
+ḥamā	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	taḥmi	taḥmi
+ittakaʾa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tattakiʾ	tuittakiʾ
+jahara	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tajhar	tujahir
+ḵālafa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tuḵālif	tuḵālif
+ḵatana	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	taḵtin	taḵtan
+malaʾa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tamlaʾ	tumaliʾ
+qāla	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	taqul	qtaāl
+qarrara	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tuqarrir	tuqarrir
+saʿala	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tasʿul	tusaʿil
+tabāʾasa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tatabāʾas	tutabāʾis
+taṭawwala	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tataṭawwal	tutaṭawwil
+tawallā	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tatawalla	tatawlli
+
+ʾadḵala	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yudḵal	yuʾadḵal
+ʾawdaʿa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yūdaʿ	yuʾawdʿ
+baṣaqa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yubṣaq	yubaṣaq
+basaṭa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yubsaṭ	yubasaṭ
+ḥadaṯa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuḥdaṯ	yuḥadaṯ
+ḥawā	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuḥwa	yuḥwa
+imtalaka	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yumtalak	yumtalak
+iqtabala	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuqtabal	yuiqtabal
+ṣawwaba	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuṣawwab	yuṣawwab
+ṭāʿa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuṭaʿ	yuṭāʿ
+ṭabaʿa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuṭbaʿ	yuṭbaʿ
+
+ʾaḥḍara	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ʾaḥḍarnā	ʾaḥḍarnā
+istafhama	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	istafhamnā	istafhamnā
+istakšafa	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	istakšafnā	istakšafnā
+qāyasa	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	qāyasnā	qāyasnā
+
+ḥafala	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ḥufiltumā	ḥufiltumā
+šayyaṭa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	šuyyiṭtumā	šuyyiṭtumā
+
+ʾašraka	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tušrakā	tuʾašrakā
+ʾāṯara	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tuʾṯarā	tuʾāṯarā
+istafāda	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tustafādā	tustafādā
+
+ʾafnā	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tufniyā	tuʾafniyā
+ʾasāʾa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tusīʾā	tuʾisāʾā
+ḏākara	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tuḏākirā	tuḏākirā
+manna	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tamunnā	tuminnā
+sawwā	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tusawwiyā	tasawwayā
+
+ʾaḵāfa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tuḵāfā	tuʾḵāfā
+ʾawqafa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tūqafā	tuʾwqafā
+ʾawwala	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tuʾawwalā	tuʾawwalā
+daḥraja	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tudaḥrajā	tudaḥrajā
+nafaʿa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tunfaʿā	tunafaʿā
+rajjaʿa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	turajjaʿā	turajjaʿā
+
+ʾanbaʾa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nunbiʾu	nuʾanbiʾu
+ʾaqarra	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nuqirru	nuqirru
+ḥafara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	naḥfiru	naḥfuru
+istaʿbada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nastaʿbidu	nastaʿbidu
+lāqā	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nulāqī	lnāqū
+salaḵa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	naslaḵu	naslaḵu
+ṭabbala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nuṭabbilu	naṭbbulu
+taḥammala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nataḥammalu	nataḥmmulu
+taqayyaʾa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nataqayyaʾu	nutaqayyiʾu
+
+hannaʾa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tuhanniʾūna	tahnniʾūna
+iḏḏakara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	taḏḏakirūna	tuiḏḏakirūna
+
+ʾamsaka	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ʾamsakna	ʾamsakna
+ʾaqbala	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ʾaqbalna	ʾaqbalna
+imtadda	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	imtadadna	imtdadna
+inqaraḍa	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	inqaraḍna	inqaraḍna
+istaslama	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	istaslamna	istaslamna
+ṣāna	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ṣunna	ṣānna
+tawaffā	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	tawaffayna	tawaffayna
+wahaba	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	wahabna	wahabna
+
+ʾakkada	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ʾakkadā	ʾakkadā
+ʾaktaba	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ʾaktabā	ʾaktabā
+ʾatʿaba	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ʾatʿabā	ʾatʿabā
+badaʾa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	badaʾā	badaʾā
+inḥarafa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	inḥarafā	inḥarafā
+naffaqa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	naffaqā	naffaqā
+sallaṭa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	sallaṭā	sallaṭā
+tawakkaʾa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	tawakkaʾā	tawakkaʾā
+
+ʾaqāma	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ʾaqāmū	ʾaqāmū
+ʿazala	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ʿazalū	ʿazalū
+ḡalā	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ḡalaw	ḡalaw
+istaḍāʾa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	istaḍāʾū	istaḍāʾū
+istakraha	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	istakrahū	istakrahū
+kāfaʾa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	kāfaʾū	kāfaʾū
+kasaba	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	kasabū	kasabū
+qarrara	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	qarrarū	qarrarū
+sajjala	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	sajjalū	sajjalū
+tafāraqa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	tafāraqū	tafāraqū
+
+ʾafāda	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=SG	ʾufīda	ʾuʾifāda
+ʾašḵaṣa	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=SG	ʾušḵiṣa	ʾaʾušḵaṣa
+ḥafara	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=SG	ʾaḥfira	ḥufira
+iḥtasaba	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=SG	ʾaḥtasiba	ʾuiḥtasiba
+maṯala	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=SG	ʾamṯula	ʾumaṯila
+nāfasa	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=SG	ʾunāfisa	ʾunāfisa
+sawwala	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=SG	ʾusawwila	ʾusawwila
+taḍaḵḵama	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=SG	ʾataḍaḵḵama	ʾutaḍaḵḵima
+taḥādaṯa	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=SG	ʾataḥādaṯa	ʾutiḥādaṯa
+
+ʾaʿadda	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=PL	nuʿadda	nuʿadda
+ʾanṣata	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=PL	nunṣata	nuʾanṣata
+dabbaba	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=PL	nudabbaba	nudabbaba
+ḥašada	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=PL	nuḥšada	nuḥašada
+istarzaqa	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=PL	nustarzaqa	nustarzaqa
+izdarada	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=PL	nuzdarada	nuizdarada
+maḥā	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=PL	numḥā	numḥā
+ṭaraḥa	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=PL	nuṭraḥa	nuṭaraḥa
+
+ʿabbada	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=PL	tuʿabbidna	tuʿabbidna
+ḍājaʿa	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=PL	tuḍājiʿna	taḍājʿna
+iftaʿala	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=PL	taftaʿilna	tuiftaʿilna
+irtafaʿa	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=PL	tartafiʿna	tairtafʿna
+iʿtanā	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=PL	taʿtanīna	tuiʿtanīna
+jaḏḏara	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=PL	tujaḏḏirna	tujaḏḏirna
+jahhaza	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=PL	tujahhizna	tujahhizna
+tābaʿa	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=PL	tutābiʿna	tatābʿna
+tasānada	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=PL	tatasānadna	tutasānidna
+
+jahada	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=SG	tujhada	tujahada
+laʿiqa	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=SG	tulʿaqa	tulaʿiqa
+ṣammata	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=SG	tuṣammata	tuṣammata
+
+bārā	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=PL	yubārū	yubārū
+ibtasama	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=PL	yabtasimū	yabtasimū
+intafaḵa	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=PL	yantafiḵū	yuintafiḵū
+istaqarra	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=PL	yastaqirrū	yastaqirrū
+raʾasa	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=PL	yarʾasū	yuriʾasū
+rajjaʿa	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=PL	yurajjiʿū	yurajjiʿū
+wātara	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=PL	yuwātirū	yuwātirū
+
+ʾaʿjaba	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nuʿjib	nuʾaʿjib
+ʾarsala	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nursil	nursil
+ʾašraka	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nušrik	nuʾašrik
+ḡannā	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nuḡanni	naḡnni
+ḡaṭṭā	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nuḡaṭṭi	naḡṭṭi
+iḏḏakara	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	naḏḏakir	nuiḏḏakir
+islanṭaḥa	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	naslanṭiḥ	nuislinṭaḥ
+iṣṭabaḥa	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	naṣṭabiḥ	nuiṣṭibaḥ
+istaḏnaba	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nastaḏnib	nastaḏnib
+istafāda	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nastafid	nastifād
+qaṣada	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	naqṣid	nuqaṣid
+wāfā	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nuwāfi	nuwāfi
+
+ʾabā	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tuʾbaw	tuʾabaw
+ʾaqbala	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tuqbalū	tuʾaqbalū
+iḏḏakara	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tuḏḏakarū	tuiḏḏakarū
+istawqafa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tustawqafū	tustawqafū
+nadā	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tundaw	tunadaw
+ṣaʿʿaba	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tuṣaʿʿabū	tuṣaʿʿabū
+šakā	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tuškaw	tušakaw
+
+ʾajāra	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nujīru	nujīru
+ʾaḵfā	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nuḵfī	naʾḵfū
+daḥraja	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nudaḥriju	nadaḥruju
+imtaḥana	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	namtaḥinu	nuimtaḥinu
+istakbara	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nastakbiru	nastakbiru
+mawwata	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	numawwitu	numawwitu
+sāraqa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nusāriqu	nusāriqu
+tabāʾasa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	natabāʾasu	nutabāʾisu
+
+ʿabbada	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tuʿabbidīna	tuʿabbidīna
+ʾaḥmada	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tuḥmidīna	tuḥmidīna
+ʾaqfala	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tuqfilīna	tuʾaqfilīna
+istafāda	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tastafīdīna	tastifādīna
+istanāra	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tastanīrīna	tastinārīna
+qaʿada	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	taqʿudīna	tuqaʿidīna
+qariba	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	taqrabīna	tuqiribīna
+šāraka	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tušārikīna	tušārikīna
+taḥammala	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tataḥammalīna	tutaḥammilīna
+
+ʾajhada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yujhidu	yujhidu
+hājama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yuhājimu	yuhājimu
+ḥāṭa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yaḥūṭu	yaḥūṭu
+intaḥala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yantaḥilu	yantaḥilu
+raḍiya	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yarḍā	yuriḍiyu
+ṣaḥiba	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yaṣḥabu	yuṣiḥibu
+saqaṭa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yasquṭu	yusaqiṭu
+
+ʾaḏāʿa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ʾaḏaʿnā	ʾaḏaʿnā
+ʿarraba	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ʿarrabnā	ʿarrabnā
+ḥāwaṭa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ḥāwaṭnā	ḥāwaṭnā
+iḵtabara	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	iḵtabarnā	iḵtabarnā
+istaqṭara	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	istaqṭarnā	istaqṭarnā
+ittaḵaḏa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ittaḵaḏnā	ittaḵaḏnā
+karrama	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	karramnā	karramnā
+nasala	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	nasalnā	nasalnā
+
+ʾablaḡa	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=SG	ʾublaḡa	ʾublaḡa
+ʾanāra	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=SG	ʾunāra	ʾunāra
+maṯala	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=SG	ʾumṯala	ʾumaṯala
+nammā	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=SG	ʾunammā	ʾunmmā
+naṣara	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=SG	ʾunṣara	ʾunaṣara
+qaʿʿara	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=SG	ʾuqaʿʿara	ʾuqaʿʿara
+saḵḵara	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=SG	ʾusaḵḵara	ʾusaḵḵara
+tajannaba	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=SG	ʾutajannaba	ʾutajnnaba
+zāra	pos=V,mood=SBJV,gen=FEM,per=1,voice=PASS,num=SG	ʾuzāra	ʾuzāra
+
+daḥā	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=SG	tudḥay	tudḥay
+wāfā	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=SG	tuwāfay	tuwāfay
+
+ʿazara	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=SG	iʿzir	ʿazir
+iḥtašada	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=SG	iḥtašid	iḥtašid
+iḥtāṭa	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=SG	iḥtaṭ	iḥtiṭ
+laʿiqa	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=SG	ilʿaq	ilʿaq
+našaʾa	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=SG	inšaʾ	našiʾ
+
+ʾaḵmara	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tuḵmirū	tuḵmirū
+baḥaṯa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tabḥaṯū	tubiḥaṯū
+ijtamaʿa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tajtamiʿū	tajtamiʿū
+iḵranmasa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	taḵranmisū	tuiḵranmisū
+istaḥamma	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tastaḥimmū	tastaḥimmū
+istalhama	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tastalhimū	tastalhimū
+iʿtazama	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	taʿtazimū	taʿtazimū
+nasala	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tansulū	tunasilū
+qarrara	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tuqarrirū	tuqarrirū
+saḵḵara	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tusaḵḵirū	tusaḵḵirū
+tāha	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tatūhū	tatīhū
+
+ʾaqbara	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuqbaru	nuʾaqbaru
+iqtaṭṭa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuqtaṭṭu	nuiqtaṭṭu
+nāwā	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nunāwā	nunāwā
+qallada	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuqalladu	nuqalladu
+tabādala	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nutabādalu	nutabādalu
+
+ʾadbara	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tudbarāni	tuʾadbarāni
+ʾaṭāla	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tuṭālāni	tuʾaṭālāni
+ʾaṭʿama	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tuṭʿamāni	tuʾaṭʿamāni
+badaʾa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tubdaʾāni	tubadaʾāni
+ḥasada	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tuḥsadāni	tuḥasadāni
+iṣṭabaḥa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tuṣṭabaḥāni	tuiṣṭabaḥāni
+istaʾjara	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tustaʾjarāni	tustaʾjarāni
+istawrada	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tustawradāni	tustawradāni
+ṣannafa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tuṣannafāni	tuṣannafāni
+
+kaḏaba	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	takḏibu	tukaḏibu
+ḵaraqa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	taḵruqu	taḵriqu
+maḍaḡa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	tamḍuḡu	tumaḍiḡu
+naqaṣa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	tanquṣu	tuniqaṣu
+ṣāḥa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	taṣīḥu	taṣūḥu
+
+ʾaḥfaẓa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	tuḥfaẓu	tuʾaḥfẓu
+ʾašraka	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	tušraku	tuʾšraku
+istakšafa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	tustakšafu	tuistakšfu
+ittaḵaḏa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	tuttaḵaḏu	tuittaḵaḏu
+jazā	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	tujzā	tujazā
+zaʿama	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	tuzʿamu	tuzʿamu
+
+ʿāda	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾaʿūdu	ʾaʿādu
+ʾajhada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾujhidu	ʾuʾajhidu
+ʾaḵbara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾuḵbiru	ʾuḵbiru
+ʾaṣḡara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾuṣḡiru	ʾuṣḡiru
+ẓalama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾaẓlimu	ẓulimu
+
+ḥallala	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ḥullilat	ḥullilat
+istaẓhara	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ustuẓhirat	ustuẓhirat
+ḵāfa	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ḵīfat	ḵīfat
+rāqaba	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	rūqibat	rīqabat
+sawwā	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	suwwiyat	suwwiyat
+tawaqqā	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	tuwuqqiyat	tuwaqqiyat
+
+ibtadaʾa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ibtadaʾtumā	ibtadaʾtumā
+iḥtāja	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	iḥtajtumā	iḥtājtumā
+ittakaʾa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ittakaʾtumā	ittakaʾtumā
+izdāda	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	izdadtumā	izdādtumā
+tabādala	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	tabādaltumā	tabādaltumā
+ṭalaba	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ṭalabtumā	ṭalabtumā
+
+ʾakrama	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=DU	tukrimā	tukrimā
+infaṣala	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=DU	tanfaṣilā	tanfaṣilā
+istašhada	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=DU	tastašhidā	tastašhidā
+istaṯnā	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=DU	tastaṯniyā	tastaṯniyā
+jazā	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=DU	tajziyā	tajzuwā
+nawā	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=DU	tanwiyā	tanwuwā
+ṭaʿana	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=DU	taṭʿanā	tuṭaʿinā
+ṭayyaba	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=DU	tuṭayyibā	tuṭayyibā
+wahaba	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=DU	tahabā	tuwahibā
+
+ʾakala	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾākula	ʾuʾakila
+ʾanāma	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾunīma	ʾunīma
+ʾasqaṭa	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾusqiṭa	ʾaʾsquṭa
+ʾatā	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾātiya	ʾuʾatiya
+banā	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾabniya	ʾubaniya
+dammama	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾudammima	ʾudammima
+istaqbaḥa	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾastaqbiḥa	istuqbiḥa
+ḵaraja	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾaḵruja	ʾuḵarija
+qāwama	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾuqāwima	ʾuqāwima
+saʿala	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾasʿula	ʾusiʿala
+tanabbaʾa	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾatanabbaʾa	ʾutanibbaʾa
+taṣallā	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=SG	ʾataṣallā	ʾutaṣalliya
+
+ʾanbaʾa	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=DU	ʾanbiʾā	ʾanbiʾā
+ʾaršada	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=DU	ʾaršidā	ʾaršidā
+banā	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=DU	ibniyā	ubnuwā
+istahzaʾa	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=DU	istahziʾā	istahziʾā
+jabara	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=DU	ujburā	jabirā
+
+ʿafā	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yuʿfayā	yuʿfayā
+ʾaḵraja	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yuḵrajā	yuʾḵrajā
+ʿāqaba	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yuʿāqabā	yuʿāqbā
+farada	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yufradā	yufaradā
+istabdala	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yustabdalā	yustabdalā
+istaʿmala	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yustaʿmalā	yustaʿmalā
+qāla	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yuqālā	yuqālā
+qaraʾa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yuqraʾā	yuqaraʾā
+saḵḵara	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yusaḵḵarā	yusaḵḵarā
+ṣannafa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yuṣannafā	yuṣannafā
+
+ʾamṭara	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾumṭirtu	ʾumṭirtu
+basaṭa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	busiṭtu	busiṭtu
+iʿtāda	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	uʿtidtu	iʿtadnā
+tawaqqā	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	tuwuqqītu	tuwaqqītu
+
+ʾanjaza	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=SG	tunjizī	tuʾanjizī
+iddaʿā	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=SG	taddaʿī	tuiddaʿī
+inʿaqada	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=SG	tanʿaqidī	tuinʿiqadī
+iqtaṣada	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=SG	taqtaṣidī	tuiqtaṣidī
+istalama	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=SG	tastalimī	tastalimī
+ṯabata	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=SG	taṯbutī	tuṯibatī
+taḍawwaʾa	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=SG	tataḍawwaʾī	tutaḍawwiʾī
+
+daḥraja	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=PL	tudaḥrijū	tudaḥrijū
+iḡtaṣaba	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=PL	taḡtaṣibū	taiḡtaṣabū
+imtalaka	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=PL	tamtalikū	tuimtalikū
+intafaḍa	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=PL	tantafiḍū	tantafiḍū
+islanṭaʿa	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=PL	taslanṭiʿū	tuislinṭaʿū
+istakšafa	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=PL	tastakšifū	tuistakšifū
+
+ʾaḥmada	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=DU	yuḥmidā	yuʾaḥmidā
+ʾalḥaqa	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=DU	yulḥiqā	yuʾalḥiqā
+iḵtaraqa	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=DU	yaḵtariqā	yuiḵtariqā
+istafāda	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=DU	yastafīdā	yaistafūdā
+istaqbala	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=DU	yastaqbilā	yastaqbilā
+taʿālā	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=DU	yataʿālayā	yataʿālayā
+
+ʾammana	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=DU	yuʾammanā	yuʾammanā
+ʾawlada	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=DU	yūladā	yuwladā
+ḥāwala	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=DU	yuḥāwalā	yuḥāwalā
+istaḥaqqa	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=DU	yustaḥaqqā	yustaḥaqqā
+saʾala	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=DU	yusʾalā	yusaʾalā
+sakkana	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=DU	yusakkanā	yusakkanā
+waqqata	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=DU	yuwaqqatā	yuwaqqatā
+
+ʾaqraḍa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yuqriḍna	yuʾaqriḍna
+ḏarā	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yaḏrūna	yuḏarīna
+habara	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yahburna	yuhabirna
+hajama	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yahjumna	yuhajimna
+ḥarrara	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yuḥarrirna	yuḥarrirna
+ḥaṣala	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yaḥṣulna	yaḥaṣalna
+ibtasama	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yabtasimna	yuibtasimna
+iqtaṣada	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yaqtaṣidna	yuiqtaṣidna
+istaʿraḍa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yastaʿriḍna	yuistaʿriḍna
+mawwata	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yumawwitna	yamwwutna
+
+ʾašhada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yušhidūna	yušhidūna
+ḥajja	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yaḥujjūna	yuḥijjūna
+inṯanā	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yanṯanūna	yainṯnūna
+istanfara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yastanfirūna	yastanfirūna
+jāʿa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yajūʿūna	yajāʿūna
+najā	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yanjūna	yanjūna
+qaʿada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yaqʿudūna	yaqʿudūna
+saʾala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yasʾalūna	yasʾulūna
+ẓāhara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yuẓāhirūna	yuẓāhirūna
+
+ʾaḥsana	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tuḥsanna	tuʾḥsanna
+istajanna	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tustajnanna	tustajannna
+nāwala	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tunāwalna	tunāwalna
+
+ʾaqāma	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuqam	ʾuʾaqām
+ʿazara	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuʿzar	ʾuʿazar
+ḏāqa	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuḏaq	ʾuḏāq
+naṣara	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾunṣar	ʾunaṣar
+
+ʾakala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuʾkalu	yuʾakalu
+ʾalḥaqa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yulḥaqu	yuʾalḥaqu
+ʾawraṯa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yūraṯu	yuʾawraṯu
+dalla	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yudallu	yudallu
+haddada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuhaddadu	yuhaddadu
+iḍraḡaṭṭa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuḍraḡaṭṭu	yuiḍraḡaṭṭu
+ḵaraja	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuḵraju	yuḵaraju
+laʿana	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yulʿanu	yulaʿanu
+makara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yumkaru	yumakaru
+maṯala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yumṯalu	yumaṯalu
+qattala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yuqattalu	yuqattalu
+sānada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yusānadu	yusānadu
+tabādala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yutabādalu	yutabādalu
+tawakkada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	yutawakkadu	yutawakkadu
+
+ʾaḥfaẓa	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ʾaḥfaẓtu	ʾaḥfaẓtu
+iḥtāṭa	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	iḥtaṭtu	iḥtaṭtu
+iqtaraḍa	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	iqtaraḍtu	iqtaraḍtu
+našaʾa	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	našaʾtu	našaʾtu
+nazala	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	nazaltu	nazaltu
+ṣāḥa	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ṣiḥtu	ṣāḥtu
+tabaddala	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	tabaddaltu	tabaddaltu
+tawakkada	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	tawakkadtu	tawakkadtu
+
+ʾanḥala	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʾunḥilū	ʾunḥilū
+ʾasḵaṭa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʾusḵiṭū	ʾusḵiṭū
+ḥaddaṯa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ḥuddiṯū	ḥuddiṯū
+intaẓama	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	untuẓimū	intuẓimū
+ṭahhara	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ṭuhhirū	ṭuhhirū
+
+ʾaškala	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=SG	ʾaškilī	ʾaškilī
+dabbaba	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=SG	dabbibī	dabbibī
+ḏarā	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=SG	uḏrī	ḏarī
+ḥallala	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=SG	ḥallilī	ḥallilī
+istaṣbaḥa	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=SG	istaṣbiḥī	istaṣbiḥī
+izdāda	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=SG	izdādī	izdādī
+ṭawwaʿa	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=SG	ṭawwiʿī	ṭawwiʿī
+
+ḥaffala	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tuḥaffilā	tuḥaffilā
+haraba	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tahrubā	tuharibā
+istarāḥa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tastarīḥā	taistarūḥā
+sabbaba	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tusabbibā	tusabbibā
+sajjala	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tusajjilā	tusajjilā
+ṣawwaba	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tuṣawwibā	tuṣawwibā
+ṭallaqa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tuṭalliqā	taṭlliqā
+wakkada	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tuwakkidā	tuwakkidā
+
+ʾaḏkara	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tuḏkirna	tuʾaḏkirna
+ʾaṣāba	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tuṣibna	tuʾiṣābna
+ḥakā	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	taḥkūna	tuḥakīna
+intafaḵa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tantafiḵna	tantifaḵna
+irtajala	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tartajilna	tuirtajilna
+istafhama	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tastafhimna	tastafhimna
+istaqraʾa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tastaqriʾna	tastaqriʾna
+istaʿrafa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tastaʿrifna	tastaʿrifna
+qāla	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	taqulna	qtaālna
+
+ʾaʿāda	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuʿādīna	tuʾaʿādīna
+ʾanbaʾa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tunbaʾīna	tunbaʾīna
+istaʾmana	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tustaʾmanīna	tustaʾmanīna
+iʿtarafa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuʿtarafīna	tuʿtarafīna
+maṣṣa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tumaṣṣīna	tumaṣṣīna
+šāraka	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tušārakīna	tušārakīna
+
+ʿabbada	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tuʿabbidāni	tuʿabbidāni
+ʾadḵala	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tudḵilāni	ʾatadḵalāni
+ʾammara	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tuʾammirāni	tummirāni
+ḥāṭa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	taḥūṭāni	ḥātaṭāni
+ḥawā	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	taḥwiyāni	tuḥawiyāni
+istaṣbaḥa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tastaṣbiḥāni	tastaṣbiḥāni
+iṭmaʾanna	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	taṭmaʾinnāni	tuiṭmiʾannāni
+kašafa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	takšifāni	kašatafāni
+rāḥa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tarūḥāni	tarīḥāni
+yaʾisa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	tayʾasāni	tuyiʾisāni
+
+ʾaḥsana	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tuḥsinu	tuʾiḥsanu
+ʿašiqa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	taʿšaqu	tuʿišiqu
+dāma	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tadūmu	dtaāmu
+ibtaʿada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tabtaʿidu	tuibtaʿidu
+iḍraḡaṭṭa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	taḍraḡiṭṭu	tuiḍraḡiṭṭu
+inkataba	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tankatibu	tuinkatibu
+istaʾmana	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tastaʾminu	tastaʾminu
+izdahara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tazdahiru	tuizdahiru
+kālama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tukālimu	tuklimu
+rāḥa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tarūḥu	rtaāḥu
+tāba	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tatūbu	ttaābu
+ṭāra	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	taṭīru	ṭtaāru
+wakkada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tuwakkidu	tuwakkidu
+
+ʾajāba	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ʾujībā	ʾujābā
+ʾarsala	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ʾursilā	ʾursilā
+ʾassasa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ʾussisā	ʾussisā
+ʾawdaʿa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ʾūdiʿā	ʾuwdiʿā
+iltamasa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ultumisā	iltumisā
+istaḥfaẓa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ustuḥfiẓā	istuḥfiẓā
+karrama	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	kurrimā	kurrimā
+šaʿala	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	šuʿilā	šuʿilā
+sajana	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	sujinā	sujinā
+ẓalama	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ẓulimā	ẓulimā
+
+ʾaʿāra	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=PL	nuʿīra	nuʾiʿāra
+hājara	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=PL	nuhājira	nuhājira
+iltafata	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=PL	naltafita	nuiltafita
+istaʿraba	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=PL	nastaʿriba	nastaʿriba
+iʿtanā	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=PL	naʿtaniya	naiʿtanā
+kabasa	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=PL	nakbisa	nukabisa
+nāwala	pos=V,mood=SBJV,gen=FEM,per=1,voice=ACT,num=PL	nunāwila	nunāwila
+
+ʾafnā	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=DU	tufnayā	tufnayā
+ʾaṣḡara	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=DU	tuṣḡarā	tuʾṣḡarā
+ʾawjaba	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=DU	tūjabā	tuʾawjabā
+tajannaba	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=DU	tutajannabā	tutajannabā
+
+badā	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=SG	tabduwa	tubadiya
+iḵtaraqa	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=SG	taḵtariqa	tuiḵtariqa
+ištaḡala	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=SG	taštaḡila	taštaḡila
+istanfara	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=SG	tastanfira	tastanfira
+nāqaša	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=SG	tunāqiša	tunāqiša
+razzaza	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=SG	turazziza	turizzaza
+ṭaraḥa	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=SG	taṭraḥa	tuṭiraḥa
+
+ʾaṣfara	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=PL	yuṣfarū	yuʾaṣfarū
+ʿašiqa	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=PL	yuʿšaqū	yuʿašiqū
+farada	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=PL	yufradū	yufaradū
+ḡannā	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=PL	yuḡannaw	yuḡnnaw
+
+ʾaḥmala	pos=V,voice=PASS	muḥmal	muʾaḥmal
+ʾallaha	pos=V,voice=PASS	muʾallah	muʾallah
+ʾanjaza	pos=V,voice=PASS	munjaz	muʾanjaz
+ʾasʾama	pos=V,voice=PASS	musʾam	muʾasʾam
+ʾawqafa	pos=V,voice=PASS	mūqaf	muʾawqaf
+iḍmaḥalla	pos=V,voice=PASS	muḍmaḥall	muiḍmaḥall
+imtaḥana	pos=V,voice=PASS	mumtaḥan	muimtaḥan
+inqaraḍa	pos=V,voice=PASS	munqaraḍ	munqaraḍ
+intawā	pos=V,voice=PASS	muntawan	muintawan
+istaḵdama	pos=V,voice=PASS	mustaḵdam	mustaḵdam
+istanada	pos=V,voice=PASS	mustanad	mustanad
+nāfasa	pos=V,voice=PASS	munāfas	munāfas
+qātala	pos=V,voice=PASS	muqātal	muqātal
+razzaza	pos=V,voice=PASS	murazzaz	murazzaz
+
+ʿaqliyyun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=PL	al-ʿaqliyyātu	al-ʿaqliyyātu
+lībiyyun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=PL	al-lībiyyātu	al-lībiyyātu
+nayyirun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=PL	an-nayyirātu	al-nayyirātu
+sābiʿun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=PL	as-sābiʿātu	al-sābiʿātu
+sūriyyun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=PL	as-sūriyyātu	al-sūriyyātu
+
+ʿamīqun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=SG	al-ʿamīqu	al-ʿamīqu
+mustaqillun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=SG	al-mustaqillu	al-mustaqillu
+samakiyyun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=SG	as-samakiyyu	al-samakiyyu
+šujāʿun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=SG	aš-šujāʿu	al-šujāʿu
+
+ʾiblīsiyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=PL	ʾiblīsiyyāt	ʾiblīsiyyāt
+mašrūʿun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=PL	mašrūʿāt	mašrūʿāt
+mumtaliʾun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=PL	mumtaliʾāt	mumtaliʾāt
+nāqiṣun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=PL	nāqiṣāt	nāqiṣāt
+qaḍībiyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=PL	qaḍībiyyāt	qaḍībiyyāt
+qādirun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=PL	qādirāt	qādirāt
+suryāniyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=PL	suryāniyyāt	suryāniyyāt
+
+ḥayyā	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yuḥayyiyā	yaḥyyuwā
+inṣarafa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yanṣarifā	yainṣrifā
+istaṣdara	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yastaṣdirā	yastaṣdirā
+lamasa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yalmisā	yulamisā
+
+ʾaḵfā	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tuḵfiyāni	tuʾaḵfiyāni
+ʾarraḵa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tuʾarriḵāni	tuʾarriḵāni
+ḡarra	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	taḡurrāni	tuḡirrāni
+ḥannaʾa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tuḥanniʾāni	taḥannʾāni
+iʿtamala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	taʿtamilāni	tuiʿtamilāni
+karrama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tukarrimāni	tukarrimāni
+nāka	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tanīkāni	ntaākāni
+
+ʾabaqa	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=PL	yaʾbiqna	yubiqna
+ʾaʿlana	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=PL	yuʿlinna	yaʾaʿlnuna
+ʾawjaba	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=PL	yūjibna	yuʾawjibna
+ḡaṭṭā	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=PL	yuḡaṭṭīna	yuḡaṭṭīna
+iqtaḍaba	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=PL	yaqtaḍibna	yuiqtaḍibna
+iqtaraba	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=PL	yaqtaribna	yuiqtaribna
+istakṯara	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=PL	yastakṯirna	yastakṯirna
+kašafa	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=PL	yakšifna	yakašfna
+nafaʿa	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=PL	yanfaʿna	yunafiʿna
+zāda	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=PL	yazidna	yazudna
+
+ʿaqqama	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=DU	tuʿaqqamā	tuʿaqqamā
+ʾaṭʿama	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=DU	tuṭʿamā	tuṭʿamā
+bāsa	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=DU	tubāsā	tubāsā
+ḥallala	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=DU	tuḥallalā	tuḥallalā
+qāla	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=DU	tuqālā	tuqālā
+qāyasa	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=DU	tuqāyasā	tuqāyasā
+šaraḥa	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=DU	tušraḥā	tušaraḥā
+šayyaṭa	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=DU	tušayyaṭā	tušayyaṭā
+
+ʿajjaba	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=DU	tuʿajjabā	tuʿajjabā
+dandana	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=DU	tudandanā	tudandanā
+dāwara	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=DU	tudāwarā	tudāwarā
+hājama	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=DU	tuhājamā	tuhājamā
+intaḥala	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=DU	tuntaḥalā	tuintaḥalā
+kabbasa	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=DU	tukabbasā	tukabbasā
+namā	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=DU	tunmayā	tunamayā
+saḵḵara	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=DU	tusaḵḵarā	tusaḵḵarā
+
+basaṭa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	tabsuṭ	tubisaṭ
+ḥarraqa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	tuḥarriq	tuḥarriq
+nāfasa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	tunāfis	tunāfis
+salaḵa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	taslaḵ	tusaliḵ
+tazalzala	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	tatazalzal	tutazalzil
+
+ʾaḍāfa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuḍāfu	nuʾaḍāfu
+ʾaʿmara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuʿmaru	nuʾaʿmaru
+ʾarā	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nurā	nuʾrā
+ʾarraḵa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuʾarraḵu	nuʾarraḵu
+iʿtamara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuʿtamaru	nuiʿtamaru
+raʾasa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nurʾasu	nurʾasu
+ṣādara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuṣādaru	nuṣādaru
+tamtama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nutamtamu	nutmtamu
+ẓallala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuẓallalu	nuẓallalu
+
+ʾaṭāʿa	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	tuṭīʿā	tuʾiṭāʿā
+dammama	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	tudammimā	tadmmumā
+ibtaʿada	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	tabtaʿidā	tuibtaʿidā
+ibtasara	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	tabtasirā	tuibtasirā
+istanada	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	tastanidā	tastanidā
+istaṯnā	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	tastaṯniyā	tastaṯniyā
+šāʾa	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	tašāʾā	tašāʾā
+ṣaḡā	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	taṣḡuwā	taṣḡiyā
+taḍawwaʾa	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	tataḍawwaʾā	tutaḍawwiʾā
+ṭafaqa	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	taṭfiqā	taṭfiqā
+ṭāwala	pos=V,mood=SBJV,gen=MASC,per=2,voice=ACT,num=DU	tuṭāwilā	tuṭāwilā
+
+ʾamṭara	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=SG	yumṭara	yuʾamṭara
+fahima	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=SG	yufhama	yufahima
+farada	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=SG	yufrada	yufrada
+ibtāʿa	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=SG	yubtāʿa	yuibtāʿa
+istaʿjala	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=SG	yustaʿjala	yuistaʿjala
+istatāba	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=SG	yustatāba	yuistatāba
+lāqā	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=SG	yulāqā	yulāqā
+qaḏafa	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=SG	yuqḏafa	yuqaḏafa
+taḥādaṯa	pos=V,mood=SBJV,gen=MASC,per=3,voice=PASS,num=SG	yutaḥādaṯa	yutaḥādṯa
+
+ḥakīmun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=PL	al-ḥakīmāti	al-ḥakīmāti
+mušmisun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=PL	al-mušmisāti	al-mušmisāti
+naẓīfun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=PL	an-naẓīfāti	al-naẓīfāti
+raḥmānun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=PL	ar-raḥmānāti	al-raḥmānāti
+salīmun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=PL	as-salīmāti	al-salīmāti
+šamāliyyun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=PL	aš-šamāliyyāti	al-šamāliyyāti
+taʿibun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=PL	at-taʿibāti	al-taʿibāti
+taʿīsun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=PL	at-taʿīsāti	al-taʿīsāti
+yahūdiyyun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=PL	al-yahūdiyyāti	al-yahūdiyyāti
+
+ʿajūlun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=DU	al-ʿajūlatayni	al-ʿajūlatayni
+ḵafīfun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=DU	al-ḵafīfatayni	al-ḵafīfatayni
+mušmisun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=DU	al-mušmisatayni	as-mušmisatayni
+yahūdiyyun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=DU	al-yahūdiyyatayni	al-yahūdiyyatayni
+
+jadīdun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=DU	al-jadīdāni	al-jadīdāni
+jāhilun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=DU	al-jāhilāni	al-jāhilāni
+ḵafīfun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=DU	al-ḵafīfāni	al-ḵafīfāni
+lubnāniyyun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=DU	al-lubnāniyyāni	al-lubnāniyyāni
+maqṭūʿun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=DU	al-maqṭūʿāni	al-maqṭūʿāni
+masfūḥun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=DU	al-masfūḥāni	al-masfūḥāni
+ṣarīḥun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=DU	aṣ-ṣarīḥāni	al-ṣarīḥāni
+turkiyyun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=DU	at-turkiyyāni	al-turkiyyāni
+
+ʾabyaḍu	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=MASC,num=SG	ʾabyaḍ	ʾawabyaḍa
+ʿaẓīmun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=MASC,num=SG	ʿaẓīm	ʿaẓīm
+ṣalībun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=MASC,num=SG	ṣalīb	ṣalīb
+
+ḏakiyyun	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=PL	ḏakiyyūna	ḏakiyyūna
+mutawassiṭun	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=PL	mutawassiṭūna	mutawassiṭūna
+qārriyyun	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=PL	qārriyyūna	qārriyyūna
+
+ʾadāra	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	tudar	tuʾadār
+ʾakrama	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	tukram	tuʾakram
+ittabaʿa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=SG,aspect={IPFV/PFV}	tuttabaʿ	tuittabʿ
+
+ʾaḥḍara	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾuḥḍirti	ʾuḥḍirti
+iftaʿala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	uftuʿilti	iftuʿilti
+imtaṯala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	umtuṯilti	imtuṯilti
+iʿtaqada	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	uʿtuqidti	iʿtuqidti
+sammana	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	summinti	summinti
+ṭaʿana	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ṭuʿinti	ṭuʿinti
+tarjama	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	turjimti	turjimti
+
+ʾalḡā	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʾulḡītum	ʾulḡītum
+banā	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	bunītum	bunītum
+istaʾjara	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ustuʾjirtum	istuʾjirtum
+istaṣdara	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ustuṣdirtum	istuṣdirtum
+nassā	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	nussītum	nussītum
+šahara	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	šuhirtum	šuhirtum
+
+ʾabdala	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=SG	tubdila	tubdila
+ʾaslaka	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=SG	tuslika	taʾsluka
+ḥāwala	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=SG	tuḥāwila	ḥatāwala
+iḥtawā	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=SG	taḥtawiya	taḥtawiya
+iḵtamara	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=SG	taḵtamira	tuiḵtamira
+maḍā	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=SG	tamḍiya	tamḍiya
+naffara	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=SG	tunaffira	tunaffira
+taʾakkada	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=SG	tataʾakkada	tutaʾakkida
+waṭiʾa	pos=V,mood=SBJV,gen=FEM,per=3,voice=ACT,num=SG	taṭaʾa	tuwiṭiʾa
+
+bāsa	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=PL	yubasna	yubasna
+nawā	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=PL	yunwayna	yunwayna
+zayyata	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=PL	yuzayyatna	yuzayyatna
+
+ḥašara	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuḥšar	nuḥašar
+ibtasara	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nubtasar	nuibtasar
+qāsa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuqas	nuqas
+ṣafā	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuṣfa	ṣufā
+sajana	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nusjan	nusajan
+
+iḥtawā	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yaḥtawīna	yaiḥtwīna
+qaḍaba	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yaqḍibna	yuqaḍibna
+zayyada	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yuzayyidna	yuzayyidna
+
+ʾaqfala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ʾaqfalti	ʾaqfalti
+inqāda	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	inqadti	inqadti
+inqaraḍa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	inqaraḍti	inqaraḍti
+iṯṯanā	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	iṯṯanayti	iṯṯanayti
+ḵawwala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ḵawwalti	ḵawwalti
+rāḥa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ruḥti	rāḥti
+
+ʾaḥyā	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾuḥyīta	ʾuḥyīta
+ʾajāra	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾujirta	ʾujirta
+ʾalḥaqa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾulḥiqta	ʾulḥiqta
+istaẓhara	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ustuẓhirta	istuẓhirta
+naffaqa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	nuffiqta	nuffiqta
+naqaṣa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	nuqiṣta	nuqiṣta
+qatala	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	qutilta	qutilta
+
+ʾalifbāʾiyyun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=PL	al-ʾalifbāʾiyyāti	al-ʾalifbāʾiyyāti
+ʿašawāʾiyyun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=PL	al-ʿašawāʾiyyāti	al-ʿašawāʾiyyāti
+hayūliyyun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=PL	al-hayūliyyāti	al-hayūliyyāti
+
+sākitun	pos=ADJ,def=DEF,case=NOM,gen=MASC,num=PL	as-sukūtu	al-sākitūna
+
+dustūriyyun	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=DU	dustūriyyāni	dustūriyyāni
+ḡaniyyun	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=DU	ḡaniyyāni	ḡaniyyāni
+mafqūdun	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=DU	mafqūdāni	mafqūdāni
+nabīḏun	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=DU	nabīḏāni	nabīḏāni
+qurʾāniyyun	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=DU	qurʾāniyyāni	qurʾāniyyāni
+
+ʿajamiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=DU	al-ʿajamiyyayn	al-ʿajamiyyayn
+bāridun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=DU	al-bāridayn	al-bāridayn
+fariḥun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=DU	al-fariḥayn	al-fariḥayn
+ḡāliyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=DU	al-ḡāliyyayn	al-ḡāliyyayn
+ijtimāʿiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=DU	al-ijtimāʿiyyayn	al-ijtimāʿiyyayn
+manawiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=DU	al-manawiyyayn	al-manawiyyayn
+mašḡūlun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=DU	al-mašḡūlayn	al-mašḡūlayn
+naẓīfun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=DU	an-naẓīfayn	al-naẓīfayn
+samakiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=DU	as-samakiyyayn	al-samakiyyayn
+
+ʿabbāsun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=DU	ʿabbāsatayni	ʿabbāsatayni
+bāṭilun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=DU	bāṭilatayni	bāṭilatayni
+fāriʿun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=DU	fāriʿatayni	fāriʿatayni
+maksūrun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=DU	maksūratayni	maksūratayni
+ṯānawiyyun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=DU	ṯānawiyyatayni	ṯānawiyyatayni
+ʾurduniyyun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=DU	ʾurduniyyatayni	ʾurduniyyatayni
+wāfirun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=DU	wāfiratayni	wāfiratayni
+
+bādala	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tubādilna	tubādilna
+infaṣala	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tanfaṣilna	tanfaṣilna
+ištaraka	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	taštarikna	tuištarikna
+jāwara	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tujāwirna	tujāwirna
+taḥawwaṭa	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	tataḥawwaṭna	tutaḥawwiṭna
+waqā	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV}	taqīna	tawqūna
+
+ʾajmala	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tujmilī	tuʾajmilī
+ʾaqfala	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tuqfilī	tuʾaqfilī
+ʾaṣāba	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tuṣībī	tuʾiṣābī
+ḥašada	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	taḥšudī	tuḥašidī
+istalqā	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tastalqī	taistlqī
+istaʿmala	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tastaʿmilī	tuistaʿmilī
+nāma	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	tanāmī	tanūmī
+rabbaba	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=SG,aspect={IPFV/PFV}	turabbibī	turabbibī
+
+ʾahāna	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yuhin	yuhin
+ḡalā	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yaḡli	yaḡlu
+istafhama	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yastafhim	yuistafhim
+istalhama	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yastalhim	yuistalhim
+istawā	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yastawi	yaistwi
+ṣāra	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yaṣir	yaṣār
+tafāʿala	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yatafāʿal	yatfāʿul
+tasānada	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV}	yatasānad	yutasānid
+
+ʾašḡala	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yušḡalū	yuʾašḡalū
+kahraba	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yukahrabū	yukahrabū
+ṭāraḥa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yuṭāraḥū	yuṭārḥū
+
+ḥāwala	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tuḥāwilāni	tuḥāwilāni
+izdarada	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tazdaridāni	tuizdaridāni
+qaraʾa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	taqraʾāni	taqraʾāni
+
+ʾatā	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ʾataytumā	ʾataytumā
+barraka	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	barraktumā	barraktumā
+infaṣala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	infaṣaltumā	infaṣaltumā
+iqtaḍā	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	iqtaḍaytumā	iqtaḍaytumā
+irtajala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	irtajaltumā	irtajaltumā
+istaḥfaẓa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	istaḥfaẓtumā	istaḥfaẓtumā
+istaʿjala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	istaʿjaltumā	istaʿjaltumā
+ištaṭṭa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ištaṭaṭtumā	ištaṭṭtumā
+ittaṣala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ittaṣaltumā	ittaṣaltumā
+jāwara	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	jāwartumā	jāwartumā
+najaḥa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	najaḥtumā	najaḥtumā
+qassa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	qasastumā	qasstumā
+qatala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	qataltumā	qataltumā
+sammaʿa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	sammaʿtumā	sammaʿtumā
+ṭafiʾa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ṭafiʾtumā	ṭafiʾtumā
+talāqā	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	talāqaytumā	talāqaytumā
+ṭallaqa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ṭallaqtumā	ṭallaqtumā
+
+ʾabbada	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʾubbidnā	ʾubbidnā
+ʾalḡā	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʾulḡīnā	ʾulḡīnā
+ʾasmā	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʾusmīnā	ʾusmīnā
+dāwara	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	dūwirnā	diwarnā
+istaẓhara	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ustuẓhirnā	ustuẓhirnā
+jāba	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	jibnā	jibnā
+
+ḡarra	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=PL	naḡurra	nuḡirra
+ḥašada	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=PL	naḥšuda	nuḥašida
+istanfara	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=PL	nastanfira	nastanfira
+jarā	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=PL	najriya	nujariya
+šakā	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=PL	naškuwa	nušakiya
+tamattaʿa	pos=V,mood=SBJV,gen=MASC,per=1,voice=ACT,num=PL	natamattaʿa	nutamittaʿa
+
+ʾabbada	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=SG	ʾuʾabbada	ʾuʾabbda
+ʾaḵlada	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=SG	ʾuḵlada	ʾuʾḵlada
+ʾanjaza	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=SG	ʾunjaza	ʾuʾanjaza
+ʾasmaʿa	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=SG	ʾusmaʿa	ʾuʾasmaʿa
+intaẓama	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=SG	ʾuntaẓama	intaẓuma
+istanna	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=SG	ʾustanna	ʾuistanna
+ḵābara	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=SG	ʾuḵābara	ʾuḵābara
+lāʿaba	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=SG	ʾulāʿaba	ʾulāʿaba
+naṣara	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=SG	ʾunṣara	ʾunaṣara
+
+ʾawfā	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=PL	ʾawfīna	ʾawfīna
+iḥtaraba	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=PL	iḥtaribna	iḥtaribna
+iḵtaraqa	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=PL	iḵtariqna	iḵtariqna
+irtafaʿa	pos=V,mood=IMP,gen=FEM,per=2,voice=ACT,num=PL	irtafiʿna	iirtafʿna
+
+ʾayqaẓa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tūqaẓna	tuyqaẓna
+istaqraʾa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tustaqraʾna	tuistaqrʾna
+wahaba	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tūhabna	tuwahabna
+
+ʿammā	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʿummīnā	ʿummīnā
+ʿammaqa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʿummiqnā	ʿummiqnā
+fājaʾa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	fūjiʾnā	fūjiʾnā
+tamannā	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	tumunnīnā	tumannīnā
+zāda	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	zidnā	zidnā
+
+ʾakkala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ʾakkaltunna	ʾakkaltunna
+ʿarraba	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ʿarrabtunna	ʿarrabtunna
+istaʿadda	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	istaʿdadtunna	istaʿaddtunna
+istašʿara	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	istašʿartunna	istašʿartunna
+ḵābara	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ḵābartunna	ḵābartunna
+ṭabaʿa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ṭabaʿtunna	ṭabaʿtunna
+ṭāraḥa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ṭāraḥtunna	ṭāraḥtunna
+tarjama	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	tarjamtunna	tarjamtunna
+wakkada	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	wakkadtunna	wakkadtunna
+
+ḥakā	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=DU	taḥkiyā	tuḥakiyā
+istamarra	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=DU	tastamirrā	tastamaīrr
+istanna	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=DU	tastannā	tastinnā
+jawwafa	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=DU	tujawwifā	tujawwifā
+jazā	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=DU	tajziyā	tujaziyā
+nazafa	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=DU	tanzifā	tunazifā
+sāʿada	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=DU	tusāʿidā	tusāʿidā
+tanabbaʾa	pos=V,mood=SBJV,gen=FEM,per=2,voice=ACT,num=DU	tatanabbaʾā	tatanabbaʾā
+
+ʿašawāʾiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=PL	al-ʿašawāʾiyyīn	al-ʿašawāʾiyyīn
+nimsāwiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=PL	an-nimsāwiyyīn	al-nimsāwiyyīn
+
+ʾablahu	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=SG	balhāʾa	balhāʾa
+ʿāmmun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=SG	ʿāmmatan	ʿāmmatan
+ʿašawāʾiyyun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=SG	ʿašawāʾiyyatan	ʿašawāʾiyyatan
+nāʿimun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=SG	nāʿimatan	nāʿimatan
+
+ḏākara	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuḏākar	tuḏākar
+ḥaššada	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuḥaššad	tuḥaššad
+iḵtaraʿa	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuḵtaraʿ	tuiḵtarʿ
+ḵawwala	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuḵawwal	tuḵawwal
+qaḍaba	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuqḍab	tuqaḍab
+qariba	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuqrab	tuqarib
+rāna	pos=V,mood={IND/COND/IMP},gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	turan	turān
+
+ʾabbada	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ʾubbidtumā	ʾubbidtumā
+ʾakkada	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ʾukkidtumā	ʾukkidtumā
+ḥaraqa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ḥuriqtumā	ḥuriqtumā
+istaʿmara	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ustuʿmirtumā	ustuʿmirtumā
+kafā	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	kufītumā	kufītumā
+ṭabbala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ṭubbiltumā	ṭubbiltumā
+ṭāla	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ṭiltumā	ṭiltumā
+
+ʾawā	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=SG	tuʾwā	tuʾawā
+ʾawlā	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=SG	tūlā	tuʾawlā
+ḥāraba	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=SG	tuḥāraba	tuḥāraba
+iktataba	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=SG	tuktataba	tuiktataba
+istaḥḍara	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=SG	tustaḥḍara	tustaḥḍara
+kasaba	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=SG	tuksaba	tukasaba
+māzaḥa	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=SG	tumāzaḥa	tumāzaḥa
+qallada	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=SG	tuqallada	tuqallada
+ṭāʿa	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=SG	tuṭāʿa	tuṭāʿa
+ṭallaqa	pos=V,mood=SBJV,gen=FEM,per=3,voice=PASS,num=SG	tuṭallaqa	tuṭallaqa
+
+ʿabara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuʿbaru	ʾuʿabaru
+iḥtamala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuḥtamalu	ʾuiḥtamalu
+intaẓama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuntaẓamu	ʾuintaẓamu
+nazafa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾunzafu	ʾunazafu
+tasarrā	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾutasarrā	ʾutasrrā
+
+ʾaflaḥa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾufliḥa	ʾufliḥa
+ʾarā	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾuriya	ʾuriya
+ʾaslama	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾuslima	ʾuslima
+ʾawā	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾuwiya	ʾuwiya
+handasa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	hundisa	hundisa
+iʿtanā	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	uʿtuniya	iʿtuniya
+ḵālaṭa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ḵūliṭa	ḵīlaṭa
+ḵaraja	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ḵurija	ḵurija
+laʿiqa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	luʿiqa	luʿiqa
+ṭāʿa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ṭīʿa	ṭīʿa
+tabāʾasa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	tubūʾisa	tubāʾisa
+ṯarṯara	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ṯurṯira	ṯurṯira
+
+ʾādamiyyun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=PL	al-ʾādamiyyīna	al-ʾādamiyyīna
+ḏarriyyun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=PL	aḏ-ḏarriyyīna	al-ḏarriyyīna
+jawwiyyun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=PL	al-jawwiyyīna	al-jawwiyyīna
+mirrīḵiyyun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=PL	al-mirrīḵiyyīna	al-mirrīḵiyyīna
+yamaniyyun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=PL	al-yamaniyyīna	al-yamaniyyīna
+
+dafīʾun	pos=ADJ,def=DEF,case=GEN,gen=MASC,num=SG	ad-dafīʾi	al-dafīʾi
+ʾīṭāliyyun	pos=ADJ,def=DEF,case=GEN,gen=MASC,num=SG	al-ʾīṭāliyyi	al-ʾīṭāliyyi
+šafawiyyun	pos=ADJ,def=DEF,case=GEN,gen=MASC,num=SG	aš-šafawiyyi	al-šafawiyyi
+yūnāniyyun	pos=ADJ,def=DEF,case=GEN,gen=MASC,num=SG	al-yūnāniyyi	al-yūnāniyyi
+
+ʾaʿjama	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʾuʿjimtunna	ʾuʿjimtunna
+ʾaʿmala	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʾuʿmiltunna	ʾuʿmiltunna
+ḥaqqaqa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ḥuqqiqtunna	ḥuqqiqtunna
+ḥaraṯa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ḥuriṯtunna	ḥuriṯtunna
+jaḏḏara	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	juḏḏirtunna	juḏḏirtunna
+raʾasa	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ruʾistunna	ruʾistunna
+ṭaʿana	pos=V,mood=IND,tense=PST,gen=FEM,per=2,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ṭuʿintunna	ṭuʿintunna
+
+ḥaddaṯa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ḥaddaṯtum	ḥaddaṯtum
+intaẓama	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	intaẓamtum	intaẓamtum
+istamṭara	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	istamṭartum	istamṭartum
+jāmala	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	jāmaltum	jāmaltum
+jawwafa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	jawwaftum	jawwaftum
+nafaḏa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	nafaḏtum	nafaḏtum
+ṣadara	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=PL,aspect={IPFV/PFV/PRF}	ṣadartum	ṣadartum
+
+inḥarafa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	inḥarafta	inḥarafta
+nazzala	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	nazzalta	nazzalta
+saḥḥara	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	saḥḥarta	saḥḥarta
+šāraka	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	šārakta	šārakta
+taʿammala	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	taʿammalta	taʿammalta
+ṭarraḥa	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ṭarraḥta	ṭarraḥta
+ṯarṯara	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ṯarṯarta	ṯarṯarta
+wajjaha	pos=V,mood=IND,tense=PST,gen=MASC,per=2,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	wajjahta	wajjahta
+
+ʾaḥwaja	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yuḥwajūna	yuʾaḥwajūna
+ʾayqaẓa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yūqaẓūna	yūqaẓūna
+ballaʿa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yuballaʿūna	yuballaʿūna
+intaẓama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yuntaẓamūna	yuintaẓamūna
+kālama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yukālamūna	yukālamūna
+maḍaḡa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yumḍaḡūna	yumaḍaḡūna
+mawwata	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yumawwatūna	yumawwatūna
+
+ʾarʿada	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʾurʿidna	ʾurʿidna
+ʾassasa	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ʾussisna	ʾussisna
+ḥāwala	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ḥūwilna	ḥūwilna
+iḵtabara	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	uḵtubirna	iḵtubirna
+saḥara	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	suḥirna	suḥirna
+ṭāla	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV/PRF}	ṭilna	ṭilna
+
+ʾadbara	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾudbaru	ʾudbaru
+ʾaḥāla	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuḥālu	ʾuʾaḥālu
+ʾawrā	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾūrā	ʾuʾawrā
+istakraha	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾustakrahu	ʾustakrahu
+lāḥaẓa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾulāḥaẓu	lāḥuẓu
+qaraʾa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuqraʾu	qaruʾu
+tābaʿa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾutābaʿu	ʾutābaʿu
+wātara	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuwātaru	wāturu
+
+ʾammama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuʾammamu	tuʾammmu
+ḥafara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuḥfaru	tuḥafaru
+waṭiʾa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tūṭaʾu	tuwaṭiʾu
+
+al-haykalu	pos=N,def=INDF,case={NOM/ACC/GEN},num=DU	haykalayn	haykalayn
+al-kubbāyatu	pos=N,def=INDF,case={NOM/ACC/GEN},num=DU	kubbāyatayn	kubbāyatayn
+al-laḥẓatu	pos=N,def=INDF,case={NOM/ACC/GEN},num=DU	laḥẓatayn	laḥẓatayn
+al-maʿrakatu	pos=N,def=INDF,case={NOM/ACC/GEN},num=DU	maʿrakatayn	maʿrakatayn
+al-qināʿu	pos=N,def=INDF,case={NOM/ACC/GEN},num=DU	qināʿayn	qināʿayn
+al-ʿulbatu	pos=N,def=INDF,case={NOM/ACC/GEN},num=DU	ʿulbatayn	ʿulbatayn
+ar-rāyatu	pos=N,def=INDF,case={NOM/ACC/GEN},num=DU	rāyatayn	rāyatayn
+
+ad-darakiyyu	pos=N,def=INDF,case=NOM,num=DU	darakiyyāni	darakiyyāni
+al-ḥājju	pos=N,def=INDF,case=NOM,num=DU	ḥājjāni	ḥājjāni
+al-ḥašaratu	pos=N,def=INDF,case=NOM,num=DU	ḥašaratāni	ḥašaratāni
+al-ʾiliktrūnu	pos=N,def=INDF,case=NOM,num=DU	ʾiliktrūnāni	ʾiliktrūnāni
+al-jadwalu	pos=N,def=INDF,case=NOM,num=DU	jadwalāni	jadwalāni
+al-ḵuṣlatu	pos=N,def=INDF,case=NOM,num=DU	ḵuṣlatāni	ḵuṣlatāni
+al-ḵuṭwatu	pos=N,def=INDF,case=NOM,num=DU	ḵuṭwatāni	ḵuṭwatāni
+al-madḵalu	pos=N,def=INDF,case=NOM,num=DU	madḵalāni	madḵalāni
+al-mubtadiʾu	pos=N,def=INDF,case=NOM,num=DU	mubtadiʾāni	mubtadiʾāni
+al-qāʾimatu	pos=N,def=INDF,case=NOM,num=DU	qāʾimatāni	qāʾimatāni
+al-wahmu	pos=N,def=INDF,case=NOM,num=DU	wahmāni	wahmāni
+as-simatu	pos=N,def=INDF,case=NOM,num=DU	simatāni	simatāni
+
+aḍ-ḍarbatu	pos=N,poss=PSSD,case=ACC,num=SG	ḍarbata	ḍarbata
+aḏ-ḏirāʿu	pos=N,poss=PSSD,case=ACC,num=SG	ḏirāʿa	ḏirāʿa
+al-ʾarḍiyyatu	pos=N,poss=PSSD,case=ACC,num=SG	ʾarḍiyyata	ʾarḍiyyata
+al-hayʾatu	pos=N,poss=PSSD,case=ACC,num=SG	hayʾata	hayʾata
+al-liqāʾu	pos=N,poss=PSSD,case=ACC,num=SG	liqāʾa	liqāʾa
+al-mablaḡu	pos=N,poss=PSSD,case=ACC,num=SG	mablaḡa	mablaḡa
+al-wālidu	pos=N,poss=PSSD,case=ACC,num=SG	wālida	wālida
+al-waswasatu	pos=N,poss=PSSD,case=ACC,num=SG	waswasata	waswasata
+an-nakbatu	pos=N,poss=PSSD,case=ACC,num=SG	nakbata	nakbata
+an-natījatu	pos=N,poss=PSSD,case=ACC,num=SG	natījata	natījata
+an-nayzaku	pos=N,poss=PSSD,case=ACC,num=SG	nayzaka	nayzaka
+aṣ-ṣadīqu	pos=N,poss=PSSD,case=ACC,num=SG	ṣadīqa	adṣ-ṣanīqu
+
+al-ḥiḍnu	pos=N,poss=PSSD,case=GEN,num=DU	ḥiḍnay	ḥiḍnay
+al-ḥikāyatu	pos=N,poss=PSSD,case=GEN,num=DU	ḥikāyatay	ḥikāyatay
+al-kamratu	pos=N,poss=PSSD,case=GEN,num=DU	kamratay	kamratay
+al-maḏbaḥatu	pos=N,poss=PSSD,case=GEN,num=DU	maḏbaḥatay	maḏbaḥatay
+al-māʿizatu	pos=N,poss=PSSD,case=GEN,num=DU	māʿizatay	māʿizatay
+an-naḥwu	pos=N,poss=PSSD,case=GEN,num=DU	naḥway	naḥway
+aṣ-ṣadīqu	pos=N,poss=PSSD,case=GEN,num=DU	ṣadīqay	ṣadīqay
+at-taqdīmu	pos=N,poss=PSSD,case=GEN,num=DU	taqdīmay	taqdīmay
+at-tārīḵu	pos=N,poss=PSSD,case=GEN,num=DU	tārīḵay	tārīḵay
+at-tilifūnu	pos=N,poss=PSSD,case=GEN,num=DU	tilifūnay	tilifūnay
+
+al-ʿaqrabu	pos=N,poss=PSSD,case=NOM,num=DU	ʿaqrabā	ʿaqrabā
+al-bāḏinjānu	pos=N,poss=PSSD,case=NOM,num=DU	bāḏinjānā	bāḏinjānā
+al-baẓru	pos=N,poss=PSSD,case=NOM,num=DU	baẓrā	baẓrā
+al-bidāyatu	pos=N,poss=PSSD,case=NOM,num=DU	bidāyatā	bidāyatā
+al-fīlu	pos=N,poss=PSSD,case=NOM,num=DU	fīlā	fīlā
+al-hilālu	pos=N,poss=PSSD,case=NOM,num=DU	hilālā	hilālā
+al-ištirākiyyu	pos=N,poss=PSSD,case=NOM,num=DU	ištirākiyyā	ištirākiyyā
+al-kalimatu	pos=N,poss=PSSD,case=NOM,num=DU	kalimatā	kalimatā
+as-sāḥiru	pos=N,poss=PSSD,case=NOM,num=DU	sāḥirā	sāḥirā
+aš-šitāʾu	pos=N,poss=PSSD,case=NOM,num=DU	šitāʾā	šitāʾā
+at-taḏkiratu	pos=N,poss=PSSD,case=NOM,num=DU	taḏkiratā	taḏkiratā
+
+al-ḥuzmatu	pos=N,def=DEF,case=ACC,num=PL	al-ḥuzama	al-ḥuzmāti
+al-mabdaʾu	pos=N,def=DEF,case=ACC,num=PL	al-mabādiʾa	al-mabdaʾīna
+al-miṯqālu	pos=N,def=DEF,case=ACC,num=PL	al-maṯāqīla	al-miṯqālāti
+
+aḏ-ḏabīḥatu	pos=N,def=DEF,case=GEN,num=DU	aḏ-ḏabīḥatayni	aḏ-ḏabīḥatayni
+ad-dāʾiratu	pos=N,def=DEF,case=GEN,num=DU	ad-dāʾiratayni	ad-dāʾiratayni
+al-ʾālatu	pos=N,def=DEF,case=GEN,num=DU	al-ʾālatayni	al-ʾālatayni
+al-barbaḵu	pos=N,def=DEF,case=GEN,num=DU	al-barbaḵayni	al-barbaḵayni
+al-bayyāʿu	pos=N,def=DEF,case=GEN,num=DU	al-bayyāʿayni	al-bayyāʿayni
+al-farju	pos=N,def=DEF,case=GEN,num=DU	al-farjayni	al-farjayni
+al-hammu	pos=N,def=DEF,case=GEN,num=DU	al-hammayni	al-hammayni
+al-karbu	pos=N,def=DEF,case=GEN,num=DU	al-karbayni	al-karbayni
+al-maḥallatu	pos=N,def=DEF,case=GEN,num=DU	al-maḥallatayni	al-maḥallatayni
+al-miḥrābu	pos=N,def=DEF,case=GEN,num=DU	al-miḥrābayni	al-miḥrābayni
+al-muqāṭaʿatu	pos=N,def=DEF,case=GEN,num=DU	al-muqāṭaʿatayni	al-muqāṭaʿatayni
+aṣ-ṣalību	pos=N,def=DEF,case=GEN,num=DU	aṣ-ṣalībayni	aṣ-ṣalībayni
+as-sifāratu	pos=N,def=DEF,case=GEN,num=DU	as-sifāratayni	as-sifāratayni
+aṭ-ṭabīʿiyyu	pos=N,def=DEF,case=GEN,num=DU	aṭ-ṭabīʿiyyayni	aṭ-ṭabīʿiyyayni
+
+ad-dahšatu	pos=N,def=INDF,case=GEN,num=SG	dahšatin	dahšatin
+aḍ-ḍarbatu	pos=N,def=INDF,case=GEN,num=SG	ḍarbatin	ḍarbatin
+al-faʾsu	pos=N,def=INDF,case=GEN,num=SG	faʾsin	faʾsin
+al-firāšu	pos=N,def=INDF,case=GEN,num=SG	firāšin	firāšin
+al-ihtimāmu	pos=N,def=INDF,case=GEN,num=SG	ihtimāmin	ihtimāmin
+al-kafāʾatu	pos=N,def=INDF,case=GEN,num=SG	kafāʾatin	kafāʾatin
+al-maḵzanu	pos=N,def=INDF,case=GEN,num=SG	maḵzanin	maḵzanin
+al-muʾaḏḏinu	pos=N,def=INDF,case=GEN,num=SG	muʾaḏḏinin	muʾaḏḏinin
+al-qīṯāratu	pos=N,def=INDF,case=GEN,num=SG	qīṯāratin	qīṯāratin
+at-tabrīru	pos=N,def=INDF,case=GEN,num=SG	tabrīrin	tabrīrin
+at-tājiru	pos=N,def=INDF,case=GEN,num=SG	tājirin	tājirin
+aṭ-ṭarīqu	pos=N,def=INDF,case=GEN,num=SG	ṭarīqin	ṭarīqin
+at-tiryāqu	pos=N,def=INDF,case=GEN,num=SG	tiryāqin	tiryāqin
+
+aḍ-ḍayfu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	ḍayf	ḍayf
+al-ʿawratu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	ʿawra	ʿawra
+al-ḥašdu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	ḥašd	ḥašd
+al-ḥuzmatu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	ḥuzma	ḥuzma
+al-jasadu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	jasad	jasad
+al-juḥru	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	juḥr	juḥr
+al-jumlatu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	jumla	jumla
+al-maktabu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	maktab	maktab
+al-mumarriḍu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	mumarriḍ	mumarriḍ
+al-waḥšu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	waḥš	waḥš
+an-nasru	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	nasr	nasr
+an-nāyu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	nāy	nāy
+aṣ-ṣaffu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	ṣaff	aṣ-ṣuffu
+at-tašrīʿu	pos=N,def=INDF,case={NOM/ACC/GEN},num=SG	tašrīʿ	tašrīʿ
+
+al-faqīhu	pos=N,def=INDF,case=NOM,num=PL	fuqahāʾu	fuqīūhun
+al-faylasūfu	pos=N,def=INDF,case=NOM,num=PL	falāsifatun	faylusūūfun
+al-jāʾizatu	pos=N,def=INDF,case=NOM,num=PL	jawāʾizu	jāʾizātun
+al-kafāʾatu	pos=N,def=INDF,case=NOM,num=PL	kafāʾātun	kafāʾātun
+al-karbu	pos=N,def=INDF,case=NOM,num=PL	kurūbun	karawbu
+al-ḵunfusāʾu	pos=N,def=INDF,case=NOM,num=PL	ḵanāfisu	ʾaḵnāfusāʾun
+al-ḵurṭūmu	pos=N,def=INDF,case=NOM,num=PL	ḵarāṭīmu	ḵurṭūmātun
+al-maḵbazu	pos=N,def=INDF,case=NOM,num=PL	maḵābizu	muḵūbazun
+al-maqālu	pos=N,def=INDF,case=NOM,num=PL	maqālātun	maqālātun
+al-miftāḥu	pos=N,def=INDF,case=NOM,num=PL	mafātīḥu	miftāḥātun
+al-qābilatu	pos=N,def=INDF,case=NOM,num=PL	qawābilu	qābilātun
+an-nāyu	pos=N,def=INDF,case=NOM,num=PL	nāyātun	tuaīnn-nāyu
+aṣ-ṣafqatu	pos=N,def=INDF,case=NOM,num=PL	ṣafaqātun	ṣufūqatun
+
+aḏ-ḏanbu	pos=N,def=INDF,case=NOM,num=SG	ḏanbun	aḏ-ḏunbu
+ad-darwīšu	pos=N,def=INDF,case=NOM,num=SG	darwīšun	darwīšun
+al-ʿalāqatu	pos=N,def=INDF,case=NOM,num=SG	ʿalāqatun	ʿalāqatun
+al-ʾayūnu	pos=N,def=INDF,case=NOM,num=SG	ʾayūnun	ʾayūnun
+al-ḥarakatu	pos=N,def=INDF,case=NOM,num=SG	ḥarakatun	ḥarakatun
+al-labwatu	pos=N,def=INDF,case=NOM,num=SG	labwatun	labwatun
+aš-šaʾnu	pos=N,def=INDF,case=NOM,num=SG	šaʾnun	šaʾnun
+aš-šitāʾu	pos=N,def=INDF,case=NOM,num=SG	šitāʾun	šitāʾun
+
+al-ʾamīru	pos=N,poss=PSSD,case=GEN,num=PL	ʾumarāʾi	ʾamīrī
+al-ʿaẓmu	pos=N,poss=PSSD,case=GEN,num=PL	ʿiẓāmi	ʿaẓmī
+al-furnu	pos=N,poss=PSSD,case=GEN,num=PL	ʾafrāni	ʾafrāni
+al-ḡadāʾu	pos=N,poss=PSSD,case=GEN,num=PL	ʾaḡdiyati	ḡadāʾāti
+al-jundu	pos=N,poss=PSSD,case=GEN,num=PL	ʾajnādi	jundī
+al-mumaṯṯilu	pos=N,poss=PSSD,case=GEN,num=PL	mumaṯṯilī	muāmiṯṯili
+aṣ-ṣakku	pos=N,poss=PSSD,case=GEN,num=PL	ṣukūki	aṣ-ṣukku
+as-siyāsatu	pos=N,poss=PSSD,case=GEN,num=PL	siyāsāti	siyāsāti
+aṭ-ṭaʿnu	pos=N,poss=PSSD,case=GEN,num=PL	ṭuʿī	ṭaʿnī
+
+al-ʿāʾilatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	ʿawāʾil	ʿāʾilāt
+al-ʿaqlu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	ʿuqūl	ʿaqlāt
+al-ḥabsu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	ḥubūs	ḥabsāt
+al-jusaymu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	jusaymāt	jusāym
+al-lordu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	lordāt	lordāt
+al-qahwatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	qahāwī	qahwāt
+al-qubbatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	qibāb	qubbāt
+al-ʿulbatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	ʿilāb	ʿulbāt
+an-naẓẓāratu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	naẓẓārāt	ʾanẓẓāraāt
+aš-šarṭu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	šurūṭ	šārṭ
+as-sayyāratu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	sayyārāt	suyyāraūt
+at-taqṣīru	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=PL	taqṣīrāt	taqṣīrāt
+
+al-ʾanjaru	pos=N,def=INDF,case=GEN,num=DU	ʾanjarayni	ʾanjarayni
+al-iʿtirāfu	pos=N,def=INDF,case=GEN,num=DU	iʿtirāfayni	iʿtirāfayni
+al-ḵunfusāʾu	pos=N,def=INDF,case=GEN,num=DU	ḵunfusāʾayni	ḵunfusāʾayni
+al-maḏbaḥatu	pos=N,def=INDF,case=GEN,num=DU	maḏbaḥatayni	maḏbaḥatayni
+al-majallatu	pos=N,def=INDF,case=GEN,num=DU	majallatayni	majallatayni
+al-qāfilatu	pos=N,def=INDF,case=GEN,num=DU	qāfilatayni	qāfilatayni
+al-yammu	pos=N,def=INDF,case=GEN,num=DU	yammayni	yammayni
+an-nusḵatu	pos=N,def=INDF,case=GEN,num=DU	nusḵatayni	nusḵatayni
+ar-rākibu	pos=N,def=INDF,case=GEN,num=DU	rākibayni	rākibayni
+aṣ-ṣadru	pos=N,def=INDF,case=GEN,num=DU	ṣadrayni	ṣadrayni
+aš-šaraju	pos=N,def=INDF,case=GEN,num=DU	šarajayni	šarajayni
+
+al-ʿajalatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	ʿajalatay	ʿajalatay
+al-fitnatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	fitnatay	fitnatay
+al-ḡarīzatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	ḡarīzatay	ḡarīzatay
+al-ḥasanatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	ḥasanatay	ḥasanatay
+al-ḥaẓẓu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	ḥaẓẓay	ḥaẓẓay
+al-ʾirādatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	ʾirādatay	ʾirādatay
+al-juzʾu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	juzʾay	juzʾay
+al-lawnu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	lawnay	lawnay
+al-malbasu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	malbasay	malbasay
+al-mazāju	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	mazājay	mazājay
+al-mizmāru	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	mizmāray	mizmāray
+aṭ-ṭabaqu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	ṭabaqay	ṭabaqay
+at-tabrīru	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	tabrīray	tabrīray
+at-taqdīmu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=DU	taqdīmay	taqdīmay
+
+al-ʿaẓmu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	ʿaẓm	ʿaẓm
+al-bahāru	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	bahār	bahār
+al-filfilu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	filfil	filfil
+al-ḥadaṯu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	ḥadaṯ	ḥadaṯ
+al-ḥallūfu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	ḥallūf	ḥallūf
+al-ʾimāmu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	ʾimām	ʾimām
+al-lawlabu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	lawlab	lawlab
+al-majallatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	majallat	majallat
+al-maḵnūṯu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	maḵnūṯ	maḵnūṯ
+al-miqdāru	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	miqdār	miqdār
+al-qubbatu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	qubbat	qubbat
+al-qumāšu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	qumāš	qumāš
+aš-šiʿāru	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	šiʿār	šiʿār
+as-sīratu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	sīrat	sīrat
+aš-širyānu	pos=N,poss=PSSD,case={NOM/ACC/GEN},num=SG	širyān	širyān
+
+al-ʾamīru	pos=N,def=DEF,case=GEN,num=PL	al-ʾumarāʾi	al-ʾumīūri
+al-faḵiḏu	pos=N,def=DEF,case=GEN,num=PL	al-ʾafḵāḏi	al-faḵāiḏi
+al-maḵnūṯu	pos=N,def=DEF,case=GEN,num=PL	al-maḵānīṯi	al-maḵānūṯi
+al-malʿabu	pos=N,def=DEF,case=GEN,num=PL	al-malāʿibi	al-māalʿibi
+al-qāmūsu	pos=N,def=DEF,case=GEN,num=PL	al-qawāmīsi	al-qāmūāsi
+al-qināʿu	pos=N,def=DEF,case=GEN,num=PL	al-ʾaqniʿati	al-qiānāʿi
+al-wašmu	pos=N,def=DEF,case=GEN,num=PL	al-wušūmi	al-wušūmi
+al-yammu	pos=N,def=DEF,case=GEN,num=PL	al-yumūmi	al-yammāti
+an-naslu	pos=N,def=DEF,case=GEN,num=PL	al-ʾansāli	an-nusūli
+an-naẓariyyatu	pos=N,def=DEF,case=GEN,num=PL	an-naẓariyyāti	an-naẓariyyāti
+aṭ-ṭarīqu	pos=N,def=DEF,case=GEN,num=PL	aṭ-ṭuruqāti	aṭ-ṭawarīqi
+
+al-ʿāṭifatu	pos=N,def=DEF,case=GEN,num=SG	al-ʿāṭifati	al-ʿāṭifati
+al-ʾawizatu	pos=N,def=DEF,case=GEN,num=SG	al-ʾawizati	al-ʾawizati
+al-ḡurābu	pos=N,def=DEF,case=GEN,num=SG	al-ḡurābi	al-ḡurābi
+al-ḥarakatu	pos=N,def=DEF,case=GEN,num=SG	al-ḥarakati	al-ḥarakati
+al-hilālu	pos=N,def=DEF,case=GEN,num=SG	al-hilāli	al-hilāli
+al-maktūbu	pos=N,def=DEF,case=GEN,num=SG	al-maktūbi	al-maktūbi
+al-miṯālu	pos=N,def=DEF,case=GEN,num=SG	al-miṯāli	al-miṯāli
+al-qarīnu	pos=N,def=DEF,case=GEN,num=SG	al-qarīni	al-qarīni
+al-yawmu	pos=N,def=DEF,case=GEN,num=SG	al-yawmi	al-yawmi
+an-niẓāmu	pos=N,def=DEF,case=GEN,num=SG	an-niẓāmi	an-niẓāmi
+aš-šāribu	pos=N,def=DEF,case=GEN,num=SG	aš-šāribi	aš-šāribi
+aṣ-ṣayfu	pos=N,def=DEF,case=GEN,num=SG	aṣ-ṣayfi	aṣ-ṣayfi
+
+ad-darakiyyu	pos=N,def=DEF,case=NOM,num=DU	ad-darakiyyāni	ad-darakiyyāni
+al-fustānu	pos=N,def=DEF,case=NOM,num=DU	al-fustānāni	al-fustānāni
+al-hamzatu	pos=N,def=DEF,case=NOM,num=DU	al-hamzatāni	al-hamzatāni
+al-ḥayāʾu	pos=N,def=DEF,case=NOM,num=DU	al-ḥayāʾāni	al-ḥayāʾāni
+al-ibtisāmatu	pos=N,def=DEF,case=NOM,num=DU	al-ibtisāmatāni	al-ibtisāmatāni
+al-mubayyiḍu	pos=N,def=DEF,case=NOM,num=DU	al-mubayyiḍāni	al-mubayyiḍāni
+al-qarīnu	pos=N,def=DEF,case=NOM,num=DU	al-qarīnāni	al-qarīnāni
+an-niẓāmu	pos=N,def=DEF,case=NOM,num=DU	an-niẓāmāni	an-niẓāmāni
+ar-rāhibu	pos=N,def=DEF,case=NOM,num=DU	ar-rāhibāni	ar-rāhibāni
+aš-šaʾnu	pos=N,def=DEF,case=NOM,num=DU	aš-šaʾnāni	aš-šaʾnāni
+as-sinjābu	pos=N,def=DEF,case=NOM,num=DU	as-sinjābāni	as-sinjābāni
+aṯ-ṯaʿlabu	pos=N,def=DEF,case=NOM,num=DU	aṯ-ṯaʿlabāni	aṯ-ṯaʿlabāni
+
+ad-dustūru	pos=N,def=DEF,case=NOM,num=PL	ad-dasātīru	ad-dustūrātu
+al-ʿarīfu	pos=N,def=DEF,case=NOM,num=PL	al-ʿurafāʾu	al-ʿaārīfu
+al-fustānu	pos=N,def=DEF,case=NOM,num=PL	al-fasātīnu	al-fustānātu
+al-jumhūru	pos=N,def=DEF,case=NOM,num=PL	al-jamāhīru	al-jumhūrātu
+al-kalaku	pos=N,def=DEF,case=NOM,num=PL	al-kalakātu	al-kalakātu
+al-ḵuršūfu	pos=N,def=DEF,case=NOM,num=PL	al-ḵarāšīfu	al-ḵuršūfātu
+al-majlisu	pos=N,def=DEF,case=NOM,num=PL	al-majālisu	al-majlisātu
+al-mufattišu	pos=N,def=DEF,case=NOM,num=PL	al-mufattišūna	al-ʾamufttiāšu
+al-qiṭṭatu	pos=N,def=DEF,case=NOM,num=PL	al-qiṭāṭu	al-qiṭṭātu
+ar-riyālu	pos=N,def=DEF,case=NOM,num=PL	ar-riyālātu	ar-riyālātu
+
+al-ʾarnabu	pos=N,poss=PSSD,case=ACC,num=DU	ʾarnabay	ʾarnabay
+al-ḵaṭaru	pos=N,poss=PSSD,case=ACC,num=DU	ḵaṭaray	ḵaṭaray
+al-kīlomitru	pos=N,poss=PSSD,case=ACC,num=DU	kīlomitray	kīlomitray
+al-ḵuḍratu	pos=N,poss=PSSD,case=ACC,num=DU	ḵuḍratay	ḵuḍratay
+al-majallatu	pos=N,poss=PSSD,case=ACC,num=DU	majallatay	majallatay
+al-miṣʿadu	pos=N,poss=PSSD,case=ACC,num=DU	miṣʿaday	miṣʿaday
+al-musāʿadatu	pos=N,poss=PSSD,case=ACC,num=DU	musāʿadatay	musāʿadatay
+al-muʾtamaru	pos=N,poss=PSSD,case=ACC,num=DU	muʾtamaray	muʾtamaray
+al-qiṭṭatu	pos=N,poss=PSSD,case=ACC,num=DU	qiṭṭatay	qiṭṭatay
+ar-rabṭatu	pos=N,poss=PSSD,case=ACC,num=DU	rabṭatay	rabṭatay
+at-tīnatu	pos=N,poss=PSSD,case=ACC,num=DU	tīnatay	tīnatay
+
+al-ʿašīratu	pos=N,poss=PSSD,case=NOM,num=SG	ʿašīratu	ʿašīratu
+al-hiwāyatu	pos=N,poss=PSSD,case=NOM,num=SG	hiwāyatu	hiwāyatu
+al-iktišāfu	pos=N,poss=PSSD,case=NOM,num=SG	iktišāfu	iktišāfu
+an-nabīḏu	pos=N,poss=PSSD,case=NOM,num=SG	nabīḏu	nabīḏu
+aṣ-ṣīḡatu	pos=N,poss=PSSD,case=NOM,num=SG	ṣīḡatu	aṣ-ṣīḡutu
+at-tasāʾulu	pos=N,poss=PSSD,case=NOM,num=SG	tasāʾulu	tasāʾulu
+az-zāʾiru	pos=N,poss=PSSD,case=NOM,num=SG	zāʾiru	tuaīnz-zāʾiru
+
+ad-daftaru	pos=N,def=INDF,case=ACC,num=PL	dafātira	add-naftaru
+aḍ-ḍirsu	pos=N,def=INDF,case=ACC,num=PL	ḍurūsan	tuaīnḍ-ḍirsu
+al-ḥādiṯatu	pos=N,def=INDF,case=ACC,num=PL	ḥawādiṯa	ḥādiṯātin
+al-ḥāfiru	pos=N,def=INDF,case=ACC,num=PL	ḥawāfira	ḥāfirīna
+al-kāmēratu	pos=N,def=INDF,case=ACC,num=PL	kāmērātin	kāmērātin
+al-mubtadiʾu	pos=N,def=INDF,case=ACC,num=PL	mubtadiʾīna	mubtadiʾātin
+an-nabīḏu	pos=N,def=INDF,case=ACC,num=PL	ʾanbiḏatan	nabīaḏātin
+ar-riwāyatu	pos=N,def=INDF,case=ACC,num=PL	riwāyātin	riwāyātin
+as-saqfu	pos=N,def=INDF,case=ACC,num=PL	suqūfan	suqūfan
+aš-šaršafu	pos=N,def=INDF,case=ACC,num=PL	šarāšifa	šurūšafan
+aṯ-ṯadiyiyyu	pos=N,def=INDF,case=ACC,num=PL	ṯadīyyātin	adṯ-ṯaniyiyyu
+az-zamanu	pos=N,def=INDF,case=ACC,num=PL	ʾazmānan	az-zuminu
+
+al-bīʾatu	pos=N,def=INDF,case=GEN,num=PL	bīʾātin	bīawʾa
+al-ʾiblīsu	pos=N,def=INDF,case=GEN,num=PL	ʾabālisatin	ʾiblāīsa
+al-ʾiʿṣāru	pos=N,def=INDF,case=GEN,num=PL	ʾaʿāṣīra	ʾiʿṣārātin
+al-jannatu	pos=N,def=INDF,case=GEN,num=PL	jinānin	janawna
+al-ḵallu	pos=N,def=INDF,case=GEN,num=PL	ḵilālin	ḵallātin
+al-lawlabu	pos=N,def=INDF,case=GEN,num=PL	lawāliba	lawlabātin
+al-mufattišu	pos=N,def=INDF,case=GEN,num=PL	mufattišīna	mufattišātin
+al-muwaẓẓafu	pos=N,def=INDF,case=GEN,num=PL	muwaẓẓafīna	muwaẓẓafātin
+al-qābilatu	pos=N,def=INDF,case=GEN,num=PL	qawābila	qawābila
+aš-šāribu	pos=N,def=INDF,case=GEN,num=PL	šawāriba	šawāriba
+
+al-ʾāfatu	pos=N,def=DEF,case=NOM,num=SG	al-ʾāfatu	al-ʾāfatu
+al-ʾanfu	pos=N,def=DEF,case=NOM,num=SG	al-ʾanfu	al-ʾanfu
+al-ʿaqrabu	pos=N,def=DEF,case=NOM,num=SG	al-ʿaqrabu	al-ʿaqrabu
+al-bāḏinjānu	pos=N,def=DEF,case=NOM,num=SG	al-bāḏinjānu	al-bāḏinjānu
+al-māridu	pos=N,def=DEF,case=NOM,num=SG	al-māridu	al-māridu
+al-milʿaqatu	pos=N,def=DEF,case=NOM,num=SG	al-milʿaqatu	al-milʿaqatu
+al-miqdāru	pos=N,def=DEF,case=NOM,num=SG	al-miqdāru	al-miqdāru
+al-muʾtamaru	pos=N,def=DEF,case=NOM,num=SG	al-muʾtamaru	al-muʾtamaru
+al-qināʿu	pos=N,def=DEF,case=NOM,num=SG	al-qināʿu	al-qināʿu
+al-ʿuššu	pos=N,def=DEF,case=NOM,num=SG	al-ʿuššu	al-ʿuššu
+as-sabīlu	pos=N,def=DEF,case=NOM,num=SG	as-sabīlu	as-sabīlu
+aṣ-ṣāḥibu	pos=N,def=DEF,case=NOM,num=SG	aṣ-ṣāḥibu	aṣ-ṣāḥibu
+aš-šarīṭu	pos=N,def=DEF,case=NOM,num=SG	aš-šarīṭu	aš-šarīṭu
+az-zubdatu	pos=N,def=DEF,case=NOM,num=SG	az-zubdatu	az-zubdatu
+
+aḏ-ḏanabu	pos=N,def=DEF,case={NOM/ACC/GEN},num=PL	al-ʾaḏnāb	aḏā-ḏanib
+al-hātifu	pos=N,def=DEF,case={NOM/ACC/GEN},num=PL	al-hawātif	al-hātifīn
+aš-šaqqatu	pos=N,def=DEF,case={NOM/ACC/GEN},num=PL	aš-šiqaq	aš-šaqqāt
+az-zamanu	pos=N,def=DEF,case={NOM/ACC/GEN},num=PL	al-ʾazmān	az-ʾazmān
+
+ad-darju	pos=N,def=INDF,case=ACC,num=SG	darjan	darjan
+al-ḥammāru	pos=N,def=INDF,case=ACC,num=SG	ḥammāran	ḥammāran
+al-haykalu	pos=N,def=INDF,case=ACC,num=SG	haykalan	haykalan
+al-ʾiṣbaʿu	pos=N,def=INDF,case=ACC,num=SG	ʾiṣbaʿan	ʾiṣbaʿan
+al-jidāru	pos=N,def=INDF,case=ACC,num=SG	jidāran	jidāran
+al-ḵandaqu	pos=N,def=INDF,case=ACC,num=SG	ḵandaqan	ḵandaqan
+al-ḵurṭūmu	pos=N,def=INDF,case=ACC,num=SG	ḵurṭūman	ḵurṭūman
+ar-raʾīsu	pos=N,def=INDF,case=ACC,num=SG	raʾīsan	raʾīsan
+aṭ-ṭaribu	pos=N,def=INDF,case=ACC,num=SG	ṭariban	ṭariban
+aṭ-ṭiflu	pos=N,def=INDF,case=ACC,num=SG	ṭiflan	ṭiflan
+
+ad-dābbatu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	ad-dābba	ad-dābba
+al-ʿaqlu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	al-ʿaql	al-ʿaql
+al-kaʾsu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	al-kaʾs	al-kaʾs
+al-kīloġrāmu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	al-kīloġrām	al-kīloġrām
+al-lifāfatu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	al-lifāfa	al-lifāfa
+al-maʿdinu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	al-maʿdin	al-maʿdin
+al-maḵzanu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	al-maḵzan	al-maḵzan
+al-marḥalatu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	al-marḥala	al-marḥala
+al-yamīnu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	al-yamīn	al-yamīn
+an-natījatu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	an-natīja	an-natīja
+aṣ-ṣabiyyu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	aṣ-ṣabī	aṣ-ṣabī
+as-sikkatu	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	as-sikka	as-sikka
+at-tadrību	pos=N,def=DEF,case={NOM/ACC/GEN},num=SG	at-tadrīb	at-tadrīb
+
+al-ʾamru	pos=N,def=INDF,case=ACC,num=DU	ʾamrayni	ʾamrayni
+al-falaku	pos=N,def=INDF,case=ACC,num=DU	falakayni	falakayni
+al-ḥanaku	pos=N,def=INDF,case=ACC,num=DU	ḥanakayni	ḥanakayni
+al-ḥuzmatu	pos=N,def=INDF,case=ACC,num=DU	ḥuzmatayni	ḥuzmatayni
+al-mufājaʾatu	pos=N,def=INDF,case=ACC,num=DU	mufājaʾatayni	mufājaʾatayni
+al-mulāḥaẓatu	pos=N,def=INDF,case=ACC,num=DU	mulāḥaẓatayni	mulāḥaẓatayni
+al-muwāṭinu	pos=N,def=INDF,case=ACC,num=DU	muwāṭinayni	muwāṭinayni
+al-qafzatu	pos=N,def=INDF,case=ACC,num=DU	qafzatayni	qafzatayni
+al-ʾustāḏu	pos=N,def=INDF,case=ACC,num=DU	ʾustāḏayni	ʾustāḏayni
+ar-riwāyatu	pos=N,def=INDF,case=ACC,num=DU	riwāyatayni	ar-riwāyutu
+aṣ-ṣīḡatu	pos=N,def=INDF,case=ACC,num=DU	ṣīḡatayni	ṣīḡatayni
+at-timsāḥu	pos=N,def=INDF,case=ACC,num=DU	timsāḥayni	timsāḥayni
+az-zubratu	pos=N,def=INDF,case=ACC,num=DU	zubratayni	zubratayni
+
+ad-daftaru	pos=N,def=DEF,case=ACC,num=DU	ad-daftarayni	ad-daftarayni
+al-firāšu	pos=N,def=DEF,case=ACC,num=DU	al-firāšayni	al-firāšayni
+al-ḵaṭwatu	pos=N,def=DEF,case=ACC,num=DU	al-ḵaṭwatayni	al-ḵaṭwatayni
+al-qāʿu	pos=N,def=DEF,case=ACC,num=DU	al-qāʿayni	al-qāʿayni
+al-yammu	pos=N,def=DEF,case=ACC,num=DU	al-yammayni	al-yammayni
+an-naẓariyyatu	pos=N,def=DEF,case=ACC,num=DU	an-naẓariyyatayni	an-naẓariyyatayni
+as-sabīlu	pos=N,def=DEF,case=ACC,num=DU	as-sabīlayni	as-sabīlayni
+at-taʿrīfu	pos=N,def=DEF,case=ACC,num=DU	at-taʿrīfayni	at-taʿrīfayni
+at-tasmiyatu	pos=N,def=DEF,case=ACC,num=DU	at-tasmiyatayni	at-tasmiyatayni
+
+ad-dayru	pos=N,def=DEF,case={NOM/ACC/GEN},num=DU	ad-dayrayn	ad-dayrayn
+al-ḥawšu	pos=N,def=DEF,case={NOM/ACC/GEN},num=DU	al-ḥawšayn	al-ḥawšayn
+al-ittiḥādu	pos=N,def=DEF,case={NOM/ACC/GEN},num=DU	al-ittiḥādayn	al-ittiḥādayn
+al-kammiyyatu	pos=N,def=DEF,case={NOM/ACC/GEN},num=DU	al-kammiyyatayn	al-kammiyyatayn
+al-muḏannabu	pos=N,def=DEF,case={NOM/ACC/GEN},num=DU	al-muḏannabayn	al-muḏannabayn
+al-muḥāribu	pos=N,def=DEF,case={NOM/ACC/GEN},num=DU	al-muḥāribayn	al-muḥāribayn
+al-qafaṣu	pos=N,def=DEF,case={NOM/ACC/GEN},num=DU	al-qafaṣayn	al-qafaṣayn
+al-qāfilatu	pos=N,def=DEF,case={NOM/ACC/GEN},num=DU	al-qāfilatayn	al-qāfilatayn
+al-qunfuḏu	pos=N,def=DEF,case={NOM/ACC/GEN},num=DU	al-qunfuḏayn	al-qunfuḏayn
+as-sutratu	pos=N,def=DEF,case={NOM/ACC/GEN},num=DU	as-sutratayn	as-sutratayn
+
+ʾaqāma	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tuqīmā	tuʾiqāmā
+ʾarsala	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tursilā	tuʾarsilā
+ʾašʿara	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tušʿirā	tuʾašʿirā
+ijtahada	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tajtahidā	taijtahadā
+imtalaka	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tamtalikā	tuimtalikā
+qāwama	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tuqāwimā	tuqāwimā
+tabāʾasa	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=ACT,num=DU,aspect={IPFV/PFV}	tatabāʾasā	tatbāʾisā
+
+ʾaṯṯara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yuʾaṯṯirāni	yuṯṯirāni
+batta	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yabittāni	yubittāni
+ḡaḍiba	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yaḡḍabāni	yuḡiḍibāni
+ḵaraja	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yaḵrujāni	yaḵrijāni
+rajaʿa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yarjaʿāni	yurajiʿāni
+ṣābara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yuṣābirāni	yuṣābirāni
+taʾakkada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yataʾakkadāni	yutaʾakkidāni
+talā	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yatluwāni	yatluwāni
+ṭāwaʿa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=ACT,num=DU,aspect={IPFV/PFV}	yuṭāwiʿāni	yuṭāwiʿāni
+
+istaʿbada	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ustuʿbidatā	ustuʿbidatā
+istaʿrafa	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	ustuʿrifatā	ustuʿrifatā
+sakkana	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=PASS,num=DU,aspect={IPFV/PFV/PRF}	sukkinatā	sukkinatā
+
+ad-dāʾiratu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	dawāʾir	dāʾirāt
+al-burhānu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	barāhīn	burhānāt
+al-ʾijāzatu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	ʾijāzāt	ʾijāzāt
+al-ḵuṣlatu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	ḵuṣal	ḵuṣlāt
+al-maktūbu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	makātīb	makātīb
+al-muqaddamu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	muqaddamīn	muquddaūm
+al-muwāṭinu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	muwāṭinīn	muwaṭana
+an-nīšānu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	nayāšīn	nīašānāt
+aṣ-ṣafanu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	ʾaṣfān	ṣufaūn
+aṣ-ṣafḥatu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	ṣafḥāt	ʾaṣfāḥat
+aš-šayʾu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	ʾašyāʾ	aš-šuyʾu
+as-silāḥu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	ʾasliḥa	tuaīns-silāḥu
+at-taʾšīratu	pos=N,def=INDF,case={NOM/ACC/GEN},num=PL	taʾšīrāt	taʾšīrāt
+
+ad-dahšatu	pos=N,poss=PSSD,case=ACC,num=PL	dahaša	dahšāti
+al-ʿašīratu	pos=N,poss=PSSD,case=ACC,num=PL	ʿašāʾira	ʿašīrāti
+al-ʾiḏnu	pos=N,poss=PSSD,case=ACC,num=PL	ʾuḏūnāti	ʾiḏnāti
+al-majlisu	pos=N,poss=PSSD,case=ACC,num=PL	majālisa	majlisāti
+al-minhaju	pos=N,poss=PSSD,case=ACC,num=PL	manāhija	minhajāti
+aš-šaqqatu	pos=N,poss=PSSD,case=ACC,num=PL	šiqaqa	ʾašqqaāta
+
+aḍ-ḍarūratu	pos=N,poss=PSSD,case=NOM,num=PL	ḍarūrātu	aḍ-ḍurūritu
+al-ʾabāžūru	pos=N,poss=PSSD,case=NOM,num=PL	ʾabāžūrātu	ʾābāžūru
+al-ʾamīratu	pos=N,poss=PSSD,case=NOM,num=PL	ʾamīrātu	ʾamīrātu
+al-haykalu	pos=N,poss=PSSD,case=NOM,num=PL	hayākilu	haykalū
+al-kalimatu	pos=N,poss=PSSD,case=NOM,num=PL	kalimātu	kalimātu
+al-lāʿibu	pos=N,poss=PSSD,case=NOM,num=PL	lāʿibū	lāʿibātu
+al-maḵbazu	pos=N,poss=PSSD,case=NOM,num=PL	maḵābizu	maḵbazū
+al-markabatu	pos=N,poss=PSSD,case=NOM,num=PL	markabātu	markabātu
+an-nisbatu	pos=N,poss=PSSD,case=NOM,num=PL	nisabu	nisbutuwu
+
+al-ʿarabiyyu	pos=N,poss=PSSD,case=GEN,num=SG	ʿarabiyyi	ʿarabiyyi
+al-fuʾādu	pos=N,poss=PSSD,case=GEN,num=SG	fuʾādi	fuʾādi
+al-mubtadiʾu	pos=N,poss=PSSD,case=GEN,num=SG	mubtadiʾi	mubtadiʾi
+al-muqāṭaʿatu	pos=N,poss=PSSD,case=GEN,num=SG	muqāṭaʿati	muqāṭaʿati
+al-qāṭiratu	pos=N,poss=PSSD,case=GEN,num=SG	qāṭirati	qāṭirati
+an-najjāmu	pos=N,poss=PSSD,case=GEN,num=SG	najjāmi	najjāmi
+aṣ-ṣadru	pos=N,poss=PSSD,case=GEN,num=SG	ṣadri	adṣ-ṣanru
+at-taʾrīḵu	pos=N,poss=PSSD,case=GEN,num=SG	taʾrīḵi	taʾrīḵi
+aṯ-ṯawbu	pos=N,poss=PSSD,case=GEN,num=SG	ṯawbi	aṯ-ṯuwbu
+az-ziyāratu	pos=N,poss=PSSD,case=GEN,num=SG	ziyārati	ziyārati
+
+ad-dawlatu	pos=N,def=DEF,case=ACC,num=SG	ad-dawlata	ad-dawlata
+al-ḥallāqu	pos=N,def=DEF,case=ACC,num=SG	al-ḥallāqa	al-ḥallāqa
+al-ḥašdu	pos=N,def=DEF,case=ACC,num=SG	al-ḥašda	al-ḥašda
+al-ḵuṭwatu	pos=N,def=DEF,case=ACC,num=SG	al-ḵuṭwata	al-ḵuṭwata
+al-qimmatu	pos=N,def=DEF,case=ACC,num=SG	al-qimmata	al-qimmata
+al-qiṭāru	pos=N,def=DEF,case=ACC,num=SG	al-qiṭāra	al-qiṭāra
+al-ʿuljūmu	pos=N,def=DEF,case=ACC,num=SG	al-ʿuljūma	al-ʿuljūma
+al-ʿuqūbatu	pos=N,def=DEF,case=ACC,num=SG	al-ʿuqūbata	al-ʿuqūbata
+aš-šahīdu	pos=N,def=DEF,case=ACC,num=SG	aš-šahīda	aš-šahīda
+at-taqwīmu	pos=N,def=DEF,case=ACC,num=SG	at-taqwīma	at-taqwīma
+
+ʿaššaqa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yuʿaššiqū	yuʿaššiqū
+dāma	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yadūmū	yadūmū
+ibtalaʿa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yabtaliʿū	yuibtaliʿū
+istanna	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yastannū	yastinnū
+ṣāraʿa	pos=V,mood={IND/COND/IMP},gen=MASC,per=3,voice=ACT,num=PL,aspect={IPFV/PFV}	yuṣāriʿū	yuṣāriʿū
+
+fāraqa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾufāriqu	ʾufāriqu
+istaʿjala	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾastaʿjilu	ʾastaʿjilu
+kahraba	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾukahribu	ʾakhribu
+taqāraḍa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾataqāraḍu	ʾutaqāriḍu
+
+hannaʾa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yuhannaʾna	yuhannʾna
+sabbaba	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yusabbabna	yusabbabna
+
+mārūniyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=SG	al-mārūnī	al-mārūnī
+munāsibun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=SG	al-munāsib	al-munāsib
+qārrun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=SG	al-qārr	al-qārr
+ʿumāniyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=MASC,num=SG	al-ʿumānī	al-ʿumānī
+
+ʾarmīniyyun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=SG	ʾarmīniyyan	ʾarmīniyyan
+ḍaʿīfun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=SG	ḍaʿīfan	ḍaʿīfan
+ḵallāqun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=SG	ḵallāqan	ḵallāqan
+munawwimun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=SG	munawwiman	munawwiman
+muzʿijun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=SG	muzʿijan	muzʿijan
+ṭarīfun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=SG	ṭarīfan	ṭarīfan
+
+kāmilun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=DU	kāmilatayn	kāmilatayn
+madaniyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=DU	madaniyyatayn	madaniyyatayn
+majhūlun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=DU	majhūlatayn	majhūlatayn
+maḵtūnun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=DU	maḵtūnatayn	maḵtūnatayn
+mutawassiṭun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=DU	mutawassiṭatayn	mutawassiṭatayn
+qadīmun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=DU	qadīmatayn	qadīmatayn
+qawmiyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=DU	qawmiyyatayn	qawmiyyatayn
+ṭarīfun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=DU	ṭarīfatayn	ṭarīfatayn
+
+ʾaḥrama	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yuḥramna	yuḥramna
+ʾašraka	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yušrakna	yuʾašrakna
+harraba	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yuharrabna	yuharrabna
+ibtāʿa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yubtaʿna	yuibtāʿna
+jāwaza	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=PL,aspect={IPFV/PFV}	yujāwazna	yujāwazna
+
+ʿabbada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yuʿabbadāni	yuʿabbadāni
+ʿaqqama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yuʿaqqamāni	yuʿaqqamāni
+istakšafa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yustakšafāni	yustakšafāni
+ḵarṭama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yuḵarṭamāni	yuḵarṭamāni
+nawwama	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yunawwamāni	yunawwamāni
+qarraba	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	yuqarrabāni	yuqarrabāni
+
+iḵrawwaṭa	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=DU	iḵrawwiṭā	iḵrawwiṭā
+istakṯara	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=DU	istakṯirā	istakṯirā
+istamaʿa	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=DU	istamiʿā	istamiʿā
+jaddada	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=DU	jaddidā	jiddadā
+ẓāhara	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=DU	ẓāhirā	ẓāhirā
+
+ʿabara	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuʿbarī	tuʿabarī
+ʾabṣara	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tubṣarī	tuʾabṣarī
+ʾammama	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuʾammamī	tuʾammamī
+iqtaḍā	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuqtaḍay	tuqtaḍay
+ittabaʿa	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tuttabaʿī	tuittabaʿī
+nāfara	pos=V,mood={IND/COND/IMP},gen=FEM,per=2,voice=PASS,num=SG,aspect={IPFV/PFV}	tunāfarī	tunāfarī
+
+basaṭa	pos=V,voice=ACT	bāsiṭ	mubasiṭ
+iḡtaṣaba	pos=V,voice=ACT	muḡtaṣib	muḡtaṣib
+iqtaṭṭa	pos=V,voice=ACT	muqtaṭṭ	muiqtiṭṭ
+istadarra	pos=V,voice=ACT	mustadirr	muistidarr
+ištaṭṭa	pos=V,voice=ACT	muštaṭṭ	muištiṭṭ
+ittaḵaḏa	pos=V,voice=ACT	muttaḵiḏ	muittaḵiḏ
+jaruʾa	pos=V,voice=ACT	jāriʾ	jāriʾ
+nāqaša	pos=V,voice=ACT	munāqiš	munāqiš
+nazala	pos=V,voice=ACT	nāzil	munazil
+ṣaḥḥaḥa	pos=V,voice=ACT	muṣaḥḥiḥ	ṣaḥḥaʾiḥ
+
+ḥaṭṭa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tuḥaṭṭūna	tuḥaṭṭūna
+istawrada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tustawradūna	tustawradūna
+ittaqā	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tuttaqawna	tuittqawna
+jawwafa	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tujawwafūna	tujawwafūna
+naṣara	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tunṣarūna	tunaṣarūna
+qariba	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tuqrabūna	tuqaribūna
+tabaddala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=PL,aspect={IPFV/PFV}	tutabaddalūna	tutabaddalūna
+
+ʿaqliyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=PL	al-ʿaqliyyāt	al-ʿaqliyyāt
+baʿīdun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=PL	al-baʿīdāt	al-baʿīdāt
+falakiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=PL	al-falakiyyāt	al-falakiyyāt
+
+ʿasabiyyun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=PL	ʿasabiyyātin	ʿasabiyyātin
+ʿirāqiyyun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=PL	ʿirāqiyyātin	ʿirāqiyyātin
+māddiyyun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=PL	māddiyyātin	māddiyyātin
+raḵīṣun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=PL	raḵīṣātin	raḵīṣātin
+ṭāʾirun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=PL	ṭāʾirātin	ṭāʾirātin
+ṯānawiyyun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=PL	ṯānawiyyātin	ṯānawiyyātin
+
+ʾīṭāliyyun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=SG	ʾīṭāliyyatin	ʾīṭāliyyatin
+munfaṣilun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=SG	munfaṣilatin	munfaṣilatin
+qādirun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=SG	qādiratin	qādiratin
+
+ʾaʿwaru	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=MASC,num=DU	ʾaʿwarayn	ʾaʿwarayn
+ʿimlāqiyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=MASC,num=DU	ʿimlāqiyyayn	ʿimlāqiyyayn
+ʿirāqiyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=MASC,num=DU	ʿirāqiyyayn	ʿirāqiyyayn
+zaytiyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=MASC,num=DU	zaytiyyayn	zaytiyyayn
+
+hajama	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	hajama	hajama
+ḥarrara	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ḥarrara	ḥarrara
+ibtasama	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ibtasama	ibtasama
+ibtasara	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ibtasara	ibtasara
+iḵranṭama	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	iḵranṭama	iḵranṭama
+iqtaṭṭa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	iqtaṭṭa	iqtaṭṭa
+sawwafa	pos=V,mood=IND,tense=PST,gen=MASC,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	sawwafa	sawwafa
+
+ʾaḏkara	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuḏkar	nuḏkar
+ʾafāda	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nufad	nuʾafād
+ʾalzama	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nulzam	nuʾalzam
+ʾaṣḡā	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nuṣḡa	nuṣḡa
+jāza	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=PASS,num=PL,aspect={IPFV/PFV}	nujaz	nujāz
+
+ḥarrara	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=PL	tuḥarrarū	tuḥarrarū
+iḥtasaba	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=PL	tuḥtasabū	tuiḥtasabū
+iḵtaraqa	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=PL	tuḵtaraqū	tuiḵtaraqū
+istahzaʾa	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=PL	tustahzaʾū	tuistahzaʾū
+jāza	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=PL	tujāzū	tujāzū
+qāla	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=PL	tuqālū	tuqālū
+tamtama	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=PL	tutamtamū	tutmtamū
+wāfā	pos=V,mood=SBJV,gen=MASC,per=2,voice=PASS,num=PL	tuwāfaw	tuwāfaw
+
+ʾamyalu	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=SG	al-maylāʾu	al-maylāʾu
+ʾašqaru	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=SG	aš-šaqrāʾu	al-šaqrāʾu
+ʾaʿwaru	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=SG	al-ʿawrāʾu	al-ʿawrāʾu
+jinsiyyun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=SG	al-jinsiyyatu	al-jinsiyyatu
+kawniyyun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=SG	al-kawniyyatu	al-kawniyyatu
+mamnūʿun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=SG	al-mamnūʿatu	al-mamnūʿatu
+muḥtalimun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=SG	al-muḥtalimatu	al-muḥtalimatu
+mustaqīmun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=SG	al-mustaqīmatu	al-mustaqīmatu
+ṣalībun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=SG	aṣ-ṣalībatu	al-ṣalībatu
+šāmisun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=SG	aš-šāmisatu	al-šāmisatu
+
+sirriyyun	pos=ADJ,def=INDF,case=GEN,gen=FEM,num=PL	sirriyyātin	sirriyyātin
+
+ʾašqaru	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=SG	ʾašqaru	ʾašqaru
+ʾaṭrašu	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=SG	ʾaṭrašu	ʾaṭrašu
+ḵaʾūnun	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=SG	ḵaʾūnun	ḵaʾūnun
+muqaddasun	pos=ADJ,def=INDF,case=NOM,gen=MASC,num=SG	muqaddasun	muqaddasun
+
+ʾadbara	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ʾadbarat	ʾadbarat
+ʾaqfala	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ʾaqfalat	ʾaqfalat
+ʾaṣḡā	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ʾaṣḡat	ʾaṣḡat
+ʾaslaka	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ʾaslakat	ʾaslakat
+haddada	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	haddadat	haddadat
+istaʿmala	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	istaʿmalat	istaʿmalat
+ištarā	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ištarat	ištarat
+qassa	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	qassat	qassat
+
+ʿafaja	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=PL	nuʿfaja	nuʿafaja
+ʾaḥassa	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=PL	nuḥassa	nuʾaḥassa
+ʾanbaʾa	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=PL	nunbaʾa	nuʾanbaʾa
+baṣaqa	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=PL	nubṣaqa	nubaṣaqa
+dāfaʿa	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=PL	nudāfaʿa	nudāfaʿa
+istalhama	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=PL	nustalhama	nuistalhama
+jāwaza	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=PL	nujāwaza	nujāwaza
+jayyaba	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=PL	nujayyaba	nujayyaba
+šammaʿa	pos=V,mood=SBJV,gen=MASC,per=1,voice=PASS,num=PL	nušammaʿa	nušammaʿa
+
+ʾawwala	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=SG	yuʾawwila	yuwwila
+ḥadaṯa	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=SG	yaḥduṯa	yuḥidaṯa
+iḥqawqafa	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=SG	yaḥqawqifa	yaḥqawqifa
+ištarā	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=SG	yaštariya	yaištriya
+istaṭāʿa	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=SG	yastaṭīʿa	yastiṭāʿa
+jarā	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=SG	yajriya	yajriya
+raʾā	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=SG	yarā	yarʾiya
+zāda	pos=V,mood=SBJV,gen=MASC,per=3,voice=ACT,num=SG	yazīda	yazūda
+
+faḥuša	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	faḥušatā	faḥušatā
+iqtaḍaba	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	iqtaḍabatā	iqtaḍabatā
+ištaḡala	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ištaḡalatā	ištaḡalatā
+istaqraḍa	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	istaqraḍatā	istaqraḍatā
+našara	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	našaratā	našaratā
+qāsa	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	qāsatā	qāsatā
+qāyasa	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	qāyasatā	qāyasatā
+ṣaḡā	pos=V,mood=IND,tense=PST,gen=FEM,per=3,voice=ACT,num=DU,aspect={IPFV/PFV/PRF}	ṣaḡatā	ṣaḡatā
+
+ʾaḍāʿa	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾuḍiʿtu	ʾuḍiʿtu
+ʾaflaḥa	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ʾufliḥtu	ʾufliḥtu
+iḥtafala	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	uḥtufiltu	iḥtufiltu
+istaḵbara	pos=V,mood=IND,tense=PST,gen=MASC,per=1,voice=PASS,num=SG,aspect={IPFV/PFV/PRF}	ustuḵbirtu	ustuḵbirtu
+
+ḥafara	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuḥfar	ʾuḥafar
+ḥarraqa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuḥarraq	ʾuḥarraq
+iktašafa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuktašaf	ʾuiktašaf
+mawwata	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾumawwat	ʾumawwat
+nafaḏa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾunfaḏ	ʾunfaḏ
+nazafa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾunzaf	ʾunazaf
+qarraba	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuqarrab	ʾuqarrab
+šaraḥa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾušraḥ	ʾušaraḥ
+šāraka	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾušārak	ʾušārak
+ṣawwaba	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuṣawwab	ʾuṣawwab
+ṭabaḵa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾuṭbaḵ	ʾuṭabaḵ
+tajāhala	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=PASS,num=SG,aspect={IPFV/PFV}	ʾutajāhal	ʾutajāhal
+
+ʾaḥbaṭa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ʾaḥbaṭtu	ʾaḥbaṭtu
+ḡamara	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	ḡamartu	ḡamartu
+intaẓama	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	intaẓamtu	intaẓamtu
+malaʾa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	malaʾtu	malaʾtu
+našara	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	našartu	našartu
+qattala	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	qattaltu	qattaltu
+tābaʿa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	tābaʿtu	tābaʿtu
+taḍawwaʾa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	taḍawwaʾtu	taḍawwaʾtu
+tasānada	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	tasānadtu	tasānadtu
+yaʾisa	pos=V,mood=IND,tense=PST,gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV/PRF}	yaʾistu	yaʾistu
+
+ʾabā	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾāba	ʾaʾaba
+ʾabaqa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾābiq	ʾaʾbuq
+ʾarraḵa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾuʾarriḵ	ʾuʾarriḵ
+hannaʾa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾuhanniʾ	ʾuhanniʾ
+ḥaṣala	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾaḥṣul	ʾuḥaṣil
+iḡtaṣaba	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾaḡtaṣib	ʾuiḡtaṣib
+istaqṭaba	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾastaqṭib	ʾastaqṭib
+jāmala	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾujāmil	ʾujāmil
+sālama	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾusālim	ʾusālim
+
+ʾaʿadda	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=PL	tuʿdadna	tuʾaʿaddna
+ʿaqqama	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=PL	tuʿaqqamna	tuʿaqqamna
+baṣaqa	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=PL	tubṣaqna	tubaṣaqna
+ḵadama	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=PL	tuḵdamna	tuḵadamna
+naffaqa	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=PL	tunaffaqna	tunaffaqna
+ṣabba	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=PL	tuṣbabna	tuṣabbna
+taḵayyala	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=PL	tutaḵayyalna	tutaḵayyalna
+ẓalama	pos=V,mood=SBJV,gen=FEM,per=2,voice=PASS,num=PL	tuẓlamna	tuẓalamna
+
+ʾaddā	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=PL	ʾaddū	ʾaddū
+ʾaḥakka	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=PL	ʾaḥikkū	ʾaḥikkū
+ʾakrama	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=PL	ʾakrimū	ʾakrimū
+ʾayqana	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=PL	ʾayqinū	ʾayqinū
+ḡarra	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=PL	ḡurrū	ḡirrū
+ḥaraṯa	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=PL	uḥruṯū	ḥariṯū
+iḍṭarra	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=PL	iḍṭarrū	iḍṭirrū
+iṯṯanā	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=PL	iṯṯanū	iiṯṯnū
+makara	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=PL	umkurū	makirū
+sammama	pos=V,mood=IMP,gen=MASC,per=2,voice=ACT,num=PL	sammimū	sammimū
+
+ʾaflaḥa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	tuflaḥā	tuʾaflaḥā
+ḥannaʾa	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	tuḥannaʾā	tuḥannaʾā
+nāsaba	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	tunāsabā	tunāsabā
+zāra	pos=V,mood={IND/COND/IMP},gen=FEM,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	tuzārā	tuzārā
+
+ʿafā	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	tuʿfayāni	tuʿfayāni
+qāmara	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	tuqāmarāni	tuqāmarāni
+sammaʿa	pos=V,mood=IND,tense={PRS/FUT},gen=FEM,per=3,voice=PASS,num=DU,aspect={IPFV/PFV}	tusammaʿāni	tusammaʿāni
+
+ʿajībun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=SG	al-ʿajībati	al-ʿajībati
+ḥazīnun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=SG	al-ḥazīnati	al-ḥazīnati
+qibliyyun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=SG	al-qibliyyati	al-qibliyyati
+ṣaḥīḥun	pos=ADJ,def=DEF,case=GEN,gen=FEM,num=SG	aṣ-ṣaḥīḥati	al-ṣaḥīḥati
+
+masīḥiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=SG	al-masīḥiyya	al-masīḥiyya
+saʿūdiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=SG	as-saʿūdiyya	al-saʿūdiyya
+taʿibun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=SG	at-taʿiba	al-taʿiba
+
+masīḥun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=DU	masīḥatayni	masīḥatayni
+qalīlun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=DU	qalīlatayni	qalīlatayni
+rujūliyyun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=DU	rujūliyyatayni	rujūliyyatayni
+sākitun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=DU	sākitatayni	sākitatayni
+sarīʿun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=DU	sarīʿatayni	sarīʿatayni
+ʾurubbiyyun	pos=ADJ,def=INDF,case=ACC,gen=FEM,num=DU	ʾurubbiyyatayni	ʾurubbiyyatayni
+
+ʾašqaru	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=PL	šuqrun	šuqrun
+dustūriyyun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=PL	dustūriyyātun	dustūriyyātun
+jinsiyyun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=PL	jinsiyyātun	jinsiyyātun
+ḵafiyyun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=PL	ḵafiyyātun	ḵafiyyātun
+ṣāriḵun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=PL	ṣāriḵātun	ṣāriḵātun
+
+ʾinkilīziyyun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=SG	ʾinkilīziyyatun	ʾinkilīziyyatun
+ḵafīfun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=SG	ḵafīfatun	ḵafīfatun
+ḵallāqun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=SG	ḵallāqatun	ḵallāqatun
+maḍbūṭun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=SG	maḍbūṭatun	maḍbūṭatun
+majmūʿun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=SG	majmūʿatun	majmūʿatun
+māridun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=SG	māridatun	māridatun
+šaḡifun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=SG	šaḡifatun	šaḡifatun
+ṯābitun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=SG	ṯābitatun	ṯābitatun
+ṯāminun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=SG	ṯāminatun	ṯāminatun
+
+istaḥfaẓa	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nastaḥfiẓ	nastaḥfiẓ
+istawlā	pos=V,mood={IND/COND/IMP},gen=FEM,per=1,voice=ACT,num=PL,aspect={IPFV/PFV}	nastawli	nuistawli
+
+faḵūrun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=DU	al-faḵūratāni	al-faḵūratāni
+jāffun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=DU	al-jāffatāni	al-jāffatāni
+madaniyyun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=DU	al-madaniyyatāni	al-madaniyyatāni
+maftūḥun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=DU	al-maftūḥatāni	al-maftūḥatāni
+majhūlun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=DU	al-majhūlatāni	al-majhūlatāni
+masīḥun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=DU	al-masīḥatāni	al-masīḥatāni
+mumtāzun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=DU	al-mumtāzatāni	al-mumtāzatāni
+šaḡifun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=DU	aš-šaḡifatāni	al-šaḡifatāni
+ṣaḥīḥun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=DU	aṣ-ṣaḥīḥatāni	al-ṣaḥīḥatāni
+wājibun	pos=ADJ,def=DEF,case=NOM,gen=FEM,num=DU	al-wājibatāni	al-wājibatāni
+
+ʿilmiyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=MASC,num=PL	ʿilmiyyīn	ʿilmiyyīn
+ʾindūnīsiyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=MASC,num=PL	ʾindūnīsiyyīn	ʾindūnīsiyyīn
+
+muḥāfiẓun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=DU	al-muḥāfiẓayni	al-muḥāfiẓayni
+mutaʾakkidun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=DU	al-mutaʾakkidayni	al-mutaʾakkidayni
+muttaḥidun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=DU	al-muttaḥidayni	al-muttaḥidayni
+qārrun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=DU	al-qārrayni	al-qārrayni
+ṣāniʿun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=DU	aṣ-ṣāniʿayni	al-ṣāniʿayni
+suryāniyyun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=DU	as-suryāniyyayni	al-suryāniyyayni
+
+ʿarīqun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=SG	ʿarīqin	ʿarīqin
+ḏahabiyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=SG	ḏahabiyyin	ḏahabiyyin
+jāḏibun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=SG	jāḏibin	jāḏibin
+juzayʾiyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=SG	juzayʾiyyin	juzayʾiyyin
+mūsīqiyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=SG	mūsīqiyyin	mūsīqiyyin
+nabīhun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=SG	nabīhin	nabīhin
+nayyirun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=SG	nayyirin	nayyirin
+qarīrun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=SG	qarīrin	qarīrin
+rujūliyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=SG	rujūliyyin	rujūliyyin
+waṭaniyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=SG	waṭaniyyin	waṭaniyyin
+
+ʾaršada	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾuršid	ʾuʾaršid
+kālama	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾukālim	ʾukālim
+qāla	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾaqul	ʾaqāl
+rajā	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾarju	ʾarju
+šarraḥa	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾušarriḥ	ʾušarriḥ
+ṭalaba	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾaṭlub	ʾuṭilab
+tamannā	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾatamanna	ʾutamanni
+wakkada	pos=V,mood={IND/COND/IMP},gen=MASC,per=1,voice=ACT,num=SG,aspect={IPFV/PFV}	ʾuwakkid	ʾuwakkid
+
+diblūmāsiyyun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=DU	ad-diblūmāsiyyatayni	al-diblūmāsiyyatayni
+masīḥiyyun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=DU	al-masīḥiyyatayni	al-masīḥiyyatayni
+mustaqillun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=DU	al-mustaqillatayni	al-mustaqillatayni
+
+baṭīʾun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=DU	baṭīʾayni	baṭīʾayni
+fāʾizun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=DU	fāʾizayni	fāʾizayni
+hindiyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=DU	hindiyyayni	hindiyyayni
+majhūlun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=DU	majhūlayni	majhūlayni
+mundaṯirun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=DU	mundaṯirayni	mundaṯirayni
+mustaʿmirun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=DU	mustaʿmirayni	mustaʿmirayni
+mustaqillun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=DU	mustaqillayni	mustaqillayni
+mutadayyinun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=DU	mutadayyinayni	mutadayyinayni
+nabīḏun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=DU	nabīḏayni	nabīḏayni
+tawʾamun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=DU	tawʾamayni	tawʾamayni
+
+ʾaqfala	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tuqfalāni	tuʾaqflāni
+ʾaršada	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	turšadāni	tuʾaršadāni
+jāba	pos=V,mood=IND,tense={PRS/FUT},gen=MASC,per=2,voice=PASS,num=DU,aspect={IPFV/PFV}	tujābāni	tujābāni
+
+ʿarabiyyun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=DU	ʿarabiyyayni	ʿarabiyyayni
+hayūliyyun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=DU	hayūliyyayni	hayūliyyayni
+mamnūʿun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=DU	mamnūʿayni	mamnūʿayni
+masfūḥun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=DU	masfūḥayni	masfūḥayni
+mustaqīmun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=DU	mustaqīmayni	mustaqīmayni
+ṣāriḵun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=DU	ṣāriḵayni	ṣāriḵayni
+sarīʿun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=DU	sarīʿayni	sarīʿayni
+
+munḵafiḍun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=DU	munḵafiḍatāni	munḵafiḍatāni
+ṣaḥīḥun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=DU	ṣaḥīḥatāni	ṣaḥīḥatāni
+šahriyyun	pos=ADJ,def=INDF,case=NOM,gen=FEM,num=DU	šahriyyatāni	šahriyyatāni
+
+ʿāmmiyyun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=SG	al-ʿāmmiyya	al-ʿāmmiyya
+ḡāʾibun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=SG	al-ḡāʾiba	al-ḡāʾiba
+ḵuṣūṣiyyun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=SG	al-ḵuṣūṣiyya	al-ḵuṣūṣiyya
+lubnāniyyun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=SG	al-lubnāniyya	al-lubnāniyya
+mawḍūʿiyyun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=SG	al-mawḍūʿiyya	al-mawḍūʿiyya
+miskīnun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=SG	al-miskīna	al-miskīna
+ṣāmitun	pos=ADJ,def=DEF,case=ACC,gen=MASC,num=SG	aṣ-ṣāmita	al-ṣāmita
+
+baḥrayniyyun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=PL	baḥrayniyyīna	baḥrayniyyīna
+taqrīriyyun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=PL	taqrīriyyīna	taqrīriyyīna
+waṭaniyyun	pos=ADJ,def=INDF,case=ACC,gen=MASC,num=PL	waṭaniyyīna	waṭaniyyīna
+
+ḡāliyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=PL	ḡāliyyīna	ḡāliyyīna
+ʿimlāqiyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=PL	ʿimlāqiyyīna	ʿimlāqiyyīna
+qawmiyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=PL	qawmiyyīna	qawmiyyīna
+ṯānawiyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=PL	ṯānawiyyīna	ṯānawiyyīna
+tartībiyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=PL	tartībiyyīna	tartībiyyīna
+ʿumūmiyyun	pos=ADJ,def=INDF,case=GEN,gen=MASC,num=PL	ʿumūmiyyīna	ʿumūmiyyīna
+
+ʾalifbāʾiyyun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=SG	al-ʾalifbāʾiyyata	al-ʾalifbāʾiyyata
+ḵuṣūṣiyyun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=SG	al-ḵuṣūṣiyyata	al-ḵuṣūṣiyyata
+munawwimun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=SG	al-munawwimata	al-munawwimata
+muzʿijun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=SG	al-muzʿijata	aṭ-muzʿijata
+qurʾāniyyun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=SG	al-qurʾāniyyata	al-qurʾāniyyata
+ṯābitun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=SG	aṯ-ṯābitata	al-ṯābitata
+yawmiyyun	pos=ADJ,def=DEF,case=ACC,gen=FEM,num=SG	al-yawmiyyata	al-yawmiyyata
+
+ʾaṭrašu	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=SG	ṭaršāʾ	ṭaršāʾ
+baḥrayniyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=SG	baḥrayniyya	baḥrayniyya
+ḡāʾimun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=SG	ḡāʾima	ḡāʾima
+jāhilun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=SG	jāhila	jāhila
+qurʾāniyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=SG	qurʾāniyya	qurʾāniyya
+ṭabīʿiyyun	pos=ADJ,def=INDF,case={NOM/ACC/GEN},gen=FEM,num=SG	ṭabīʿiyya	ṭabīʿiyya
+
+ʾamrīkiyyun	pos=ADJ,def=DEF,case=GEN,gen=MASC,num=PL	al-ʾamrīkiyyīna	al-ʾamrīkiyyīna
+qaṭariyyun	pos=ADJ,def=DEF,case=GEN,gen=MASC,num=PL	al-qaṭariyyīna	al-qaṭariyyīna
+
+ʿāmmiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=DU	al-ʿāmmiyyatayn	al-ʿāmmiyyatayn
+ʾaʿwaru	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=DU	al-ʿawrāʾayn	al-ʿawrāʾayn
+ḍaʿīfun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=DU	aḍ-ḍaʿīfatayn	al-ḍaʿīfatayn
+juzayʾiyyun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=DU	al-juzayʾiyyatayn	al-juzayʾiyyatayn
+majhūlun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=DU	al-majhūlatayn	al-majhūlatayn
+majmūʿun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=DU	al-majmūʿatayn	al-majmūʿatayn
+mašhūdun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=DU	al-mašhūdatayn	al-mašhūdatayn
+mudawwarun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=DU	al-mudawwaratayn	al-mudawwaratayn
+nāfiʿun	pos=ADJ,def=DEF,case={NOM/ACC/GEN},gen=FEM,num=DU	an-nāfiʿatayn	al-nāfiʿatayn
+
+ʾimārātiyyun	pos=ADJ,def=DEF,case=GEN,gen=MASC,num=DU	al-ʾimārātiyyayni	al-ʾimārātiyyayni
+jawwiyyun	pos=ADJ,def=DEF,case=GEN,gen=MASC,num=DU	al-jawwiyyayni	al-jawwiyyayni
+mustadīrun	pos=ADJ,def=DEF,case=GEN,gen=MASC,num=DU	al-mustadīrayni	al-mustadīrayni
+nafīsun	pos=ADJ,def=DEF,case=GEN,gen=MASC,num=DU	an-nafīsayni	al-nafīsayni
+
