@@ -31,8 +31,9 @@ warnings.filterwarnings("ignore")
 
 np.seterr(invalid='ignore')
 
-def cv_mode(testing_mode, multiclass, predict_lemmas, find_flection, paradigm_file, infile,
-            fraction, nfolds=0, selection_method=None, feature_fraction=None,
+def cv_mode(testing_mode, multiclass, predict_lemmas, find_flection,
+            paradigm_file, infile, max_length, fraction, nfolds=0,
+            selection_method=None, feature_fraction=None,
             output_train_dir=None, output_pred_dir=None):
     '''
     Определяет качество классификатора с заданными параметрами
@@ -109,7 +110,7 @@ def cv_mode(testing_mode, multiclass, predict_lemmas, find_flection, paradigm_fi
     transformation_handler = TransformationsHandler(paradigm_table, pattern_counts)
     transformation_classifier_params = {'select_features': 'ambiguity',
                                         'selection_params': {'nfeatures': 0.1, 'min_count': 2}}
-    statprof.start()
+    # statprof.start()
     cls = JointParadigmClassifier(paradigm_classifier, transformation_handler,
                                   paradigm_classifier_params, transformation_classifier_params)
     # cls = CombinedParadigmClassifier(paradigm_classifier, transformation_handler,
@@ -149,30 +150,32 @@ def cv_mode(testing_mode, multiclass, predict_lemmas, find_flection, paradigm_fi
     else:
         descrs_by_codes, test_words, prediction_probs_for_output = None, None, None
     if not predict_lemmas:
-        label_precisions, variable_precisions =\
+        label_precisions, variable_precisions, form_precisions =\
             output_accuracies(classes, test_labels_with_vars, predictions, multiclass,
-                              outfile=output_pred_dir, paradigm_descrs=descrs_by_codes,
-                              test_words=test_words, predicted_probs=prediction_probs_for_output)
-        print("{0}\t{1:<.2f}\t{2}\t{3:<.2f}\t{4:<.2f}".format(
-            max_length, fraction, cls.paradigm_classifier.nfeatures,
-            100 * np.mean(label_precisions), 100 * np.mean(variable_precisions)))
-    else:
-        label_precisions, variable_precisions, lemma_precisions =\
-            output_accuracies(classes, test_labels_with_vars, predictions,
-                              multiclass, test_lemmas, pred_lemmas,
                               outfile=output_pred_dir, paradigm_descrs=descrs_by_codes,
                               test_words=test_words, predicted_probs=prediction_probs_for_output)
         print("{0}\t{1:<.2f}\t{2}\t{3:<.2f}\t{4:<.2f}\t{5:<.2f}".format(
             max_length, fraction, cls.paradigm_classifier.nfeatures,
             100 * np.mean(label_precisions), 100 * np.mean(variable_precisions),
-            100 * np.mean(lemma_precisions)))
-
-    statprof.stop()
-    with open("statprof_{0:.1f}_{1:.1f}.stat".format(fraction, feature_fraction), "w") as fout:
-        with redirect_stdout(fout):
-            statprof.display()
+            100 * np.mean(form_precisions)))
+    else:
+        label_precisions, variable_precisions, lemma_precisions, form_precisions =\
+            output_accuracies(classes, test_labels_with_vars, predictions,
+                              multiclass, test_lemmas, pred_lemmas,
+                              outfile=output_pred_dir, paradigm_descrs=descrs_by_codes,
+                              test_words=test_words, predicted_probs=prediction_probs_for_output,
+                              save_confusion_matrices=True)
+        print("{0}\t{1:<.2f}\t{2}\t{3:<.2f}\t{4:<.2f}\t{5:<.2f}\t{6:<.2f}".format(
+            max_length, fraction, cls.paradigm_classifier.nfeatures,
+            100 * np.mean(label_precisions), 100 * np.mean(variable_precisions),
+            100 * np.mean(lemma_precisions), 100 * np.mean(form_precisions)))
+    # statprof.stop()
+    # with open("statprof_{0:.1f}_{1:.1f}.stat".format(fraction, feature_fraction), "w") as fout:
+    #     with redirect_stdout(fout):
+    #         statprof.display()
     # вычисляем точность и обрабатываем результаты
     # for curr_test_values, curr_pred_values in zip(test_values_with_codes, pred_values_with_codes):
+    #     print(len(curr_test_values), len(curr_pred_values))
     #     for first, second in zip(curr_test_values, curr_pred_values):
     #         first_code, first_vars = first[0].split('_')[0], tuple(first[0].split('_')[1:])
     #         second_code, second_vars = second[0].split('_')[0], tuple(second[0].split('_')[1:])
@@ -225,9 +228,18 @@ def make_lemmas(paradigm_handlers, codes_with_var_values):
                        for code, var_values in elem])
     return answer
 
+
+def make_full_paradigms(paradigm_handlers, codes_with_var_values):
+    answer = []
+    for elem in codes_with_var_values:
+        answer.append([paradigm_handlers[code]._substitute_words(
+            var_values, return_principal=False)
+                       for code, var_values in elem])
+    return answer
+
 def output_accuracies(classes, test_labels_with_vars, pred_labels_with_vars, multiclass,
                       test_lemmas=None, pred_lemmas=None, outfile=None, test_words=None,
-                      paradigm_descrs=None, predicted_probs=None):
+                      paradigm_descrs=None, predicted_probs=None, save_confusion_matrices=True):
     """
     Вычисляет различные показатели точности классификации
     """
@@ -258,6 +270,27 @@ def output_accuracies(classes, test_labels_with_vars, pred_labels_with_vars, mul
     if test_lemmas:
         lemma_precisions = [skm.f1_score(first, second, average='binary')
                             for first, second in zip(test_lemmas, pred_lemmas)]
+    paradigmers_by_classes = {label: ParadigmSubstitutor(paradigm_descrs[label]) for label in classes}
+    pred_word_forms = [[] for i in range(nfolds)]
+    for i, sample in enumerate(pred_labels_with_vars):
+        for elem in sample:
+            code, var_values = elem[0]
+            pred_word_forms[i].append(
+                paradigmers_by_classes[code]._substitute_words(var_values, return_principal=False))
+    test_word_forms = [[] for i in range(nfolds)]
+    for i, sample in enumerate(test_labels_with_vars):
+        for elem in sample:
+            code, var_values = elem[0]
+            test_word_forms[i].append(
+                paradigmers_by_classes[code]._substitute_words(var_values, return_principal=False))
+    form_accuracies = [0.0] * nfolds
+    for i, (pred_forms_sample, test_forms_sample) in\
+            enumerate(zip(pred_word_forms, test_word_forms)):
+        total, correct = 0, 0
+        for first, second in zip(pred_forms_sample, test_forms_sample):
+            total += len(first)
+            correct += sum(int(x==y) for x, y in zip(first, second))
+        form_accuracies[i] = correct / total
     if outfile:
         if not paradigm_descrs or not test_words:
             print("Cannot output comparison results without paradigm descriptions")
@@ -276,7 +309,7 @@ def output_accuracies(classes, test_labels_with_vars, pred_labels_with_vars, mul
                             fout.write("{0}\t{1:.2f}\n".format(paradigm_descrs[code], 100 * prob))
                     else:
                         curr_answer = pred_elem
-                        for (code, var_values), in zip(curr_answer):
+                        for (code, var_values), in zip(*curr_answer):
                             fout.write("{0}\n".format(paradigm_descrs[code]))
                     fout.write("\n")
             curr_outfile = os.path.join(outfile, "fold_{0}_incorrect.out".format(fold))
@@ -310,10 +343,25 @@ def output_accuracies(classes, test_labels_with_vars, pred_labels_with_vars, mul
                         if any(lemma not in second for lemma in first):
                             fout.write('{0}\t{1}\n'.format(word, " ".join(first)))
                             fout.write('{1}\n\n'.format(word, " ".join(second)))
+            if save_confusion_matrices:
+                confusion_outfile = os.path.join(outfile, "confusion_fold_{0}.out".format(fold))
+                confusion_matrix = skm.confusion_matrix(np.ravel(test_labels[fold-1]),
+                                                        np.ravel(pred_labels[fold-1]), classes)
+                with open(confusion_outfile, "w", encoding="utf8") as fout:
+                    for i, string in enumerate(confusion_matrix):
+                        fout.write('{}\nCorrect: {}\tTotal: {}\n'.format(
+                            paradigm_descrs[classes[i]], string[i], np.sum(string)))
+                        for j, val in sorted(enumerate(string), key=(lambda x: x[1]), reverse=True):
+                            if j == i:
+                                continue
+                            if val == 0:
+                                break
+                            fout.write("{}\t{}\n".format(paradigm_descrs[classes[j]], val))
+                        fout.write("\n")
     if test_lemmas:
-        return micro_precisions, variable_precisions, lemma_precisions
+        return micro_precisions, variable_precisions, lemma_precisions, form_accuracies
     else:
-        return micro_precisions, variable_precisions
+        return micro_precisions, variable_precisions, form_accuracies
 
 
 def write_data(outfile, data, labels, true_labels=None):
@@ -447,7 +495,7 @@ if __name__ == '__main__':
                         output_pred_dir_ = None
                     cv_mode(testing_mode, multiclass=multiclass, predict_lemmas=predict_lemmas,
                             find_flection=find_flection, paradigm_file=paradigm_file, infile=infile,
-                            fraction=fraction, nfolds=nfolds,
+                            max_length=max_length, fraction=fraction, nfolds=nfolds,
                             selection_method=selection_method, feature_fraction=feature_fraction,
                             output_train_dir=output_train_dir_, output_pred_dir=output_pred_dir_)
 

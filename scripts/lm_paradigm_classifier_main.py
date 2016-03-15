@@ -12,7 +12,7 @@ import sklearn.cross_validation as skcv
 from input_reader import process_codes_file, process_lemmas_file, read_paradigms, read_lemmas
 from paradigm_detector import ParadigmFragment, ParadigmSubstitutor
 from learn_paradigms import make_lemmas
-from lm_paradigm_classifier import LMParadigmClassifier
+from lm_paradigm_classifier_ import LMParadigmClassifier
 
 def cv_mode(testing_mode, multiclass, predict_lemmas, paradigm_file, infile,
             fraction, nfolds=0, order=3):

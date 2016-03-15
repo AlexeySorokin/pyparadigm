@@ -3,9 +3,12 @@
 #-------------------------------------------------------------------------------
 
 import sys
+import os
 from itertools import chain
 from collections import OrderedDict, Counter, defaultdict
 import bisect
+import subprocess
+
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin, clone
 from sklearn import svm as sksvm
@@ -14,12 +17,18 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.pipeline import Pipeline
 from scipy.sparse import csr_matrix, csc_matrix, issparse
 
-from paradigm_detector import ParadigmFragment, make_flection_paradigm, get_flection_length
+# import kenlm
+
+from paradigm_detector import ParadigmFragment, make_flection_paradigm, get_flection_length,\
+    ParadigmSubstitutor
 from feature_selector import MulticlassFeatureSelector, SelectingFeatureWeighter, ZeroFeatureRemover
 from transformation_classifier import LocalTransformationClassifier, OptimalPositionSearcher,\
     extract_uncovered_substrings
 from graph_utilities import Trie, prune_dead_branches
-from tools import counts_to_probs
+from tools import counts_to_probs, extract_classes_from_sparse_probs
+from counts_collector import LanguageModel
+
+# fdump = open("dump.out", "w", encoding="utf8")
 
 def make_flection_paradigms_table(paradigms_table):
     """
@@ -75,16 +84,18 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         при которой данный класс возвращается при multiclass=True
     """
     def __init__(self, paradigm_table=None, multiclass=False, find_flection=False,
-                 max_length=5, use_prefixes=False, has_letter_classifiers=True,
-                 classifier=sklm.LogisticRegression(), classifier_params = None,
+                 max_length=5, use_prefixes=False, max_prefix_length=2, has_letter_classifiers=True,
+                 classifier=sklm.LogisticRegression(), classifier_params=None,
                  selection_method='ambiguity', nfeatures=None, minfeatures=100,
                  weight_features=False, smallest_prob = 0.01, min_probs_ratio=0.9,
-                 unique_class_prob = 0.9, to_memorize_suffixes = 3):
+                 unique_class_prob=0.9, class_count_alpha=0.1,
+                 to_memorize_suffixes=3, suffixes_to_delete=None):
         self.paradigm_table = paradigm_table
         self.multiclass = multiclass
         self.find_flection=find_flection  # индикатор отделения окончания перед классификацией
         self.max_length = max_length
         self.use_prefixes = use_prefixes
+        self.max_prefix_length = max_prefix_length
         self.classifier = classifier
         self.classifier_params = classifier_params
         self.selection_method = selection_method
@@ -95,11 +106,18 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         self.min_probs_ratio = min_probs_ratio
         self.has_letter_classifiers = has_letter_classifiers
         self.unique_class_prob = unique_class_prob
+        self.class_count_alpha = class_count_alpha
         self.to_memorize_suffixes = to_memorize_suffixes
+        self.suffixes_to_delete = suffixes_to_delete
 
     def _prepare_classifier(self):
         if self.classifier_params is None:
             self.classifier_params = dict()
+        if self.suffixes_to_delete is None:
+            # self.suffixes_to_delete = ['ся', 'сь']
+            self.suffixes_to_delete = []
+        self.max_length_of_suffix_to_delete = (max(len(x) for x in self.suffixes_to_delete)
+                                               if len(self.suffixes_to_delete) > 0 else 0)
         self.classifier.set_params(**self.classifier_params)
         self.first_selector = MulticlassFeatureSelector(local=True, method=self.selection_method,
                                                         min_count=3, nfeatures=-1)
@@ -129,6 +147,14 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                                             retain_multiple=self.multiclass, return_y=True)
         # сразу определим множество классов
         self.classes_, Y_new = np.unique(Y, return_inverse=True)
+        self.active_classes_number = len(self.classes_)
+        self.known_answer_ = None
+        self.classes_  = list(self.classes_)
+        classes_set = set(self.classes_)
+        for code in self.paradigm_table.values():
+            if code not in classes_set:
+                self.classes_.append(code)
+        self.classes_ = np.array(self.classes_)
         self.reverse_classes = {label: i for i, label in enumerate(self.classes_)}
         # перекодируем классы в новую нумерацию перед подсчётом статистики
         y_new = [[self.reverse_classes[label] for label in labels] for labels in y]
@@ -143,12 +169,15 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
             self.letter_classifiers_ = dict()
             for letter, indexes in data_indexes_by_letters.items():
                 X_curr, y_curr = X_train[indexes,:], Y_new[indexes]
-                # print(letter, set(y_curr))
                 if letter not in self._single_class_letters:
                     self.letter_classifiers_[letter] = clone(self.classifier)
                     self.letter_classifiers_[letter].fit(X_curr, y_curr)
         else:
-            self.classifier.fit(X_train, Y_new)
+            # здесь надо запомнить ответ, если все ответы одинаковы
+            if len(classes_set) == 1:
+                self.known_answer_ = 0
+            else:
+                self.classifier.fit(X_train, Y_new)
         return self
 
     def predict(self, X):
@@ -233,15 +262,16 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         # чтобы не делать индексацию при каждом поиске парадигмы,
         # сохраняем обработчики для каждого из возможных классов
         if not self.has_letter_classifiers:
-            probs = self.classifier.predict_proba(X_train)
-            # перекодируем классы в self.classifier.classes_ в элементы self.classes_
-            temp_fragmentors =\
-                [self._paradigm_fragmentors[self.classes_[i]] for i in self.classifier.classes_]
-            temp_fragmentors_indexes =\
-                [self._fragmentors_indexes[self.classes_[i]] for i in self.classifier.classes_]
-            for i, word, word_probs in zip(other_indexes, X_unanswered, probs):
-                answer[i] = self._extract_word_probs(word, word_probs, temp_fragmentors,
-                                                     temp_fragmentors_indexes)
+            if X_train.shape[0] > 0:
+                probs = self.classifier.predict_proba(X_train)
+                # перекодируем классы в self.classifier.classes_ в элементы self.classes_
+                temp_fragmentors =\
+                    [self._paradigm_fragmentors[self.classes_[i]] for i in self.classifier.classes_]
+                temp_fragmentors_indexes =\
+                    [self._fragmentors_indexes[self.classes_[i]] for i in self.classifier.classes_]
+                for i, word, word_probs in zip(other_indexes, X_unanswered, probs):
+                    answer[i] = self._extract_word_probs(word, word_probs, temp_fragmentors,
+                                                         temp_fragmentors_indexes)
         else:
             data_indexes_by_letters = arrange_indexes_by_last_letters(X_unanswered)
             for letter, indexes in sorted(data_indexes_by_letters.items()):
@@ -266,8 +296,13 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                         X[other_indexes[i]], word_probs, temp_fragmentors, temp_fragmentors_indexes)
                     answer[other_indexes[i]] =\
                         ([curr_classes[j] for j in cls_class_indices_list], probs_list)
-        # for word, (first, _) in zip(words, answer):
-        #     print(word, len(first))
+        # НУЖНО ДОБАВИТЬ ДОПОЛНИТЕЛЬНЫЕ КЛАССЫ ЕЩЁ НА СТАДИИ ОБУЧЕНИЯ
+        for i, (word, (indices, probs)) in enumerate(zip(X, answer)):
+            if len(indices) == 0:
+                indices = [self.reverse_classes[code] for code, paradigmer
+                           in self._paradigm_fragmentors.items() if paradigmer.fits_to_pattern(word)]
+                probs = np.ones(dtype=float, shape=(len(indices),)) / len(indices)
+                answer[i] = indices, probs
         return answer
 
     def _precompute_known_answers(self, X):
@@ -282,10 +317,14 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
             для пополнения в функции _make_probs_from_known_labels
         """
         known_indexes, other_indexes, answers_for_known_indexes = [], [], []
+        if self.known_answer_ is not None:
+            known_indexes = list(range(len(X)))
+            other_indexes = []
+            known_answers = [(self.known_answer_, 0)] * len(X)
+            return known_indexes, other_indexes, known_answers
         if self.to_memorize_suffixes:
             suffix_start = -2 if self.has_letter_classifiers else -1
             suffix_end = -1 - self.to_memorize_suffixes
-            # print(self.memorized_suffixes)
         for i, word in enumerate(X):
             letter = word[-1]
             if self.to_memorize_suffixes > 0:
@@ -297,9 +336,14 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                 if trie is not None:
                     node_data = trie.partial_path(suffix)[-1].data
                 if node_data is not None and len(node_data) > 0:
-                    known_indexes.append(i)
-                    answers_for_known_indexes.append((node_data, int(self.has_letter_classifiers)))
-                    continue
+                    # здесь надо проверить, подойдёт ли слово под соотв.парадигму
+                    new_node_data =\
+                        [j for j in node_data
+                         if self._paradigm_fragmentors[self.classes_[j]].fits_to_pattern(word)]
+                    if len(new_node_data) > 0:
+                        known_indexes.append(i)
+                        answers_for_known_indexes.append((node_data, int(self.has_letter_classifiers)))
+                        continue
             if self.has_letter_classifiers:
                 labels = self._single_class_letters.get(letter)
                 if labels is not None:
@@ -374,25 +418,7 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         """
         '''
         probs = self._predict_proba(X)
-        answer = [None] * len(probs)
-        max_value = -np.log(self.smallest_prob) + np.log(1.0 - self.smallest_prob)
-        for i, (indices, word_probs) in enumerate(probs):
-            # print(X[i])
-            # for index, prob in zip(indices, word_probs):
-            #     print(self.classes_)
-            #     print("{0} {1} {2:.4f}".format(index, self._paradigms_by_codes[self.classes_[index]], prob))
-            if len(indices) > 0:
-                word_probs = np.minimum(word_probs, 1.0 - self.smallest_prob)
-                word_probs = np.maximum(word_probs, self.smallest_prob)
-                minus_log_probs = np.log(word_probs) - np.log(1.0 - word_probs)
-                # элементы minus_log_probs находились в диапазоне [-max_value; max_value]
-                minus_log_probs = 0.5 * (minus_log_probs / max_value + 1.0)
-                # print(word_probs)
-                # print(minus_log_probs)
-                answer[i] = (indices, minus_log_probs)
-            else:
-                answer[i] = ([], [])
-        return answer
+        return make_minus_log_probs(probs, self.smallest_prob)
 
     # def _find_flections(self, X, y=None, create_features=False):
     #     """
@@ -415,6 +441,16 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
     #     X_stemmed = [word[ :(len(word) - self._flection_lengths[label])]
     #                          for word, label in zip(X, y_flections)]
     #     return X_stemmed, y_flections, flection_features
+
+
+    def _find_suffix_to_delete(self, word):
+        prefix, suffix = word, ""
+        for i in range(0, self.max_length_of_suffix_to_delete):
+            curr_suffix = word[-i-1:]
+            if curr_suffix in self.suffixes_to_delete:
+                prefix, suffix = word[:-i-1], curr_suffix
+        return prefix, suffix
+
 
     def _preprocess_input(self, X, y=None, create_features=False,
                           retain_multiple=False, return_y=False, sparse_type='csc'):
@@ -440,13 +476,15 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
             #  признаки для суффиксов, не встречавшихся в обучающей выборке
             self.features.extend(("-" * length + "#")
                                  for length in range(1, self.max_length+1))
+            for suffix in self.suffixes_to_delete:
+                self.features.extend(("-" * length + suffix + "#")
+                                     for length in range(1, self.max_length+1))
             if self.use_prefixes:
                 self.features.extend((("#" + "-" * length)
-                                      for length in range(1, self.max_length+1)))
+                                      for length in range(1, self.max_prefix_length+1)))
             for code, feature in enumerate(self.features):
                 self.feature_codes[feature] = code
             self.features_number = len(self.features)
-            # создаём функцию для обработки неизвестных признаков
         if y is None:
             y = [[None]] * len(X)
             retain_multiple = False
@@ -454,12 +492,13 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         X_with_temporary_codes = []
         for word in X:
             active_features_codes = []
-            for length in range(min(self.max_length, len(word))):
-                feature = word[-length-1:] + "#"
+            word_without_suffix, rest = self._find_suffix_to_delete(word)
+            for length in range(min(self.max_length, len(word_without_suffix))):
+                feature = word_without_suffix[-length-1:] + rest + "#"
                 feature_code = self._get_feature_code(feature, create_new=create_features)
                 active_features_codes.append(feature_code)
             if self.use_prefixes:
-                for length in range(min(self.max_length, len(word))):
+                for length in range(min(self.max_prefix_length, len(word))):
                     feature = "#" + word[:(length+1)]
                     feature_code = self._get_feature_code(feature, create_new=create_features)
                 active_features_codes.append(feature_code)
@@ -575,7 +614,6 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                 new_features.append(feature)
                 new_feature_codes[feature] = new_features_number
                 new_features_number += 1
-            # print(i, self.features[i], flag, feature, to_add)
         # сохранение новых полей класса
         old_features = self.features
         self.features = new_features
@@ -614,12 +652,13 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         Подсчёт статистики встречаемости классов
         """
         # сначала считаем частоты классов
-        label_counts = defaultdict(int)
+        label_counts = {i: self.class_count_alpha
+                        for i, _ in enumerate(self.classes_)}
         if self.has_letter_classifiers:
             label_counts_by_letters = defaultdict(lambda: defaultdict(int))
             constant_labels_for_letters = dict()
         for word, labels in zip(X, y):
-            # labels = [self.reverse_classes[label] for label in labels]
+            labels = [self.reverse_classes[label] for label in labels]
             for label in labels:
                 label_counts[label] += 1
             if self.has_letter_classifiers:
@@ -649,7 +688,7 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                     self._single_class_letters[letter] = constant_labels_for_letter
         if self.to_memorize_suffixes > 0:
             self.memorized_suffixes = _memorize_suffixes(
-                self.to_memorize_suffixes,X, y, remove_last_letter=self.has_letter_classifiers)
+                self.to_memorize_suffixes, X, y, remove_last_letter=self.has_letter_classifiers)
         return
 
     def _prepare_fragmentors(self):
@@ -700,13 +739,23 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
     """
     def __init__(self, paradigm_classifier, transformation_handler,
                  paradigm_classifier_params, transformation_classifier_params,
-                 smallest_prob=0.01, min_probs_ratio=0.75):
+                 smallest_prob=0.001, min_probs_ratio=0.75,
+                 has_language_model=False, lm_order=3, has_joint_classifier=False,
+                 joint_classifier=sklm.LogisticRegression(), max_lm_coeff=1.25,
+                 sparse=True, tmp_folder=None):
         self.paradigm_classifier = paradigm_classifier
         self.transformation_handler = transformation_handler
         self.paradigm_classifier_params = paradigm_classifier_params
         self.transformation_classifier_params = transformation_classifier_params
         self.smallest_prob = smallest_prob
         self.min_probs_ratio = min_probs_ratio
+        self.has_language_model = has_language_model
+        self.lm_order = lm_order
+        self.has_joint_classifier = has_joint_classifier
+        self.joint_classifier = joint_classifier
+        self.max_lm_coeff = max_lm_coeff
+        self.sparse = sparse
+        self.tmp_folder = tmp_folder
 
     def fit(self, X, y):
         """
@@ -721,6 +770,8 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
         X_flat, labels, var_values = list(list(elem) for elem in zip(*training_data))
         self.paradigm_classifier.fit(X_flat, [[x] for x in labels])
         self.classes_ = self.paradigm_classifier.classes_
+        self.reverse_classes = self.paradigm_classifier.reverse_classes
+        self.active_classes_number = self.paradigm_classifier.active_classes_number
         transformation_classifier =\
             LocalTransformationClassifier(**self.transformation_classifier_params)
         self.position_searcher = OptimalPositionSearcher(self.transformation_handler.transformations_by_paradigms,
@@ -729,9 +780,96 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
         data_for_trans_training, trans_labels =\
                 self.transformation_handler.create_training_data(training_data)
         self.position_searcher.fit(data_for_trans_training, [[x] for x in trans_labels])
+        if self.has_language_model:
+            recoded_labels =\
+                [self.paradigm_classifier.reverse_classes[label] for label in labels]
+            self._fit_joint_classifier(X_flat, recoded_labels, var_values)
         return self
 
+    def _fit_joint_classifier(self, X, labels, var_values):
+        """
+        Обучает классификатор, учитывающий как вероятности по базовому классификатору,
+        так и по языковой модели
+        """
+        if self.tmp_folder is None:
+            self.tmp_folder = "models_folder"
+        # нужно создать обработчики парадигм по их описаниям
+        self.make_paradigmers()
+        self._fit_language_model(labels, var_values)
+        if self._fit_joint_classifier:
+            predicted_answer = self._predict_base_probs(X)
+            predicted_answer =\
+                [self._remove_unprobable_indices(elem) for elem in predicted_answer]
+            indices_with_probs =\
+                [(tuple(x[0] for x in elem[0]), elem[1]) for elem in predicted_answer]
+            minus_log_probs = make_minus_log_probs(indices_with_probs, self.smallest_prob)
+            var_values = [[x[1] for x in elem[0]] for elem in predicted_answer]
+            (_, X_new, y_new), _ = self._prepare_to_joint_classifier(minus_log_probs, var_values, labels)
+            self.joint_classifier.fit(X_new, y_new)
+        return self
+
+    def _prepare_to_joint_classifier(self, minus_log_probs, var_values, labels=None):
+        """
+        Готовит данные для применения совместного классификатора
+        """
+        if self.sparse:
+            rows, cols, data = [], [], []
+        else:
+            X_new = np.zeros(dtype=np.float64,
+                             shape=(len(y_new), 2*self.active_classes_number))
+        if labels is not None:
+            labels_new = []
+        indexes_to_train, other_indexes, X_other = [], [], []
+        curr_row_number = 0
+        for j, ((indices, word_probs), curr_var_values) in\
+                enumerate(zip(minus_log_probs, var_values)):
+            if min(indices) >= self.active_classes_number:
+                other_indexes.append(j)
+                X_other.append((indices, word_probs))
+                continue
+            if self.sparse:
+                current_cols, current_data = [], []
+            else:
+                curr_row = np.zeros(shape=(2*self.active_classes_number,), dtype=float)
+            for i, prob, variable_values in zip(indices, word_probs, curr_var_values):
+                if i >= self.active_classes_number:
+                    continue
+                # print(self._paradigmers[self.classes_[i]].descr, variable_values)
+                lm_scores = self._make_lm_score(self.classes_[i], variable_values)
+                lm_score = sum(lm_scores) / len(lm_scores)
+                lm_worst_score = min(lm_scores)
+                # помещаем значения в массив в зависимости от self.sparse
+                if self.sparse:
+                    current_cols.extend((2 * i, 2 * i + 1))
+                    current_data.extend((prob, lm_score))
+                else:
+                    curr_row[2*i: 2*(i + 1)] = (prob, lm_score)
+                # fdump.write("{} {}\n".format(self._paradigmers[self.classes_[i]].descr,
+                #                              variable_values))
+                # fdump.write("{:.4f} {:.2f} {:.2f}\n".format(prob, lm_score, lm_worst_score))
+            # fdump.write("\n")
+            indexes_to_train.append(j)
+            if self.sparse:
+                rows.extend(curr_row_number for _ in current_data)
+                cols.extend(current_cols)
+                data.extend(current_data)
+            else:
+                X_new[curr_row_number] = curr_row
+            curr_row_number += 1
+            if labels is not None:
+                labels_new.append(labels[j])
+        if self.sparse:
+            X_new = csr_matrix((data, (rows, cols)), dtype=np.float64,
+                               shape=(curr_row_number, 2*self.active_classes_number))
+        # if labels is None:
+        #     # fdump.close()
+        if labels is None:
+            return ((indexes_to_train, X_new), (other_indexes, X_other))
+        else:
+            return ((indexes_to_train, X_new, labels_new), (other_indexes, X_other))
+
     def predict(self, X):
+        # ПЕРЕДЕЛАТЬ, ЧТОБЫ ВЫЗЫВАЛАСЬ predict_probs
         labels = self.paradigm_classifier.predict(X)
         # var_values = [[self.position_searcher.predict_variables(code, word) for code in codes]
         #                for word, codes in zip(X, labels)]
@@ -755,7 +893,7 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
                 answer.append([(None, [])])
         return answer
 
-    def predict_probs(self, X):
+    def _predict_base_probs(self, X):
         """
         Возвращает возможные наборы ((код, переменные), вероятность) в порядке убывания вероятности
         """
@@ -768,15 +906,131 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
                                      for (indices, probs), word in zip(codes_with_probs, X)))
         var_values = self.position_searcher.predict_variables(labels_for_variable_prediction,
                                                               words_for_variable_prediction)
+
         end = 0
         answer = []
-        for indices, probs in codes_with_probs:
+        for j, (indices, probs) in enumerate(codes_with_probs):
             start = end
             end = start + len(indices)
-            answer.append((list(zip([self.classes_[index] for index in indices],
-                                    var_values[start:end])),
-                           probs))
+            # answer.append((list(zip([self.classes_[index] for index in indices],
+            #                         var_values[start:end])),
+            #                probs))
+            answer.append((list(zip(indices, var_values[start:end])), probs))
         return answer
+
+    def predict_probs(self, X):
+        """
+        Возвращает возможные наборы ((код, переменные), вероятность) в порядке убывания вероятности
+        """
+        answer = self._predict_base_probs(X)
+        # здесь надо вставить классификатор с языковой моделью
+        if self.has_language_model:
+            answer = [self._remove_unprobable_indices(elem) for elem in answer]
+            if self.has_joint_classifier:
+                indices_with_probs =\
+                    [(tuple(x[0] for x in elem[0]), elem[1]) for elem in answer]
+                minus_log_probs = make_minus_log_probs(indices_with_probs, self.smallest_prob)
+                var_values = [[x[1] for x in elem[0]] for elem in answer]
+                (train_indexes, X_train), (other_indexes, other_probs) =\
+                    self._prepare_to_joint_classifier(minus_log_probs, var_values)
+                probs = self.joint_classifier.predict_proba(X_train)
+                reverse_class_indexes =\
+                    {label: i for i, label in enumerate(self.joint_classifier.classes_)}
+                new_answer = [None] * len(answer)
+                # объекты, чьи классы встречались в обучающей выборке
+                for i, word_probs in zip(train_indexes, probs):
+                    first, _ = answer[i]
+                    # for j, _ in first:
+                    #     print(self._paradigmers[self.classes_[j]].descr)
+                    # print(answer[i][1])
+                    filtered_indices = [(pos, j) for (pos, (j, _)) in enumerate(first)
+                                        if j < self.active_classes_number]
+                    filtered_indices.sort(key=(lambda x: word_probs[reverse_class_indexes[x[1]]]),
+                                          reverse=True)
+                    new_first = [first[pos] for pos, _ in filtered_indices]
+                    new_word_probs = [word_probs[reverse_class_indexes[j]]
+                                      for pos, j in filtered_indices]
+                    new_answer[i] = new_first, new_word_probs
+                    # for j, _ in new_first:
+                    #     print(self._paradigmers[self.classes_[j]].descr)
+                    # print(new_word_probs)
+                # объекты, чьи классы не встречались в обучающей выборке
+                # их классы унаследованы от базового классификатора
+                for other_index in other_indexes:
+                    new_answer[other_index] = answer[other_index]
+                answer = new_answer
+        new_answer = []
+        for first, probs in answer:
+            new_answer.append((tuple((self.classes_[x[0]], x[1]) for x in first), probs))
+        answer = new_answer
+        for word, elem in zip(X, answer):
+            if len(elem[0]) == 0:
+                print(word, elem)
+        return answer
+
+    def make_paradigmers(self):
+        self._paradigmers = {code: ParadigmSubstitutor(descr) for code, descr
+                            in self.transformation_handler.paradigms_by_codes.items()}
+        return self
+
+    def _fit_language_model(self, labels, var_values):
+        """
+        Обучает символьную модель
+        """
+        # вычисляем словоформы по переменным и парадигме
+        word_forms = []
+        for label, variable_values in zip(labels, var_values):
+            # вначале нужно получить полные парадигмы
+            recoded_label = self.classes_[label]
+            new_forms = self._paradigmers[recoded_label]._substitute_words(variable_values)
+            word_forms.extend(new_forms)
+        # потом сохранить их в файл
+        if not os.path.exists(self.tmp_folder):
+            os.makedirs(self.tmp_folder)
+        # infile = os.path.join(self.tmp_folder, "save_model.sav")
+        outfile = os.path.join(self.tmp_folder, "save_model.arpa")
+        language_model_to_save = LanguageModel(order=self.lm_order)
+        language_model_to_save.train([list(x) for x in word_forms])
+        language_model_to_save.make_WittenBell_smoothing()
+        language_model_to_save.make_arpa_file(outfile)
+        # with open(infile, "w", encoding="utf8") as fout:
+        #     for word in word_forms:
+        #         fout.write(" ".join(word) + "\n")
+        # потом обучить на этом файле языковую модель
+        # with open(infile, "r", encoding="utf8") as fin,\
+        #         open(outfile, "w", encoding="utf8") as fout:
+        #     subprocess.call(["/data/sorokin/tools/kenlm/bin/lmplz",
+        #                      "-o", str(self.lm_order), "-S", "4G"], stdin=fin, stdout=fout)
+        self.language_model = kenlm.LanguageModel(outfile)
+        return self
+
+    def _make_lm_score(self, label, variable_values, normalize=False):
+        forms = self._paradigmers[label]._substitute_words(variable_values)
+        forms = [form for form in forms if form not in ['-', '']]
+        scores = [self.language_model.score(" ".join(form)) for form in forms]
+        return scores
+
+    def _remove_unprobable_indices(self, data, use_max=True):
+        first, probs = data
+        lm_scores = [self._make_lm_score(self.classes_[i], variable_values)
+                     for i, variable_values in first]
+        if use_max:
+            aggregated_lm_scores = [np.min(elem) for elem in lm_scores]
+        else:
+            aggregated_lm_scores = [np.mean(elem) for elem in lm_scores]
+        best_score = max(aggregated_lm_scores)
+        new_first, new_probs, probs_sum = [], [], 0.0
+        for elem, prob, score in zip(first, probs, aggregated_lm_scores):
+            i, variable_values = elem
+            if score > self.max_lm_coeff * best_score:
+                new_first.append(elem)
+                new_probs.append(prob)
+                probs_sum += prob
+        for i in range(len(new_probs)):
+            new_probs[i] /= probs_sum
+        return new_first, new_probs
+
+
 
 
 class CombinedParadigmClassifier(BaseEstimator, ClassifierMixin):
@@ -924,6 +1178,7 @@ class CombinedParadigmClassifier(BaseEstimator, ClassifierMixin):
             answer.append((reordered_indices_with_variables, curr_probs[indices_order]))
         return answer
 
+
 def _memorize_suffixes(length, X, y, remove_last_letter=False):
     if remove_last_letter:
         answer = dict()
@@ -957,6 +1212,32 @@ def _memorize_suffixes(length, X, y, remove_last_letter=False):
         answer = prune_dead_branches(answer)
     return answer
 
+
+def make_minus_log_probs(data, smallest_prob=0.01):
+    """
+    Преобразует значения вероятностей на логарифмическую шкалу
+    по формуле q = (log(p/(1-p)) + L) / 2L, где L = log(p_0 / (1- p_0))
+
+    Аргументы:
+    --------------
+    data: list of tuples of tuples, список пар вида (indices, probs)
+    smallest_prob: float, optional(default=0.01), минимальная вероятность,
+        к ней приводятся все меньшие ненулевые вероятности
+    """
+    answer = [None] * len(data)
+    max_value = -np.log(smallest_prob) + np.log(1.0 - smallest_prob)
+    for i, (indices, word_probs) in enumerate(data):
+        if len(indices) > 0:
+            word_probs = np.minimum(word_probs, 1.0 - smallest_prob)
+            word_probs = np.maximum(word_probs, smallest_prob)
+            minus_log_probs = np.log(word_probs) - np.log(1.0 - word_probs)
+            # элементы minus_log_probs находились в диапазоне [-max_value; max_value]
+            minus_log_probs = 0.5 * (minus_log_probs / max_value + 1.0)
+            answer[i] = (indices, minus_log_probs)
+        else:
+            answer[i] = ([], [])
+    return answer
+
 def extract_classes_from_probs(probs, min_probs_ratio):
     """
     Возвращает список классов по их вероятностям
@@ -970,21 +1251,21 @@ def extract_classes_from_probs(probs, min_probs_ratio):
         answer[i].append(col)
     return answer
 
-def extract_classes_from_sparse_probs(probs, min_probs_ratio):
-    """
-    Возвращает список классов по их вероятностям
-    в случае мультиклассовой классификации
-    """
-    answer = [[] for i in range(len(probs))]
-    for i, (indices, word_probs) in enumerate(probs):
-        if len(word_probs) == 0:
-            continue
-        max_allowed_prob = word_probs[0] * min_probs_ratio
-        for end, prob in enumerate(word_probs):
-            if prob < max_allowed_prob:
-                break
-        answer[i] = indices[:end]
-    return answer
+# def extract_classes_from_sparse_probs(probs, min_probs_ratio):
+#     """
+#     Возвращает список классов по их вероятностям
+#     в случае мультиклассовой классификации
+#     """
+#     answer = [[] for i in range(len(probs))]
+#     for i, (indices, word_probs) in enumerate(probs):
+#         if len(word_probs) == 0:
+#             continue
+#         max_allowed_prob = word_probs[0] * min_probs_ratio
+#         for end, prob in enumerate(word_probs):
+#             if prob < max_allowed_prob:
+#                 break
+#         answer[i] = indices[:end]
+#     return answer
 
 
 def arrange_indexes_by_last_letters(words, reps=None):

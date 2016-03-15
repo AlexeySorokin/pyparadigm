@@ -1,6 +1,6 @@
 import sys
 import os
-from itertools import chain
+from itertools import chain, product
 from collections import defaultdict, Counter
 import bisect
 import getopt
@@ -23,11 +23,12 @@ import statprof
 from input_reader import process_codes_file, process_lemmas_file, read_paradigms, read_lemmas
 from learn_paradigms import write_data, write_probs_data, make_lemmas, output_accuracies
 from paradigm_classifier import ParadigmClassifier,JointParadigmClassifier, CombinedParadigmClassifier, \
-    arrange_indexes_by_last_letters, extract_classes_from_sparse_probs
+    arrange_indexes_by_last_letters
 from paradigm_detector import Paradigm, ParadigmSubstitutor
 from transformation_classifier import TransformationsHandler
 from feature_selector import MulticlassFeatureSelector
 from common import get_categories_marks, LEMMA_KEY
+from tools import extract_classes_from_sparse_probs
 
 from contextlib import contextmanager
 
@@ -61,14 +62,15 @@ def read_counts(infile, convert_to_lower=True):
 
 class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
 
-    def __init__(self, marks, paradigms_list, word_counts=None,
+    def __init__(self, paradigms_list, word_counts=None,
                  max_length=6, multiclass=False, has_letter_classifiers=False,
                  selection_method='ambiguity', binarization_method='bns',
                  nfeatures=None, inner_feature_fraction=0.1,
-                 smallest_prob=0.01, min_probs_ratio=0.75, min_corpus_frac = 0.75,
+                 smallest_prob=0.01, min_probs_ratio=0.75, min_corpus_frac = 0.5,
                  active_paradigm_codes=None, paradigm_counts=None,
-                 alpha=1.0, beta=0.1, gamma = 1.0, multiplier=20.0, sparse=True):
-        self.marks = marks
+                 alpha=1.0, beta=0.1, gamma = 1.0, multiplier=100.0, sparse=True,
+                 class_counts_alpha=0.2):
+        # self.marks = marks
         # self.classes_number = len(paradigms_list)
         self.paradigms_list = paradigms_list
         self.word_counts = word_counts
@@ -97,6 +99,7 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         self.unique_class_prob = 0.9
         self.method = 'form'
         self.sparse = sparse
+        self.class_counts_alpha = class_counts_alpha
 
     def fit(self, X, y, X_dev=None, y_dev=None):
         if len(X) != len(y):
@@ -109,9 +112,16 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         # выбираем, производится ли классификация отдельно для каждой буквы
         if self.has_letter_classifiers:
             self.classes_, Y_new = np.unique(y, return_inverse=True)
+            # ДОБАВЛЯЕМ КЛАССЫ ИЗ paradigm_table
+            classes_set, self.classes_  = set(self.classes_), list(self.classes_)
+            for code in self.paradigms_list.values():
+                if code not in classes_set:
+                    self.classes_.append(code)
+            self.classes_ = np.array(self.classes_)
+            # ПЕРЕКОДИРУЕМ КЛАССЫ
             recoded_paradigm_table = {self.descrs_by_classes[label]: i
                                       for i, label in enumerate(self.classes_)}
-            self.paradigm_classifier.set_params(paradigm_table = recoded_paradigm_table)
+            self.paradigm_classifier.set_params(paradigm_table=recoded_paradigm_table)
             data_indexes_by_letters =\
                 arrange_indexes_by_last_letters(X, [len(labels) for labels in y])
             X_by_letters, y_by_letters = dict(), dict()
@@ -123,9 +133,6 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
                     y_by_letters[letter] = [[label] for label in y_curr]
                 else:
                     single_class_letters[letter] = y_curr[0]
-                # for word, label in zip(X_curr, y_curr):
-                #     print("{0} {1}".format(word, self.descrs_by_classes[self.classes_[label]]))
-            # заводим классификаторы для каждой буквы
             self.letter_classifiers_ = {letter: clone(self.paradigm_classifier)
                                         for letter in X_by_letters}
             self.joint_classifiers_ =  {letter: clone(self.joint_classifier)
@@ -138,9 +145,12 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         else:
             self.paradigm_classifier.set_params(paradigm_table = self.paradigms_list)
             self.paradigm_classifier.fit(X, y)
+            # self.paradigm_classifier уже содержал все классы,
+            # поэтому ничего добавлять не нужно
             self.classes_ = self.paradigm_classifier.classes_
+            self.active_classes_number = self.paradigm_classifier.active_classes_number
         # обработчики парадигм
-        self.paradigmers = [Paradigm(self.marks, self.descrs_by_classes[label])
+        self.paradigmers = [ParadigmSubstitutor(self.descrs_by_classes[label])
                             for label in self.classes_]
         # обработчики лемм
         self._prepare_lemma_fragmentors()
@@ -148,19 +158,21 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         self.form_probabilities_for_paradigms =\
             [np.zeros(shape=(paradigmer.unique_forms_number(return_principal=False),),
                       dtype=np.float64) for paradigmer in self.paradigmers]
-        indexes_by_classes = {label: i for (i, label) in enumerate(self.classes_)}
-        self._fit_probabilities(X, [[indexes_by_classes[code] for code in labels]
+        self.reverse_classes = {label: i for (i, label) in enumerate(self.classes_)}
+        self._fit_probabilities(X, [[self.reverse_classes[code] for code in labels]
                                     for labels in y])
         if self.has_letter_classifiers:
             for letter, X_curr in X_by_letters.items():
                 cls = self.letter_classifiers_[letter]
-                X_joint, y_joint = self._prepare_to_joint_classifier(cls, cls.classes_,
-                                                                     X_curr, y_by_letters[letter])
+                cls_classes = cls.classes_[:cls.active_classes_number]
+                (_, X_joint, y_joint), _ = self._prepare_to_joint_classifier(
+                    cls, cls_classes, X_curr, y_by_letters[letter])
                 self.joint_classifiers_[letter].fit(X_joint, y_joint)
         else:
             cls = self.paradigm_classifier
-            cls_classes = list(range(len(self.classes_)))
-            X_joint, y_joint = self._prepare_to_joint_classifier(cls, cls_classes, X, y)
+            cls_classes = list(range(cls.active_classes_number))
+            (_, X_joint, y_joint), _ =\
+                self._prepare_to_joint_classifier(cls, cls_classes, X, y)
             self.joint_classifier.fit(X_joint, y_joint)
         return self
 
@@ -171,6 +183,11 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         # не задан словарь счётчиков словоформ
         if self.word_counts is None:
             self.word_counts = defaultdict(int)
+        if len(self.paradigms_list) == 0:
+            raise ValueError("Paradigms list cannot be empty")
+        # находим число форм, хранящихся в парадигме как число разделителей
+        # (исходная форма не учитывается)
+        self.forms_number = list(self.paradigms_list.keys())[0].count('#')
         self.descrs_by_classes = {label: descr for descr, label in self.paradigms_list.items()}
         return self
 
@@ -183,7 +200,7 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
             paradigm_table=None, multiclass=self.multiclass,
             has_letter_classifiers=not(self.has_letter_classifiers),
             max_length=self.max_length, nfeatures=self.inner_feature_fraction,
-            smallest_prob=0.01, min_probs_ratio=0.1)
+            smallest_prob=self.smallest_prob, min_probs_ratio=0.1)
         self.joint_classifier = sklm.LogisticRegression()
         return self
 
@@ -239,31 +256,52 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
                     else:
                         probs_row = self.new_letter_probs
                     curr_X_probs = np.tile(probs_row, (len(indexes), 1))
-                    # вернуть честные вероятности
                     curr_classes = range(len(self.classes_))
+                    active_classes_number = len(curr_classes)
                 else:
-                    X_train = self._prepare_to_joint_classifier(cls, cls.classes_, curr_X)
+                    active_classes_number = cls.active_classes_number
+                    (train_indexes, X_train), (other_indexes, other_probs) =\
+                        self._prepare_to_joint_classifier(cls, cls.classes_, curr_X,
+                                                          active_classes_number=active_classes_number)
                     curr_X_probs = self.joint_classifiers_[letter].predict_proba(X_train)
                     curr_classes = cls.classes_
-                for i, (index, word_probs) in enumerate(zip(indexes, curr_X_probs)):
+                # объекты, чьи классы встречались в обучающей выборке
+                for i, (train_index, word_probs) in enumerate(zip(train_indexes, curr_X_probs)):
+                    index = indexes[train_index]
                     if cls is None:
                         row_ = self._fits_to_which_lemma_fragmentors(curr_X[i], negate=True)
                     else:
                         row = row_denser(X_train[i])
-                        row_ = [j for j in range(len(curr_classes)) if row[3*j] == 0.0]
+                        row_ = [j for j in range(active_classes_number) if row[3*j] == 0.0]
                     indices, probs = self._extract_word_probs(word_probs, row_)
                     indices = [curr_classes[j] for j in indices]
                     answer[index] = (indices, probs)
+                # объекты, чьи классы не встречались в обучающей выборке
+                # их классы унаследованы от базового классификатора
+                for other_index, (indices, probs) in zip(other_indexes, other_probs):
+                    index = indexes[other_index]
+                    indices = [curr_classes[j] for j in indices]
+                    answer[index] = (indices, probs)
         else:
-            cls_classes = list(range(len(self.classes_)))
-            X_train = self._prepare_to_joint_classifier(self.paradigm_classifier,
-                                                        cls_classes, X)
+            cls_classes = [i for i, _ in enumerate(self.classes_)]
+            active_classes_number = self.paradigm_classifier.active_classes_number
+            (train_indexes, X_train), (other_indexes, other_probs) =\
+                self._prepare_to_joint_classifier(self.paradigm_classifier, cls_classes, X,
+                                                  active_classes_number=active_classes_number)
             probs = self.joint_classifier.predict_proba(X_train)
-            for i, (row, word_probs) in enumerate(zip(X_train, probs)):
+            # объекты, чьи классы встречались в обучающей выборке
+            for i, row, word_probs in zip(train_indexes, X_train, probs):
+                # здесь надо разобраться
                 row = row_denser(row)
-                # inds = 3 * np.arange(len(cls_classes))
-                row_ = [j for j in cls_classes if (row[3*j] == 0.0)]
+                row_ = [j for j in range(active_classes_number) if row[3*j] == 0.0]
                 answer[i] = self._extract_word_probs(word_probs, row_)
+            # объекты, чьи классы не встречались в обучающей выборке
+            # их классы унаследованы от базового классификатора
+            for other_index, (indices, probs) in zip(other_indexes, other_probs):
+                indices = [cls_classes[j] for j in indices]
+                # print(X[other_index], self.paradigmers[indices[0]].descr)
+                answer[other_index] = (indices, probs)
+        # sys.exit()
         return answer
 
     def _extract_word_probs(self, probs, impossible_classes):
@@ -271,9 +309,11 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         Извлекает вычисленнные вероятности
         """
         probs[impossible_classes] = 0.0
-        probs /= np.sum(probs)
+        if np.sum(probs) > 0.0:
+            probs /= np.sum(probs)
         probs[np.where(probs < self.smallest_prob)] = 0.0
-        probs /= np.sum(probs)
+        if np.sum(probs) > 0.0:
+            probs /= np.sum(probs)
         nonzero_indexes = probs.nonzero()[0]
         probs = probs[nonzero_indexes]
         indexes_order = np.flipud(np.argsort(probs))
@@ -319,17 +359,21 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
             elem /= np.sum(elem)
         return self
 
-    def _prepare_to_joint_classifier(self, cls, cls_classes, X, y=None):
+    def _prepare_to_joint_classifier(self, cls, cls_classes, X, y=None,
+                                     active_classes_number=None):
         """
-        cls, object, классификатор, применяемый для получения вероятностей классов
-        cls_classes, позиции возможных классов в массиве self.classes_
+        cls: object, классификатор, применяемый для получения вероятностей классов
+        cls_classes:  позиции возможных классов в массиве self.classes_
+        classes_to_use: позиции классов, которые разрешено использовать при обучении
         """
         if y is None:
             y = [[None]] * len(X)
             return_y = False
         else:
             return_y = True
-        y_new = list(chain(*y))
+        # y_new = list(chain(*y))
+        if active_classes_number is None:
+            active_classes_number = len(cls_classes)
         # fout = open("tmp.out", "w", encoding="utf8")
         minus_log_probs = cls.predict_minus_log_proba(X)
         curr_row_number = 0
@@ -337,72 +381,89 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         if self.sparse:
             rows, cols, data = [], [], []
         else:
-            X_new = np.zeros(dtype=np.float64, shape=(len(y_new), 3 * len(cls.classes_)))
-        for (indices, word_probs), word, labels in zip(minus_log_probs, X, y):
-            current_log_probs, current_first_scores = [], []
-            current_second_scores = []
-            has_active_paradigm_codes =\
-                any(self.classes_[cls_classes[i]]
-                    in self.active_paradigm_codes for i in indices)
-            # curr_indexes = []
+            X_new = np.zeros(dtype=np.float64, shape=(len(y_new), 3 * active_classes_number))
+        y_new = []
+        indexes_to_train, other_indexes, X_other = [], [], []
+        for j, ((indices, word_probs), word, labels) in enumerate(zip(minus_log_probs, X, y)):
+            if min(indices) < active_classes_number:
+                has_active_classes = True
+            else:
+                has_active_classes = False
+                scores_by_classes = []
+            has_active_paradigm_codes = any(
+                (self.classes_[cls_classes[i]] in self.active_paradigm_codes)
+                 # and int(val * self.multiplier) > 0)
+                for i, val in zip(indices, word_probs))
+            # if word == 'щи':
+            #     print(indices, word_probs, has_active_classes, has_active_paradigm_codes)
+            #     sys.exit()
             if self.sparse:
                 current_cols, current_data = [], []
             else:
-                # curr_row = [0.0] * (3 * len(cls_classes))
                 curr_row = np.zeros(shape=(3 * len(cls_classes), ), dtype=float)
+            # if word in ['музей', 'лето', 'жила']:
+            #     print(word)
+            #     for i, prob in zip(indices, word_probs):
+            #         print(tmp_paradigmers[i].descr, prob)
             for i, prob in zip(indices, word_probs):
+                if has_active_classes and i >= active_classes_number:
+                    continue
                 class_index = cls_classes[i]
                 # вычисляем значения для объединённого классификатора
-                value = int(prob * self.multiplier)
+                # value = int(prob * self.multiplier)
+                value = prob
                 if value == 0 or (has_active_paradigm_codes and
-                                  self.classes_[class_index] not in self.active_paradigm_codes):
+                        self.classes_[class_index] not in self.active_paradigm_codes):
                     continue
                 first_score, counts, _, weights = self._make_first_score(tmp_paradigmers[i], word)
                 third_score = self._make_third_score(class_index, counts)
-                # помещаем значения в массив в зависимости от self.sparse
-                if self.sparse:
-                    current_cols.extend((3 * i, 3 * i + 1, 3 * i + 2))
-                    current_data.extend((value, first_score, third_score))
+                # помещаем значения в массив в зависимости от наличия активного класса и self.sparse
+                if has_active_classes:
+                    if self.sparse:
+                        current_cols.extend((3 * i, 3 * i + 1, 3 * i + 2))
+                        current_data.extend((value, first_score, third_score))
+                    else:
+                        curr_row[3*i: 3*(i + 1)] = (value, first_score, third_score)
                 else:
-                    curr_row[3*i: 3*(i + 1)] = (value, first_score, third_score)
-                current_second_scores.append(third_score)
-                current_log_probs.append(value)
-                current_first_scores.append(first_score)
-                # curr_indexes.append(i)
-            # sys.exit()
-            if self.sparse:
-                # current_first_scores = np.array(current_first_scores)
-                # current_cols = [3 * i + j for i in curr_indexes for j in range(3)]
-                # current_data = list(chain.from_iterable(zip(current_log_probs,
-                #                                             current_first_scores,
-                #                                             current_second_scores)))
-                for _ in labels:
-                    rows.extend(curr_row_number for _ in current_data)
-                    cols.extend(current_cols)
-                    data.extend(current_data)
-                    curr_row_number += 1
+                    # запоминаем тройку (i, first_score, third_score)
+                    scores_by_classes.append((i, first_score, third_score))
+            # if word in ['музей', 'лето', 'жила']:
+            #     print(word)
+            #     for i in range(0, len(current_cols), 3):
+            #         print("{} {:.4f} {:.4f}".format(*current_data[i: i+3]))
+            if has_active_classes:
+                indexes_to_train.append(j)
+                if self.sparse:
+                    for _ in labels:
+                        rows.extend(curr_row_number for _ in current_data)
+                        cols.extend(current_cols)
+                        data.extend(current_data)
+                        curr_row_number += 1
+                else:
+                    X_new[curr_row_number: curr_row_number+len(labels)] = curr_row
+                    curr_row_number += len(labels)
+                y_new.extend(labels)
             else:
-                # row = np.zeros(shape=(3 * len(cls_classes)))
-                # curr_indexes = 3 * np.asarray(curr_indexes, dtype=int)
-                # row[curr_indexes] = current_log_probs
-                # row[curr_indexes + 1] = current_first_scores
-                # row[curr_indexes + 2] = current_second_scores
-                X_new[curr_row_number: curr_row_number+len(labels)] = curr_row
-                curr_row_number += len(labels)
+                other_indexes.append(j)
+                _, first_score, _ = max(scores_by_classes, key=(lambda x:x[1]))
+                best_classes_indexes =\
+                    [i for i, score, _ in scores_by_classes if score == first_score]
+                best_classes_probs =\
+                    [(1.0 / len(best_classes_indexes)) for _ in best_classes_indexes]
+                X_other.append((best_classes_indexes, best_classes_probs))
         if self.sparse:
             X_new = scsp.csr_matrix((data, (rows, cols)), dtype=np.float64,
-                                    shape=(curr_row_number, 3 * len(cls.classes_)))
-        # fout.close()
+                                    shape=(curr_row_number, 3 * active_classes_number))
         if return_y:
-            return X_new, y_new
+            return (indexes_to_train, X_new, y_new), (other_indexes, X_other)
         else:
-            return X_new
+            return (indexes_to_train, X_new), (other_indexes, X_other)
 
     def _make_first_score(self, paradigmer, word):
         word_forms = paradigmer.make_unique_forms(word, return_principal=False)
         # счётчики могут не содержать ё''
-        word_forms = [[form.replace('ё', 'е') for form in forms_list]
-                      for forms_list in word_forms]
+        # word_forms = [[form.replace('ё', 'е') for form in forms_list]
+        #               for forms_list in word_forms]
         if len(word_forms) == 0:
             print("No forms!", word)
             return None
@@ -432,9 +493,10 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         best_score, best_corpus_forms_count = -np.inf, 0
         best_counts, best_forms_list = None, None
         had_enough_forms = False
-        min_corpus_forms_count = np.ceil(self.min_corpus_frac * len(self.marks))
+        min_corpus_forms_count = np.ceil(self.min_corpus_frac * self.forms_number)
         log_alpha = np.log(self.alpha)
         # for forms_list in word_forms:
+        best_index = -1
         for i, form_counts in enumerate(log_counts):
             # counts = np.array([current_word_counts[word] for word in forms_list])
             # form_counts = np.array([self.tmp_word_counts[word] for word in forms_list])
@@ -465,11 +527,14 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         # print()
         if not had_enough_forms:
             best_score = 0.0
+            best_forms, best_counts = None, None
         else:
             best_score -= np.log(self.alpha) * np.sum(weights)
-        best_counts = np.exp(log_counts[i])
+            best_forms, best_counts = word_forms[best_index], np.exp(log_counts[best_index])
+        # best_counts = np.exp(log_counts[best_index]) # 29.02
         # best_counts = log_counts[i]
-        return best_score, best_counts, word_forms[i], weights
+        return best_score, best_counts, best_forms, weights
+        # return best_score, best_counts, word_forms[best_index], weights
 
     def _make_second_score(self, class_index, counts, weights):
         second_score = np.dot(-np.log(self.form_probabilities_for_paradigms[class_index]),
@@ -481,6 +546,8 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         return second_score
 
     def _make_third_score(self, class_index, counts):
+        if counts is None:
+            return 0.0
         p = self.form_probabilities_for_paradigms[class_index]
         counts_sum = np.sum(counts)
         counts /= counts_sum
@@ -529,7 +596,7 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
         counts = Counter(chain.from_iterable(y))
         self.new_letter_probs = np.zeros(shape=(len(self.classes_), ), dtype=float)
         for i, label in enumerate(self.classes_):
-            self.new_letter_probs[i] = counts[label]
+            self.new_letter_probs[i] = counts[label] + self.class_counts_alpha
         self.new_letter_probs /= sum(self.new_letter_probs)
         return self
 
@@ -560,7 +627,7 @@ class ParadigmCorporaClassifier(BaseEstimator, ClassifierMixin):
 def cv_mode(testing_mode, language_code, multiclass, predict_lemmas,
             paradigm_file, counts_file, infile,
             train_fraction, feature_fraction, paradigm_counts_threshold,
-            nfolds, selection_method, binarization_method,
+            nfolds, selection_method, binarization_method, max_feature_length,
             output_train_dir=None, output_pred_dir=None):
     lemma_descriptions_list = process_lemmas_file(infile)
     data, labels_with_vars = read_lemmas(lemma_descriptions_list, multiclass=multiclass, return_joint=True)
@@ -570,11 +637,14 @@ def cv_mode(testing_mode, language_code, multiclass, predict_lemmas,
     if predict_lemmas:
         paradigm_handlers = {code: ParadigmSubstitutor(descr)
                              for descr, code in paradigm_table.items()}
+    else:
+        test_lemmas, pred_lemmas = None, None
+    # подготовка для кросс-валидации
     classes = sorted(set(chain(*((x[0] for x in elem) for elem in labels_with_vars))))
     active_paradigm_codes = [i for i, count in paradigm_counts.items()
                              if count >= paradigm_counts_threshold]
+    # зачем нужны метки???
     marks = [LEMMA_KEY] + [",".join(x) for x in get_categories_marks(language_code)]
-
     paradigms_by_codes = {code: descr for descr, code in paradigm_table.items()}
     # подготовка данных для локальных трансформаций
     if selection_method is None:
@@ -602,17 +672,23 @@ def cv_mode(testing_mode, language_code, multiclass, predict_lemmas,
     if predict_lemmas:
         pred_lemmas = [None] * nfolds
     # задаём классификатор
-    cls = ParadigmCorporaClassifier(marks, paradigm_table, word_counts_table,
+    # cls = ParadigmCorporaClassifier(marks, paradigm_table, word_counts_table,
+    #                                 multiclass=multiclass, selection_method=selection_method,
+    #                                 binarization_method=binarization_method,
+    #                                 inner_feature_fraction=feature_fraction,
+    #                                 active_paradigm_codes=active_paradigm_codes,
+    #                                 paradigm_counts=paradigm_counts , smallest_prob=0.01)
+    cls = ParadigmCorporaClassifier(paradigm_table, word_counts_table,
                                     multiclass=multiclass, selection_method=selection_method,
                                     binarization_method=binarization_method,
                                     inner_feature_fraction=feature_fraction,
                                     active_paradigm_codes=active_paradigm_codes,
-                                    paradigm_counts=paradigm_counts , smallest_prob=0.01)
-    cls_params = dict()
+                                    paradigm_counts=paradigm_counts , smallest_prob=0.001)
+    cls_params = {'max_length': max_feature_length}
     transformation_handler = TransformationsHandler(paradigm_table, paradigm_counts)
     transformation_classifier_params = {'select_features': 'ambiguity',
                                         'selection_params': {'nfeatures': 0.1, 'min_count': 2}}
-    statprof.start()
+    # statprof.start()
     cls = JointParadigmClassifier(cls, transformation_handler, cls_params,
                                   transformation_classifier_params)
     # cls = CombinedParadigmClassifier(cls, transformation_handler, cls_params,
@@ -642,11 +718,11 @@ def cv_mode(testing_mode, language_code, multiclass, predict_lemmas,
                 raise NotImplementedError()
         if predict_lemmas:
             pred_lemmas[i] = make_lemmas(paradigm_handlers, predictions[i])
-    statprof.stop()
-    with open("statprof_{0:.1f}_{1:.1f}.stat".format(train_fraction,
-                                                     feature_fraction), "w") as fout:
-        with redirect_stdout(fout):
-            statprof.display()
+    # statprof.stop()
+    # with open("statprof_{0:.1f}_{1:.1f}.stat".format(train_fraction,
+    #                                                  feature_fraction), "w") as fout:
+    #     with redirect_stdout(fout):
+    #         statprof.display()
     if output_pred_dir:
         descrs_by_codes = {code: descr for descr, code in paradigm_table.items()}
         test_words = test_data
@@ -657,23 +733,26 @@ def cv_mode(testing_mode, language_code, multiclass, predict_lemmas,
     else:
         descrs_by_codes, test_words, prediction_probs_for_output = None, None, None
     if not predict_lemmas:
-        label_precisions, variable_precisions =\
+        label_precisions, variable_precisions, form_precisions =\
             output_accuracies(classes, test_labels_with_vars, predictions, multiclass,
                               outfile=output_pred_dir, paradigm_descrs=descrs_by_codes,
-                              test_words=test_words, predicted_probs=prediction_probs_for_output)
-        print("{0:<.2f}\t{1}\t{2:<.2f}\t{3:<.2f}".format(
-            train_fraction, cls.paradigm_classifier.nfeatures,
-            100 * np.mean(label_precisions), 100 * np.mean(variable_precisions)))
-    else:
-        label_precisions, variable_precisions, lemma_precisions =\
-            output_accuracies(classes, test_labels_with_vars, predictions,
-                              multiclass, test_lemmas, pred_lemmas,
-                              outfile=output_pred_dir, paradigm_descrs=descrs_by_codes,
-                              test_words=test_words, predicted_probs=prediction_probs_for_output)
+                              test_words=test_words, predicted_probs=prediction_probs_for_output,
+                              save_confusion_matrices=True)
         print("{0:<.2f}\t{1}\t{2:<.2f}\t{3:<.2f}\t{4:<.2f}".format(
             train_fraction, cls.paradigm_classifier.nfeatures,
             100 * np.mean(label_precisions), 100 * np.mean(variable_precisions),
-            100 * np.mean(lemma_precisions)))
+            100 * np.mean(form_precisions)))
+    else:
+        label_precisions, variable_precisions, lemma_precisions, form_precisions =\
+            output_accuracies(classes, test_labels_with_vars, predictions,
+                              multiclass, test_lemmas, pred_lemmas,
+                              outfile=output_pred_dir, paradigm_descrs=descrs_by_codes,
+                              test_words=test_words, predicted_probs=prediction_probs_for_output,
+                              save_confusion_matrices=True)
+        print("{0:<.2f}\t{1}\t{2:<.2f}\t{3:<.2f}\t{4:<.2f}\t{5:<.2f}".format(
+            train_fraction, cls.paradigm_classifier.nfeatures,
+            100 * np.mean(label_precisions), 100 * np.mean(variable_precisions),
+            100 * np.mean(lemma_precisions), 100 * np.mean(form_precisions)))
 
     # statprof.stop()
     # with open("statprof_{0:.1f}_{1:.1f}.stat".format(fraction, feature_fraction), "w") as fout:
@@ -726,8 +805,9 @@ def cv_mode(testing_mode, language_code, multiclass, predict_lemmas,
     return
 
 
-SHORT_OPTIONS = 'mplT:O:t:'
-LONG_OPTIONS = ['multiclass', 'probs', 'lemmas', 'train_output=', 'test_output=', 'paradigm_threshold=']
+SHORT_OPTIONS = 'mplf:t:T:O:'
+LONG_OPTIONS = ['multiclass', 'probs', 'lemmas', 'max_feature_length',
+                'paradigm_threshold=', 'train_output=', 'test_output=']
 
 
 
@@ -736,8 +816,9 @@ if __name__ == '__main__':
     # значения по умолчанию для режима тестирования
     # и поддержки множественнных парадигм для одного слова
     testing_mode, multiclass, predict_lemmas = 'predict', False, False
-    output_train_dir, output_pred_dir = None, None
+    max_feature_lengths = '5'
     paradigm_count_threshold = 0
+    output_train_dir, output_pred_dir = None, None
     # опции командной строки
     opts, args = getopt.getopt(args, SHORT_OPTIONS, LONG_OPTIONS)
     for opt, val in opts:
@@ -748,12 +829,15 @@ if __name__ == '__main__':
         # измеряется качество лемматизации
         elif opt in ['-l', '--lemmas']:
             predict_lemmas = True
+        elif opt in ['-f', '--max_feature_length']:
+            max_feature_lengths = val
+        elif opt in ['-t', '--paradigm_threshold']:
+            paradigm_count_threshold = int(val)
         elif opt in ['-T', '--train_output']:
             output_train_dir = val
         elif opt in ['-O', '--test_output']:
             output_pred_dir = val
-        elif opt in ['-t', '--paradigm_threshold']:
-            paradigm_count_threshold = int(val)
+    max_feature_lengths = [int(elem) for elem in max_feature_lengths.split(',')]
     # аргументы командной строки
     if len(args) < 1:
         sys.exit("You should pass mode as first argument")
@@ -763,35 +847,57 @@ if __name__ == '__main__':
     if mode == "train":
         raise NotImplementedError()
     elif mode == "cross-validation":
-        if len(args) not in [7, 10]:
-            sys.exit("Pass 'cross-validation', language code, coding file, "
-                     "counts file, train file, feature fraction to select, "
-                     "train data fraction, number of folds, "
+        # if len(args) not in [7, 10]:
+        #     sys.exit("Pass 'cross-validation', language code, coding file, "
+        #              "counts file, train file, feature fraction to select, "
+        #              "train data fraction, number of folds, "
+        #              "[selection_method, binarization_method]")
+        if len(args) not in [6, 9]:
+            sys.exit("Pass 'cross-validation', coding file, counts file, train file, "
+                     "feature fraction to select,  train data fraction, number of folds, "
                      "[selection_method, binarization_method]")
-        language_code, paradigm_file, counts_file, infile = args[:4]
-        feature_fractions, train_fractions = args[4:6]
+        # language_code, paradigm_file, counts_file, infile = args[:4]
+        paradigm_file, counts_file, infile = args[:3]
+        # feature_fractions, train_fractions = args[4:6]
+        feature_fractions, train_fractions = args[3:5]
         # можно передавать несколько вариантов параметров через запятую
         feature_fractions = list(float(x) if float(x) >= 0.0 else None
                                  for x in feature_fractions.split(','))
         train_fractions = list(float(x) for x in train_fractions.split(','))
-        folds_number = int(args[6])
-        selection_method = args[7] if len(args) > 7 else 'ambiguity'
-        binarization_method = args[8] if len(args) > 8 else 'bns'
+        # folds_number = int(args[6])
+        folds_number = int(args[5])
+        # selection_method = args[7] if len(args) > 7 else 'ambiguity'
+        # binarization_method = args[8] if len(args) > 8 else 'bns'
+        selection_method = args[6] if len(args) > 7 else 'ambiguity'
+        binarization_method = args[7] if len(args) > 8 else 'bns'
 
-        for train_fraction in train_fractions:
-            for feature_fraction in feature_fractions:
-                if output_train_dir is not None:
-                    output_train_dir_ =\
-                        os.path.join(output_train_dir,
-                                     "{0:.1f}_{1:.1f}".format(train_fraction, feature_fraction))
-                if output_pred_dir is not None:
-                    output_pred_dir_ =\
-                        os.path.join(output_pred_dir,
-                                     "{0:.1f}_{1:.1f}".format(train_fraction, feature_fraction))
-                cv_mode(testing_mode, language_code, multiclass=multiclass, predict_lemmas=predict_lemmas,
-                        paradigm_file=paradigm_file, counts_file=counts_file, infile=infile,
-                        train_fraction=train_fraction, feature_fraction=feature_fraction,
-                        paradigm_counts_threshold=paradigm_count_threshold, nfolds=folds_number,
-                        selection_method=selection_method, binarization_method=binarization_method,
-                        output_train_dir=output_train_dir, output_pred_dir=output_pred_dir)
+        # for train_fraction in train_fractions:
+        #     for feature_fraction in feature_fractions:
+        for train_fraction, feature_fraction, max_feature_length in\
+                product(train_fractions, feature_fractions, max_feature_lengths):
+            if output_train_dir is not None:
+                if not os.path.exists(output_train_dir):
+                    os.makedirs(output_train_dir)
+                output_train_dir_ =\
+                    os.path.join(output_train_dir,
+                                 "{0:.1f}_{1:.1f}".format(train_fraction, feature_fraction))
+            if output_pred_dir is not None:
+                if not os.path.exists(output_pred_dir):
+                    os.makedirs(output_pred_dir)
+                output_pred_dir_ =\
+                    os.path.join(output_pred_dir,
+                                 "{0:.1f}_{1:.1f}".format(train_fraction, feature_fraction))
+            # cv_mode(testing_mode, language_code, multiclass=multiclass, predict_lemmas=predict_lemmas,
+            #         paradigm_file=paradigm_file, counts_file=counts_file, infile=infile,
+            #         train_fraction=train_fraction, feature_fraction=feature_fraction,
+            #         paradigm_counts_threshold=paradigm_count_threshold, nfolds=folds_number,
+            #         selection_method=selection_method, binarization_method=binarization_method,
+            #         output_train_dir=output_train_dir, output_pred_dir=output_pred_dir)
+            cv_mode(testing_mode, language_code="RU", multiclass=multiclass, predict_lemmas=predict_lemmas,
+                    paradigm_file=paradigm_file, counts_file=counts_file, infile=infile,
+                    train_fraction=train_fraction, feature_fraction=feature_fraction,
+                    paradigm_counts_threshold=paradigm_count_threshold, nfolds=folds_number,
+                    selection_method=selection_method, binarization_method=binarization_method,
+                    max_feature_length=max_feature_length,
+                    output_train_dir=output_train_dir, output_pred_dir=output_pred_dir)
 

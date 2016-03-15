@@ -16,10 +16,10 @@ from sklearn import linear_model as sklm
 from scipy.sparse import csr_matrix, csc_matrix, issparse
 
 from input_reader import process_lemmas_file, process_codes_file, read_paradigms, read_transformations_
-import paradigm_classifier
 from paradigm_detector import ParadigmFragment, get_first_form_pattern
 from feature_selector import MulticlassFeatureSelector, ZeroFeatureRemover, SelectingFeatureWeighter
 from utility import find_first_larger_indexes
+from tools import extract_classes_from_sparse_probs
 
 # Здесь планируется классификатор, определяющий по соседним символам для трансформации, возможна
 # ли она в данном окружении
@@ -223,8 +223,7 @@ class LocalTransformationClassifier(BaseEstimator, ClassifierMixin):
             answer = [[x] for x in np.take(self.classes_, class_indexes)]
         else:
             answer = [np.take(self.classes_, indices) for indices
-                      in paradigm_classifier.extract_classes_from_sparse_probs(
-                    probs, self.min_probs_ratio)]
+                      in extract_classes_from_sparse_probs(probs, self.min_probs_ratio)]
         return answer
 
     def predict_proba(self, X):
@@ -563,29 +562,47 @@ class OptimalPositionSearcher:
         # k --- номер варианта расположения этого фрагмента
         indexes_for_scores, scores_by_words = [], []
         possible_spans = []
+        i_to_train, indexes_to_train = 0, []
+        other_spans, other_indexes = [], []
         for i, (code, word) in enumerate(zip(paradigm_codes, words)):
             # print("{0} {1}".format(self.paradigms_by_codes[code].split('#')[0], word))
             # print(self.paradigms_by_codes[code])
             fragmentor = self.fragmentors_by_codes[code]
             curr_transformation_codes = self.transformations_by_paradigms[code]
-            transformation_classes.append([self.transformation_classes[trans_code]
-                                           for trans_code in curr_transformation_codes])
             curr_constant_fragment_positions =\
                 fragmentor.find_constant_fragments_positions(word)
+            if curr_constant_fragment_positions is None:
+                print(word, fragmentor.descr)
+                # sys.exit()
             if len(curr_constant_fragment_positions) > len(curr_transformation_codes):
                 curr_constant_fragment_positions = curr_constant_fragment_positions[1:]
-            constant_fragment_positions.append(curr_constant_fragment_positions)
-            curr_scores_by_words = [None] * len(curr_constant_fragment_positions)
-            for j, elem in enumerate(curr_constant_fragment_positions):
-                curr_scores_by_words[j] = [0] * len(elem)
-                possible_spans.extend(((word[start:end], word[:start], word[end:])
-                                       for start, end in elem))
-                indexes_for_scores.extend(((i, j, k) for k in range(len(elem))))
-            scores_by_words.append(curr_scores_by_words)
-        probs = self.classifier.predict_proba(possible_spans)
-        scores = [curr_probs[transformation_classes[i][j]]
-                  for curr_probs, (i, j, _) in zip(probs, indexes_for_scores)]
-        scores = np.array(scores)
+            # if word == 'расползтись':
+            #     print(curr_constant_fragment_positions)
+            #     sys.exit()
+            if all(trans_code in self.transformation_classes
+                   for trans_code in curr_transformation_codes):
+                transformation_classes.append([self.transformation_classes[trans_code]
+                                               for trans_code in curr_transformation_codes])
+                constant_fragment_positions.append(curr_constant_fragment_positions)
+                curr_scores_by_words = [None] * len(curr_constant_fragment_positions)
+                for j, elem in enumerate(curr_constant_fragment_positions):
+                    curr_scores_by_words[j] = [0] * len(elem)
+                    possible_spans.extend(((word[start:end], word[:start], word[end:])
+                                           for start, end in elem))
+                    indexes_for_scores.extend(((i_to_train, j, k) for k in range(len(elem))))
+                scores_by_words.append(curr_scores_by_words)
+                i_to_train += 1
+                indexes_to_train.append(i)
+            else:
+                curr_spans = [elem[0] for elem in curr_constant_fragment_positions]
+                other_spans.append(curr_spans)
+                other_indexes.append(i)
+        best_positions = [None] * len(words)
+        if len(possible_spans) > 0:
+            probs = self.classifier.predict_proba(possible_spans)
+            scores = [curr_probs[transformation_classes[i][j]]
+                      for curr_probs, (i, j, _) in zip(probs, indexes_for_scores)]
+            scores = np.array(scores)
         # scores = np.zeros(shape=(len(probs),), dtype=float)
         # for m, ((i, j, _, _), curr_probs) in enumerate(zip(data_for_probs, probs)):
         #     scores[m] = curr_probs[transformation_classes[i][j]]
@@ -594,13 +611,18 @@ class OptimalPositionSearcher:
         #     if score > 0.01:
         #         print("{4}\t{1}_{0}_{2}\t{3:.4f}".format(triple[0], triple[1], triple[2], score,
         #                                                  transformation_codes[i][j]))
-        scores = np.where(scores > self.classifier.smallest_prob, scores, self.classifier.smallest_prob)
-        scores = np.log(scores)
-        # здесь надо снова разобрать по словам
-        for (i, j, k), score in zip(indexes_for_scores, scores):
-            scores_by_words[i][j][k] = score
-        best_positions = [self._find_best_positions(scores, positions, return_scores=return_scores)
-                          for scores, positions in zip(scores_by_words, constant_fragment_positions)]
+            scores = np.where(scores > self.classifier.smallest_prob, scores, self.classifier.smallest_prob)
+            scores = np.log(scores)
+            # здесь надо снова разобрать по словам
+            for (i, j, k), score in zip(indexes_for_scores, scores):
+                scores_by_words[i][j][k] = score
+            best_positions_for_train =\
+                [self._find_best_positions(scores, positions, return_scores=return_scores)
+                 for scores, positions in zip(scores_by_words, constant_fragment_positions)]
+            for i, curr_spans in zip(indexes_to_train, best_positions_for_train):
+                best_positions[i] = curr_spans
+        for i, curr_spans in zip(other_indexes, other_spans):
+            best_positions[i] = (curr_spans, 0.0) if return_scores else curr_spans
         if return_scores:
             best_positions, scores = zip(*best_positions)
             return list(best_positions), list(scores)
@@ -673,7 +695,12 @@ def extract_uncovered_substrings(word, spans):
     """
     Извлекает подстроки, не покрытые сегментами из spans
     """
-    last, var_values = 0, []
+    var_values = []
+    # spans содержит хотя бы один отрезок
+    if spans[0][0] == 0:
+        last, spans = spans[0][1], spans[1:]
+    else:
+        last = 0
     for start, end in spans:
         var_values.append(word[last:start])
         last = end

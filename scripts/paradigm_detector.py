@@ -124,8 +124,6 @@ class ParadigmFragment:
             start = end + len(var_value)
             end = start + len(fragment)
             answer.append((start, end))
-        # if answer[0] == (0, 0):
-        #     answer = answer[1:]
         return answer
 
     def _find_variable_start_positions(self, word):
@@ -351,6 +349,14 @@ class ParadigmSubstitutor:
         start = 0 if (return_principal or self._unique_forms_indexes_[0] != 0) else 1
         return [self.paradigm_fragments[i].substitute(var_values)
                 for i in self._unique_forms_indexes_[start:]]
+
+    def make_unique_forms(self, lemma, return_principal=True):
+        """
+        Возвращает уникальные словоформы в описании парадигмы в порядке их первого появления
+        """
+        variable_values = self._principal_paradigm_fragment.extract_variables(lemma)
+        return [self.make_unique_forms_from_vars(var_values_list)
+                for var_values_list in variable_values]
 
     def _precompute_pattern_indexes(self):
         """
@@ -601,9 +607,10 @@ class Paradigm:
         """
         Возвращает уникальные словоформы в описании парадигмы в порядке их первого появления
         """
-        variable_values = self._principal_paradigm_fragment.extract_variables(lemma)
-        return [self.substitutor.make_unique_forms_from_vars(var_values_list)
-                for var_values_list in variable_values]
+        return self.substitutor.make_unique_forms(lemma, return_principal=return_principal)
+        # variable_values = self._principal_paradigm_fragment.extract_variables(lemma)
+        # return [self.substitutor.make_unique_forms_from_vars(var_values_list)
+        #         for var_values_list in variable_values]
         # if not hasattr(self, '_unique_forms_indexes_'):
         #     self._precompute_unique_forms_indexes()
         # start = 0 if (return_principal or self._unique_forms_indexes_[0] != 0) else 1

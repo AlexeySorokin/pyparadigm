@@ -1,6 +1,7 @@
 """
 Файл, содержащий функции для чтения входных файлов при классификации парадигм
 """
+import sys
 from collections import defaultdict, OrderedDict
 
 from local_paradigm_transformer import LocalTransformation, descr_to_transforms

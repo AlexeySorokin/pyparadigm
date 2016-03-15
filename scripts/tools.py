@@ -34,3 +34,20 @@ def counts_to_probs(counts, classes_number):
         answer[label] += 1
     answer /= np.sum(answer)
     return answer
+
+
+def extract_classes_from_sparse_probs(probs, min_probs_ratio):
+    """
+    Возвращает список классов по их вероятностям
+    в случае мультиклассовой классификации
+    """
+    answer = [[] for i in range(len(probs))]
+    for i, (indices, word_probs) in enumerate(probs):
+        if len(word_probs) == 0:
+            continue
+        max_allowed_prob = word_probs[0] * min_probs_ratio
+        for end, prob in enumerate(word_probs):
+            if prob < max_allowed_prob:
+                break
+        answer[i] = indices[:end]
+    return answer

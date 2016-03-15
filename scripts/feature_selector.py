@@ -130,7 +130,7 @@ class MulticlassFeatureSelector(BaseEstimator, SelectorMixin):
         nclasses = self.classes_.shape[0]
 
         if (isinstance(self.nfeatures, float) and 0.0 <= self.nfeatures and self.nfeatures < 1.0):
-            self.nfeatures = int(self.nfeatures * self._ndata_features)
+            self.nfeatures = max(int(self.nfeatures * self._ndata_features), 1)
         elif self.nfeatures in [None, -1]:
             self.nfeatures = self._ndata_features
         elif not isinstance(self.nfeatures, int) or self.nfeatures < 0:
@@ -140,15 +140,19 @@ class MulticlassFeatureSelector(BaseEstimator, SelectorMixin):
         # вынесено в отдельную функцию удаление редких признаков
         # X_binary = check_array(X, accept_sparse=['csr', 'csc'], dtype='bool')
         # не работает, т.к. берётся максимум
-        counts = np.ravel((X > 0).sum(axis=0))
-        curr_min_count = self.min_count
-        while curr_min_count > 0:
-            frequent_features_indexes = np.where(counts >= curr_min_count)[0]
-            if any(frequent_features_indexes):
-                break
-            curr_min_count -= 1
-        X = X[:,frequent_features_indexes]
-        curr_nfeatures = frequent_features_indexes.shape[0]
+        if self._ndata_features > self.minfeatures:
+            counts = np.ravel((X > 0).sum(axis=0))
+            curr_min_count = self.min_count
+            while curr_min_count >= 0:
+                frequent_features_indexes = np.where(counts >= curr_min_count)[0]
+                if any(frequent_features_indexes):
+                    break
+                curr_min_count -= 1
+            X = X[:,frequent_features_indexes]
+            curr_nfeatures = frequent_features_indexes.shape[0]
+        else:
+            frequent_features_indexes = list(range(X.shape[1]))
+            curr_nfeatures = self._ndata_features
 
         if (self.threshold is None and self.nfeatures >=  curr_nfeatures):
             # не нужно отбирать признаки

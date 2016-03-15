@@ -73,7 +73,11 @@ def descr_to_transforms(descr, return_lemma=True, has_prefix_changes=False):
         for j, substr in zip(paradigm_indexes, elem):
             new_elem[j] = substr
         constant_fragments[i] = new_elem
-    answer = [LocalTransformation(elem, False) for elem in constant_fragments[1:-1]]
+    if any(len(x) > 0 for x in constant_fragments[0]):
+        answer = [LocalTransformation(elem, False, True)]
+    else:
+        answer = []
+    answer.extend([LocalTransformation(elem, False) for elem in constant_fragments[1:-1]])
     answer.append(LocalTransformation(constant_fragments[-1], True))
     if has_prefix_changes:
         answer.append(LocalTransformation(constant_fragments[0], False, True))

@@ -27,10 +27,11 @@ class LcsSearcher:
         метод для определения наилучшей LCS
     """
 
-    def __init__(self, gap=None, initial_gap=None, method='Hulden'):
+    def __init__(self, gap=None, initial_gap=None, method='Hulden', count_gaps=True):
         self.gap = gap
         self.initial_gap = initial_gap
         self.method = method
+        self.count_gaps = count_gaps
 
     def process_table(self, words):
         """
@@ -50,7 +51,32 @@ class LcsSearcher:
             final_best_lcss = [("", [[] for word in words])]
         return final_best_lcss
 
-    def calculate_paradigm(self, lemma, table):
+
+    def calculate_paradigms(self, tables, select=True):
+        """
+        Предсказывает парадигму для каждой таблицы склонения в tables
+        В случае, если предсказано несколько парадигм, отбирает самую частотную
+        """
+        candidate_paradigms_with_vars =\
+            [self.calculate_all_paradigms(table) for table in tables]
+        # считаем парадигмы
+        paradigm_counts = defaultdict(int)
+        for paradigms_with_vars in candidate_paradigms_with_vars:
+            for paradigm, _ in paradigms_with_vars:
+                paradigm_counts[paradigm] += 1
+        # отбираем наиболее частотные
+        answer = []
+        # for table, possible_paradigms in zip(tables, candidate_paradigms_with_vars):
+        #     if table[0] == 'abrazar':
+        #         print(table)
+        #         for descr, var_values in possible_paradigms:
+        #             print("{} {} {}".format(descr, paradigm_counts[descr], '_'.join(var_values)))
+        #         print("")
+        for elem in candidate_paradigms_with_vars:
+            answer.append(max(elem, key=(lambda x:paradigm_counts[x[0]])))
+        return answer
+
+    def calculate_all_paradigms(self, table):
         correct_indices, correct_table = _make_correct_table(table)
         best_lcss = self.process_table(correct_table)
         paradigms_with_vars = []
@@ -72,7 +98,7 @@ class LcsSearcher:
             final_paradigm_repr = ['-' for form in table]
             for i, form in zip(correct_indices, paradigm_repr):
                 final_paradigm_repr[i] = form
-            paradigms_with_vars.append((final_paradigm_repr, lcs_vars))
+            paradigms_with_vars.append((tuple(final_paradigm_repr), lcs_vars))
         return paradigms_with_vars
 
     def _make_automaton(self, words):
@@ -215,7 +241,10 @@ class LcsSearcher:
                         # пропускаем множества, содержащие неоптимальные индексы
                         if any(x not in optimal_gap_positions for x in elem_gap_positions):
                             continue
-                        score = len(elem_gap_positions)
+                        if self.count_gaps:
+                            score = len(elem_gap_positions)
+                        else:
+                            score = 0
                         if best_score is None or score < best_score:
                             best_score = score
                             current_best_coordinate_indexes = [elem]
@@ -720,9 +749,9 @@ def read_input(infile, language, method='first'):
     has_forms = False  # индикатор того, нашлись ли у слова словоформы
     with open(infile, 'r', encoding='utf-8') as fin:
         for line in fin:
-            line = line.strip()  # всегда удаляйте лишние пробелы по краям строчек
+            line = line.strip()
             line = line.strip('\ufeff')  # удалим метку кодировки
-            splitted_line = line.split(',')  # используйте говорящие имена переменных
+            splitted_line = line.split(',')
             if len(splitted_line) == 1:
                 # строчка вида i_1 <лемма_1>
                 if has_forms:
@@ -831,7 +860,7 @@ if __name__ == "__main__":
     for num, (lemma, table) in enumerate(tables):
         if num % 100 == 0:
             print(num, lemma)
-        paradigms_with_vars.append(lcs_searcher.calculate_paradigm(lemma, table))
+        paradigms_with_vars.append(lcs_searcher.calculate_all_paradigms(table))
     tables_by_paradigm = extract_tables(list(chain.from_iterable(
         [(lemma, table, paradigm_repr, lcs_vars)
          for paradigm_repr, lcs_vars in elem]
