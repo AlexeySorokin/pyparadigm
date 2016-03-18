@@ -53,7 +53,7 @@ def extract_transform_codes(lcs_searcher, pairs):
     paradigm_codes, paradigms_number = OrderedDict(), 0
     answer = []
     paradigms_with_vars = lcs_searcher.calculate_paradigms(
-        [([lemma] + forms) for lemma, forms in pairs])
+        [([lemma] + forms) for lemma, forms in pairs], count_paradigms=True)
     for (lemma, forms), (descr, var_values) in zip(pairs, paradigms_with_vars):
         for i, form in enumerate(forms, 1):
             transform_descr = descr[0] + '#' + descr[i]
@@ -127,9 +127,9 @@ class SigmorphonGuesser:
         # не надо разделять данные по проблемам до разделения парадигм на пары
         data_for_problems = self.extract_data(data, has_codes=False, has_answers=True)
         self.problems_number = len(self.problem_codes)
-        lcs_seacrher = LcsSearcher(self.gap, self.initial_gap, count_gaps=True)
+        self.lcs_seacrher = LcsSearcher(self.gap, self.initial_gap, count_gaps=True)
         self.transform_codes, lemmas_with_transform_codes = extract_transform_codes(
-            lcs_seacrher, [(x[0], x[2]) for x in data_for_problems])
+            self.lcs_seacrher, [(x[0], x[2]) for x in data_for_problems])
         problems_in_data = [code for elem in data_for_problems for code in elem[1]]
         self.paradigmers = [ParadigmSubstitutor(descr) for descr in self.transform_codes]
         joint_data = [(lemma, problem_code, paradigm_code, var_values, word)
@@ -161,9 +161,9 @@ class SigmorphonGuesser:
         for i, (_, curr_X, curr_y) in enumerate(data_by_problems):
             self.classifiers[i].fit(curr_X, [[x] for x in curr_y])
             print("Classifier {0} of {1} fitted".format(i+1, self.problems_number))
-            sys.exit()
+        return self
 
-    def predict(self, data, return_by_problems=False):
+    def predict(self, data, return_by_problems=False, return_descr=False):
         # data_for_problems = [(lemma, [problem_code]), ...]
         data_for_problems = self.extract_data(data, has_codes=True, has_answers=False)
         # data_for_problems = [(lemma, problem_code), ...]
@@ -185,10 +185,12 @@ class SigmorphonGuesser:
                 print("Classifier {} predicting...".format(i+1))
                 cls = self.classifiers[i]
                 curr_answers = [x[0] for x in cls.predict(curr_X)]
+                curr_descrs = []
                 curr_words = []
                 for lemma, (transform_code, var_values) in zip(curr_X, curr_answers):
                     if transform_code is not None:
                         fragmentor = self.paradigmers[transform_code]
+                        curr_descrs.append(fragmentor.descr)
                         curr_words.append(fragmentor._substitute_words(var_values)[1])
                     else:
                         # не удалось найти ни одного подходящего класса
@@ -196,11 +198,16 @@ class SigmorphonGuesser:
                         # пока возвращает тождественный ответ
                         print("No transforms for lemma {}, problem {}".format(
                             lemma, list(self.problem_codes.keys())[i]))
+                        curr_descrs.append(['#', '#'])
                         curr_words.append(lemma)
-            if return_by_problems:
-                answers[i] = list(zip(indexes, curr_words))
+            if return_descr:
+                curr_answer = list(zip(curr_descrs, curr_words))
             else:
-                for j, word in zip(indexes, curr_words):
+                curr_answer = curr_words
+            if return_by_problems:
+                answers[i] = list(zip(indexes, curr_answer))
+            else:
+                for j, word in zip(indexes, curr_answer):
                     answers[j] = word
         return answers
 
@@ -265,17 +272,23 @@ if __name__ == "__main__":
     elif mode == 'test_inflection':
         form_guesser.fit(input_data)
         test_data = read_input_file(test_file, group_all=False)
-        answers = form_guesser.predict([(x[0], x[1]) for x in test_data], return_by_problems=True)
+        # здесь надо вставить определение парадигмы по тестовым данным
+        correct_paradigms_with_vars = form_guesser.lcs_seacrher.calculate_paradigms(
+            [(lemma, words[0]) for lemma, _, words in test_data], count_paradigms=False)
+        answers = form_guesser.predict([(x[0], x[1]) for x in test_data],
+                                       return_by_problems=True, return_descr=True)
         with open(outfile, "w", encoding="utf8") as fout:
             for problem_answers in answers:
                 has_output = False
-                for i, word in problem_answers:
-                    lemma, descrs, correct_word = test_data[i]
-                    correct_word = correct_word[0]
+                for i, (descr, word) in problem_answers:
+                    lemma, problem_descrs, correct_words = test_data[i]
+                    correct_word = correct_words[0]
+                    correct_descr, _ = correct_paradigms_with_vars[i]
                     if word != correct_word or not output_only_incorrect:
                         has_output = True
-                        fout.write("{0}\t{1}\t{2}\t{3}\n".format(
-                            lemma, get_descr_string(descrs[0]), correct_word, word))
+                        fout.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n".format(
+                            lemma, get_descr_string(problem_descrs[0]), '#'.join(correct_descr),
+                            correct_word, '#'.join(descr), word))
                 if has_output:
                     fout.write("\n")
 

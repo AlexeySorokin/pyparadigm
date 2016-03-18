@@ -32,6 +32,7 @@ class LcsSearcher:
         self.initial_gap = initial_gap
         self.method = method
         self.count_gaps = count_gaps
+        self.paradigm_counts = defaultdict(int)
 
     def process_table(self, words):
         """
@@ -52,7 +53,7 @@ class LcsSearcher:
         return final_best_lcss
 
 
-    def calculate_paradigms(self, tables, select=True):
+    def calculate_paradigms(self, tables, count_paradigms=False):
         """
         Предсказывает парадигму для каждой таблицы склонения в tables
         В случае, если предсказано несколько парадигм, отбирает самую частотную
@@ -60,20 +61,14 @@ class LcsSearcher:
         candidate_paradigms_with_vars =\
             [self.calculate_all_paradigms(table) for table in tables]
         # считаем парадигмы
-        paradigm_counts = defaultdict(int)
-        for paradigms_with_vars in candidate_paradigms_with_vars:
-            for paradigm, _ in paradigms_with_vars:
-                paradigm_counts[paradigm] += 1
+        if count_paradigms:
+            for paradigms_with_vars in candidate_paradigms_with_vars:
+                for paradigm, _ in paradigms_with_vars:
+                    self.paradigm_counts[paradigm] += 1
         # отбираем наиболее частотные
         answer = []
-        # for table, possible_paradigms in zip(tables, candidate_paradigms_with_vars):
-        #     if table[0] == 'abrazar':
-        #         print(table)
-        #         for descr, var_values in possible_paradigms:
-        #             print("{} {} {}".format(descr, paradigm_counts[descr], '_'.join(var_values)))
-        #         print("")
         for elem in candidate_paradigms_with_vars:
-            answer.append(max(elem, key=(lambda x:paradigm_counts[x[0]])))
+            answer.append(max(elem, key=(lambda x:self.paradigm_counts[x[0]])))
         return answer
 
     def calculate_all_paradigms(self, table):
