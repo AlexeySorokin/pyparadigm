@@ -27,7 +27,7 @@
 აზბესტი	pos=N,case=GEN,num=SG	აზბესტის
 ათესვინებს	pos=V,mood=IMP,per=2,num=SG,aspect=PFV	დაათესვინი
 ათესვინებს	pos=V,mood=SBJV,tense=FUT,per=2,num=PL,aspect={IPFV/PFV}	ათესვინებდეთ
-ათესვინებს	pos=V,tense=PRS,per=3,num=SG,aspect=PRF	ათესვინებია
+ათესვინებს	pos=V,tense=PRS,per=3,num=SG,aspect=PRF	უთესვინებია
 აკვამარინი	pos=N,case=DAT,num=SG	აკვამარინს
 აკვამარინი	pos=N,case=GEN,num=PL	აკვამარინთა
 აკვარიუმი	pos=N,case=DAT,num=PL	აკვარიუმთა
@@ -125,7 +125,7 @@
 აცეტატი	pos=N,case=ERG,num=SG	აცეტატმა
 აწოწილი	pos=ADJ,case=VOC	აწოწილო
 ახველებს	pos=V,mood=COND,per=1,num=PL	დავახველებდით
-ახველებს	pos=V,mood=SBJV,tense=FUT,per=2,num=PL,aspect={IPFV/PFV}	ახველებდეთ
+ახველებს	pos=V,mood=SBJV,tense=FUT,per=2,num=PL,aspect={IPFV/PFV}	დაახველებდეთ
 ახლომდებარე	pos=ADJ,case=ERG	ახლომდებარე
 ახურებს	pos=V,tense=FUT,per=1,num=PL	ავხურებთ
 ახურებს	pos=V,tense=FUT,per=2,num=SG	დაახურებ
@@ -199,7 +199,7 @@
 გაზომეტრი	pos=N,case=FRML,num=PL	გაზომეტრებად
 გაზომეტრი	pos=N,case=VOC,num=PL	გაზომეტრნო
 გაიხსენებს	pos=V,aspect=IPFV	ხსენება
-გაიხსენებს	pos=V,tense=FUT,per=3,num=SG	დაგაიხსენებს
+გაიხსენებს	pos=V,tense=FUT,per=3,num=SG	გაიხსენებს
 გალონი	pos=N,case=ERG,num=PL	გალონთა
 გამათბობელი	pos=N,case=ERG,num=PL	გამათბობელთა
 გამათბობელი	pos=N,case=GEN,num=SG	გამათბობელის
@@ -253,7 +253,7 @@
 გულიაში	pos=N,case=GEN,num=SG	გულიაშის
 გულსაფარი	pos=N,case=GEN,num=PL	გულსაფართა
 გულსაფარი	pos=N,case=VOC,num=SG	გულსაფარო
-გულშემატკივარი	pos=N,case=FRML,num=PL	გულშემატკივრებად
+გულშემატკივარი	pos=N,case=FRML,num=PL	გულშემატკივარებად
 გულშემატკივარი	pos=N,case=FRML,num=SG	გულშემატკივარად
 გუმფისი	pos=N,case=GEN,num=SG	გუმფისის
 გუმფისი	pos=N,case=NOM,num=SG	გუმფისი
@@ -261,7 +261,7 @@
 დაადგენს	pos=V,tense=PRS,per=2,num=PL,aspect={IPFV/PROG}	ადგენთ
 დაადგენს	pos=V,tense=PST,per=3,num=SG,aspect=PFV	ადაადგინა
 დააზარალებს	pos=V,tense=PRS,per=2,num=PL,aspect={IPFV/PROG}	დააზარალებთ
-დაასრულებს	pos=V,tense=PST,per=2,num=SG,aspect={IPFV/PROG}	დაასრულებდი
+დაასრულებს	pos=V,tense=PST,per=2,num=SG,aspect={IPFV/PROG}	ასრულებდი
 დადგენილი	pos=ADJ,case=ERG	დადგენილმა
 დავლური	pos=N,case=GEN,num=SG	დავლურის
 დათარიღებული	pos=ADJ,case=ERG	დათარიღებულმა
@@ -272,7 +272,7 @@
 დაკარგავს	pos=V,mood=SBJV,tense=PRS,per=2,num=PL	დაკარგავდეთ
 დაკარგავს	pos=V,tense=PRS,per=1,num=PL,aspect=PRF	დაგვიდაკარგავს
 დამპყრობლური	pos=ADJ,case=VOC	დამპყრობლურო
-დამსვენებელი	pos=N,case=FRML,num=PL	დამსვენებლებად
+დამსვენებელი	pos=N,case=FRML,num=PL	დამსვენებელებად
 დამსვენებელი	pos=N,case=FRML,num=SG	დამსვენებელად
 დამსვენებელი	pos=N,case=GEN,num=PL	დამსვენებელთა
 დამღუპველი	pos=ADJ,case=VOC	დამღუპველო
@@ -410,7 +410,7 @@
 ვოლტი	pos=N,case=GEN,num=SG	ვოლტის
 ზარბაზანი	pos=N,case=DAT,num=SG	ზარბაზანს
 ზარბაზანი	pos=N,case=ERG,num=PL	ზარბაზანთა
-ზარბაზანი	pos=N,num=PL	ზარბაზნები
+ზარბაზანი	pos=N,num=PL	ზარბაზანები
 ზედამხედველი	pos=N,num=PL	ზედამხედველები
 ზეინკალი	pos=N,case=ERG,num=PL	ზეინკალთა
 ზეინკალი	pos=N,case=INS,num=PL	ზეინკალებით
@@ -581,7 +581,7 @@
 კიოსკი	pos=N,case=ERG,num=SG	კიოსკმა
 კიოსკი	pos=N,case=NOM,num=PL	კიოსკნი
 კიტრი	pos=N,case=ERG,num=SG	კიტრმა
-კლანი	pos=N,num=PL	კლნები
+კლანი	pos=N,num=PL	კლანები
 კლარნეტი	pos=N,case=GEN,num=PL	კლარნეტთა
 კლარნეტისტი	pos=N,case=INS,num=SG	კლარნეტისტით
 კლასი	pos=N,case=GEN,num=PL	კლასთა
@@ -678,7 +678,7 @@
 ლაყუჩი	pos=N,case=NOM,num=SG	ლაყუჩი
 ლაშქარი	pos=N,case=VOC,num=PL	ლაშქარნო
 ლებანი	pos=N,case=GEN,num=PL	ლებანთა
-ლებანი	pos=N,num=PL	ლებნები
+ლებანი	pos=N,num=PL	ლებანები
 ლეგიონი	pos=N,case=NOM,num=SG	ლეგიონი
 ლეკური	pos=N,num=PL	ლეკურები
 ლენი	pos=N,case=FRML,num=PL	ლენებად
@@ -711,7 +711,7 @@
 ლიფტი	pos=N,case=FRML,num=PL	ლიფტებად
 ლიცეუმი	pos=N,case=NOM,num=SG	ლიცეუმი
 ლობიანი	pos=N,case=DAT,num=PL	ლობიანთა
-ლობიანი	pos=N,case=FRML,num=PL	ლობინებად
+ლობიანი	pos=N,case=FRML,num=PL	ლობიანებად
 ლობიანი	pos=N,case=NOM,num=PL	ლობიანნი
 ლოდი	pos=N,case=GEN,num=PL	ლოდთა
 ლორდი	pos=N,case=GEN,num=SG	ლორდის
@@ -788,7 +788,7 @@
 მინორი	pos=N,case=VOC,num=SG	მინორო
 მინოტავრი	pos=N,case=INS,num=PL	მინოტავრებით
 მისანი	pos=N,case=ERG,num=SG	მისანმა
-მისანი	pos=N,num=PL	მისნები
+მისანი	pos=N,num=PL	მისანები
 მისიონერი	pos=N,case=FRML,num=PL	მისიონერებად
 მისიონერი	pos=N,case=NOM,num=SG	მისიონერი
 მიტკალი	pos=N,case=NOM,num=SG	მიტკალი
@@ -816,7 +816,7 @@
 მრუში	pos=N,case=VOC,num=SG	მრუშო
 მსახიობი	pos=N,case=NOM,num=SG	მსახიობი
 მსახური	pos=N,case=ERG,num=SG	მსახურმა
-მუარი	pos=N,case=FRML,num=PL	მურებად
+მუარი	pos=N,case=FRML,num=PL	მუარებად
 მუარი	pos=N,case=GEN,num=SG	მუარის
 მუგუზალი	pos=N,case=FRML,num=PL	მუგუზალებად
 მუეძინი	pos=N,case=GEN,num=SG	მუეძინის
@@ -1078,8 +1078,8 @@
 რულეტი	pos=N,case=INS,num=SG	რულეტით
 რწმუნებული	pos=N,case=GEN,num=PL	რწმუნებულთა
 სააღდგომო	pos=ADJ,case=ERG	სააღდგომო
-საბელი	pos=N,case=FRML,num=PL	საბლებად
-საბელი	pos=N,case=INS,num=SG	საბლით
+საბელი	pos=N,case=FRML,num=PL	საბელებად
+საბელი	pos=N,case=INS,num=SG	საბელით
 საბოტაჟი	pos=N,case=DAT,num=SG	საბოტაჟს
 საბოტაჟი	pos=N,case=NOM,num=SG	საბოტაჟი
 საგანძური	pos=N,case=VOC,num=PL	საგანძურნო
@@ -1113,8 +1113,8 @@
 საფუძველი	pos=N,case=FRML,num=SG	საფუძველად
 საქსი	pos=N,case=GEN,num=SG	საქსის
 საღებავი	pos=N,case=DAT,num=PL	საღებავთა
-საჩივარი	pos=N,case=INS,num=SG	საჩივრით
-საჩივარი	pos=N,num=PL	საჩივრები
+საჩივარი	pos=N,case=INS,num=SG	საჩივარით
+საჩივარი	pos=N,num=PL	საჩივარები
 საცვალი	pos=N,case=DAT,num=SG	საცვალს
 საძნელო	pos=ADJ,case=VOC	საძნელო
 სახელი	pos=N,case=DAT,num=SG	სახელს
@@ -1479,7 +1479,7 @@
 ცხვირსახოცი	pos=N,case=FRML,num=SG	ცხვირსახოცად
 ცხიმოვანი	pos=ADJ,case=ERG	ცხიმოვანმა
 ძალოსანი	pos=N,case=ERG,num=PL	ძალოსანთა
-ძალოსანი	pos=N,case=FRML,num=PL	ძალოსნებად
+ძალოსანი	pos=N,case=FRML,num=PL	ძალოსანებად
 ძახველი	pos=N,case=ERG,num=SG	ძახველმა
 ძოწი	pos=N,case=GEN,num=SG	ძოწის
 ძოწი	pos=N,num=PL	ძოწები
@@ -1529,7 +1529,7 @@
 ხატავს	pos=V,tense=PRS,per=3,num=PL,aspect={IPFV/PROG}	ხატავენ
 ხატავს	pos=V,tense=PST,per=2,num=SG,aspect=PRF	გაგეხატავა
 ხელკეტი	pos=N,case=GEN,num=SG	ხელკეტის
-ხელოსანი	pos=N,num=PL	ხელოსნები
+ხელოსანი	pos=N,num=PL	ხელოსანები
 ხემი	pos=N,case=ERG,num=SG	ხემმა
 ხემი	pos=N,case=VOC,num=SG	ხემო
 ხერესი	pos=N,case=NOM,num=SG	ხერესი

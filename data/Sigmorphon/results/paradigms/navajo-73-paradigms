@@ -5482,12 +5482,12 @@ yinaal+1#bi+1+oołnish
 0=yinaalnish,1=nish
 yinaal+1#bi+1+ishnish
 0=yinaalnish,1=nish
-yildee+1#woo+1+déél
-0=yildeeł,1=ł
 yil+1+ł#dashooł+1+l
 0=yilchʼąął,1=chʼąą
 yil+1+ł#daash+1+l
 0=yilchʼąął,1=chʼąą
+yil+1+eeł#wooł+1+éél
+0=yildeeł,1=d
 yil+1+ee+2#wooł+1+i+2
 0=yilkeed,1=k,2=d
 yil+1+ee+2#daooł+1+i+2
@@ -5500,8 +5500,6 @@ yijee+1#s+1+éjééʼ
 0=yijeeh,1=h
 yijee+1#s+1+oojééʼ
 0=yijeeh,1=h
-yijee+1#das+1+oojééʼ
-0=yijeeh,1=h
 yiil+1+ééh#daooł+1+eeʼ
 0=yiiltééh,1=t
 yiil+1#wooł+1
@@ -5510,6 +5508,8 @@ yiil+1#daooł+1
 0=yiiltééh,1=tééh
 yii+1+óóh#daoo+1+oii
 0=yiitsóóh,1=ts
+yii+1+ííh#daoo+1+iiʼ
+0=yiichííh,1=ch
 yii+1+ááh#woo+1+aʼ
 0=yiibááh,1=b
 yii+1+h#daooh+1+ʼ
@@ -5796,6 +5796,8 @@ yi+1+eeh#dasoo+1+ééʼ
 0=yitłeeh,1=tł
 yi+1+eeh#dasoo+1+oʼ
 0=yigeeh,1=g
+yi+1+eeh#dashoo+1+ééʼ
+0=yijeeh,1=j
 yi+1+eeh#daaz+1+oʼ
 0=yigeeh,1=g
 yi+1+ee+2#woo+1+i+2
@@ -6116,8 +6118,6 @@ y+1+ee+2#dasi+1+éé+2
 0=yikʼeed,1=ikʼ,2=d
 y+1+chííh#wooch+1+ʼ
 0=yiichííh,1=ii
-y+1+chííh#daooch+1+ʼ
-0=yiichííh,1=ii
 y+1+aał#dasi+1+áál
 0=yitaał,1=it
 y+1+a+2+lni+3#b+1+id+2+3+oołnish
@@ -6276,6 +6276,10 @@ názh+1#nídeiij+1
 0=názhah,1=ah
 názh+1#néiij+1
 0=názhah,1=ah
+náz+1+2#nídas+1+iij+2
+0=názhah,1=h,2=ah
+náz+1#nídaahs+1
+0=názhah,1=hah
 náyiil+1#náháshł+1
 0=náyiilááh,1=ááh
 náyii+1+h#náhíní+1+ʼ
@@ -6304,6 +6308,12 @@ ná+1+eeh#nísooh+1+įįʼ
 0=nádleeh,1=dl
 ná+1+eeh#nísii+1+įįʼ
 0=nádleeh,1=dl
+ná+1+eeh#nídasii+1+įįʼ
+0=nádleeh,1=dl
+ná+1+eeh#nídajis+1+įįʼ
+0=nádleeh,1=dl
+ná+1+eeh#nídaas+1+įįʼ
+0=nádleeh,1=dl
 ná+1#nísoo+1
 0=nákwi,1=kwi
 ná+1#nísii+1
@@ -6322,6 +6332,8 @@ nil+1+h#néésh+1+d
 0=nilʼąąh,1=ʼąą
 ni+1+h#neesh+1+ʼ
 0=nitʼááh,1=tʼáá
+ni+1+aah#1+ineezbin
+0=nidaah,1=d
 ni+1+aa+2#1+iz+2+neezbin
 0=nidaah,1=d,2=h
 ni+1+aa+2#1+ino+2+bįįh
@@ -6562,8 +6574,6 @@ ał+1+in#daʼsiil+1+ąąʼ
 0=ałchin,1=ch
 ał+1+in#daʼjis+1+ąąʼ
 0=ałchin,1=ch
-ał+1+in#asiil+1+ąąʼ
-0=ałchin,1=ch
 ał+1#iilg+1
 0=ałhąąʼ,1=hąąʼ
 ay+1#ohs+1
@@ -6668,6 +6678,8 @@ a+1#ashiid+1
 0=ałeeh,1=a
 1+łeeh#1+siilįįʼ
 0=ałeeh,1=a
+1+łch+2+n#1+si+2+lchąąʼ
+0=ałchin,1=a,2=i
 1+ł+2+ł#1+ilg+2+l
 0=yiłhaał,1=yi,2=haa
 1+ł+2+ł#1+il+2+l
@@ -6862,10 +6874,6 @@ a+1#ashiid+1
 0=náházo,1=náh
 1+ázh+2+3#1+íd+2+s+3+oozhah
 0=názhah,1=n,2=a,3=h
-1+ázh+2+3#1+íd+2+s+3+iijah
-0=názhah,1=n,2=a,3=h
-1+ázh+2#1+ída+2+shah
-0=názhah,1=n,2=ah
 1+áz+2+3#1+ís+2+iij+3
 0=názhah,1=n,2=h,3=ah
 1+áz+2#1+óhs+2
@@ -6885,12 +6893,6 @@ a+1#ashiid+1
 1+á+2+áz+3#1+ída+2+3+soozo
 0=náházo,1=n,2=h,3=o
 1+á+2+leeh#1+í+2+asoohdlįįʼ
-0=nádleeh,1=n,2=d
-1+á+2+leeh#1+í+2+asiidlįįʼ
-0=nádleeh,1=n,2=d
-1+á+2+leeh#1+í+2+ajisdlįįʼ
-0=nádleeh,1=n,2=d
-1+á+2+leeh#1+í+2+aasdlįįʼ
 0=nádleeh,1=n,2=d
 1+á+2+i+3#nísí+1+í+2+íí+3
 0=náldzid,1=n,2=ldz,3=d
@@ -7117,8 +7119,6 @@ a+1#ashiid+1
 1+idaah#si+1+ooké
 0=nidaah,1=n
 1+idaah#ji+1+eezké
-0=nidaah,1=n
-1+idaah#di+1+eezbin
 0=nidaah,1=n
 1+idaah#1+eezké
 0=nidaah,1=n
@@ -7420,7 +7420,7 @@ a+1#ashiid+1
 0=neiłdo,1=n,2=i,3=d
 1+e+2+ł+3+d#1+2+da+3+shjid
 0=neiłjid,1=n,2=i,3=ji
-1+e+2+ł+3+4#1+2+3+as+4+ołdo
+1+e+2+ł+3+4#1+2+3+aso+4+łdo
 0=neiłdo,1=n,2=i,3=d,4=o
 1+e+2+á#1+isi+2+ą
 0=neiká,1=n,2=ik

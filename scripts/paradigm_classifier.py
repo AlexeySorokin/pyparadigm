@@ -84,31 +84,34 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         при которой данный класс возвращается при multiclass=True
     """
     def __init__(self, paradigm_table=None, multiclass=False, find_flection=False,
-                 max_length=5, use_prefixes=False, max_prefix_length=2, has_letter_classifiers=True,
-                 classifier=sklm.LogisticRegression(), classifier_params=None,
-                 selection_method='ambiguity', nfeatures=None, minfeatures=100,
+                 max_length=5, use_prefixes=False, max_prefix_length=2,
+                 has_letter_classifiers='suffix', to_memorize_affixes=3,
+                 suffixes_to_delete=None, classifier=sklm.LogisticRegression(),
+                 classifier_params=None, selection_method='ambiguity',
+                 nfeatures=None, minfeatures=100, min_feature_count=3,
                  weight_features=False, smallest_prob = 0.01, min_probs_ratio=0.9,
-                 unique_class_prob=0.9, class_count_alpha=0.1,
-                 to_memorize_suffixes=3, suffixes_to_delete=None):
+                 unique_class_prob=0.9, class_count_alpha=0.1):
         self.paradigm_table = paradigm_table
         self.multiclass = multiclass
         self.find_flection=find_flection  # индикатор отделения окончания перед классификацией
         self.max_length = max_length
         self.use_prefixes = use_prefixes
         self.max_prefix_length = max_prefix_length
+        self.has_letter_classifiers = has_letter_classifiers
+        self.to_memorize_affixes = to_memorize_affixes
         self.classifier = classifier
         self.classifier_params = classifier_params
         self.selection_method = selection_method
         self.nfeatures = nfeatures
         self.minfeatures = minfeatures
+        self.min_feature_count = min_feature_count
         self.weight_features = weight_features
         self.smallest_prob = smallest_prob
         self.min_probs_ratio = min_probs_ratio
-        self.has_letter_classifiers = has_letter_classifiers
         self.unique_class_prob = unique_class_prob
         self.class_count_alpha = class_count_alpha
-        self.to_memorize_suffixes = to_memorize_suffixes
         self.suffixes_to_delete = suffixes_to_delete
+        self.print_features_in_prediction = False
 
     def _prepare_classifier(self):
         if self.classifier_params is None:
@@ -120,9 +123,9 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                                                if len(self.suffixes_to_delete) > 0 else 0)
         self.classifier.set_params(**self.classifier_params)
         self.first_selector = MulticlassFeatureSelector(local=True, method=self.selection_method,
-                                                        min_count=3, nfeatures=-1)
+                                                        min_count=self.min_feature_count, nfeatures=-1)
         selector = MulticlassFeatureSelector(local=True, method=self.selection_method,
-                                             min_count=3, nfeatures=self.nfeatures,
+                                             min_count=self.min_feature_count, nfeatures=self.nfeatures,
                                              minfeatures=self.minfeatures)
         if not self.weight_features:
             first_stage = ('feature_selection', selector)
@@ -134,6 +137,25 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         self.classifier = OneVsRestClassifier(single_classifier)
         return self
 
+    def _check_memorization_parameters(self):
+        """
+        Проверяет на совместимость параметры has_letter_classifiers и to_memorize_affixes
+        """
+        if self.to_memorize_affixes > 0:
+            if self.has_letter_classifiers in ['prefix']:
+                raise ValueError("'has_letter_classifiers' should be None or 'suffix' "
+                                 "if to_memorize_affixes > 0")
+        elif self.to_memorize_affixes < 0:
+            if self.has_letter_classifiers in ['suffix']:
+                raise ValueError("'has_letter_classifiers' should be None or 'prefix' "
+                                 "if to_memorize_affixes < 0")
+        self._affix_extractor =\
+            ((lambda x: x[-1]) if self.has_letter_classifiers == 'suffix'
+             else (lambda x: x[0]) if self.has_letter_classifiers == 'prefix'
+             else (lambda x:(x[0], x[-1])) if self.has_letter_classifiers == 'both'
+             else (lambda x: None))
+        return self
+
     def fit(self, X, y):
         """
         Обучает классификатор на данных
@@ -141,6 +163,7 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         if self.paradigm_table is None:
             self.paradigm_table = dict()
         self._paradigms_by_codes = {code: descr for descr, code in self.paradigm_table.items()}
+        self._check_memorization_parameters()
         self._prepare_classifier()
         self._prepare_fragmentors()
         X_train_, Y = self._preprocess_input(X, y, create_features=True,
@@ -160,11 +183,11 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         y_new = [[self.reverse_classes[label] for label in labels] for labels in y]
         self._make_label_statistics(X, y_new)
         X_train = self._remove_rare_features(X_train_, Y_new, sparse_type='csr')
-        if self.has_letter_classifiers:
+        if self.has_letter_classifiers is not None:
             # сначала найдём возможные классы,
             # поскольку их множество используется в предобработке
             data_indexes_by_letters =\
-                arrange_indexes_by_last_letters(X, [len(labels) for labels in y])
+                arrange_indexes_by_key(X, self._affix_extractor, [len(labels) for labels in y])
             # заводим классификаторы для каждой буквы
             self.letter_classifiers_ = dict()
             for letter, indexes in data_indexes_by_letters.items():
@@ -259,9 +282,15 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         X_unanswered = [X[i] for i in other_indexes]
         # после этой строчки X_train будет csr_matrix
         X_train = self._preprocess_input(X_unanswered, retain_multiple=False, sparse_type='csr')
+        # печатаем признаки, которые учитываются при классификации
+        if self.print_features_in_prediction:
+            for i, word in enumerate(X_unanswered):
+                current_feature_indexes = X_train.indices[X_train.indptr[i]:X_train.indptr[i+1]]
+                current_features = [self.features[j] for j in current_feature_indexes]
+                print(word, " ".join(current_features))
         # чтобы не делать индексацию при каждом поиске парадигмы,
         # сохраняем обработчики для каждого из возможных классов
-        if not self.has_letter_classifiers:
+        if self.has_letter_classifiers is None:
             if X_train.shape[0] > 0:
                 probs = self.classifier.predict_proba(X_train)
                 # перекодируем классы в self.classifier.classes_ в элементы self.classes_
@@ -273,7 +302,7 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                     answer[i] = self._extract_word_probs(word, word_probs, temp_fragmentors,
                                                          temp_fragmentors_indexes)
         else:
-            data_indexes_by_letters = arrange_indexes_by_last_letters(X_unanswered)
+            data_indexes_by_letters = arrange_indexes_by_key(X_unanswered, self._affix_extractor)
             for letter, indexes in sorted(data_indexes_by_letters.items()):
                 if letter in self._single_class_letters:
                     sys.exit("Answer for this class has already been calculated. Check your code.")
@@ -322,19 +351,23 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
             other_indexes = []
             known_answers = [(self.known_answer_, 0)] * len(X)
             return known_indexes, other_indexes, known_answers
-        if self.to_memorize_suffixes:
-            suffix_start = -2 if self.has_letter_classifiers else -1
-            suffix_end = -1 - self.to_memorize_suffixes
+        if self.to_memorize_affixes != 0:
+            affix_start = int(self.has_letter_classifiers is not None)
+            if self.to_memorize_affixes > 0:
+                affix_start = -affix_start - 1
+            affix_end = affix_start - self.to_memorize_affixes
+            step = -1 if self.to_memorize_affixes > 0 else 1
         for i, word in enumerate(X):
-            letter = word[-1]
-            if self.to_memorize_suffixes > 0:
-                suffix = word[suffix_start:suffix_end:-1]
-                if self.has_letter_classifiers:
+            letter = self._affix_extractor(word)
+            if self.to_memorize_affixes != 0:
+                affix = word[affix_start:affix_end:step]
+                if self.has_letter_classifiers is not None:
                     trie, node_data = self.memorized_suffixes.get(letter, None), None
                 else:
+                    # здесь self.has_letter_classifiers = None
                     trie, node_data = self.memorized_suffixes, None
                 if trie is not None:
-                    node_data = trie.partial_path(suffix)[-1].data
+                    node_data = trie.partial_path(affix)[-1].data
                 if node_data is not None and len(node_data) > 0:
                     # здесь надо проверить, подойдёт ли слово под соотв.парадигму
                     new_node_data =\
@@ -342,11 +375,13 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                          if self._paradigm_fragmentors[self.classes_[j]].fits_to_pattern(word)]
                     if len(new_node_data) > 0:
                         known_indexes.append(i)
-                        answers_for_known_indexes.append((node_data, int(self.has_letter_classifiers)))
+                        answers_for_known_indexes.append(
+                            (node_data, int(self.has_letter_classifiers is not None)))
                         continue
-            if self.has_letter_classifiers:
+            if self.has_letter_classifiers is not None:
                 labels = self._single_class_letters.get(letter)
                 if labels is not None:
+                    # print(word, labels, self._paradigms_by_codes[self.classes_[labels[0]]])
                     known_indexes.append(i)
                     answers_for_known_indexes.append((labels, 0))
                     continue
@@ -370,7 +405,7 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         if flag == 0:
             default_probs = self.new_letter_probs
         elif flag == 1:
-            default_probs = self._default_letter_probs[word[-1]]
+            default_probs = self._default_letter_probs[self._affix_extractor(word)]
         default_probs *= 1.0 - self.unique_class_prob
         default_probs[labels] += self.unique_class_prob
         return default_probs
@@ -501,7 +536,7 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                 for length in range(min(self.max_prefix_length, len(word))):
                     feature = "#" + word[:(length+1)]
                     feature_code = self._get_feature_code(feature, create_new=create_features)
-                active_features_codes.append(feature_code)
+                    active_features_codes.append(feature_code)
             X_with_temporary_codes.append(active_features_codes)
         if create_features:
             # при сортировке сначала учитывается длина, потом суффикс/префикс
@@ -654,15 +689,17 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
         # сначала считаем частоты классов
         label_counts = {i: self.class_count_alpha
                         for i, _ in enumerate(self.classes_)}
-        if self.has_letter_classifiers:
+        if self.has_letter_classifiers is not None:
             label_counts_by_letters = defaultdict(lambda: defaultdict(int))
             constant_labels_for_letters = dict()
         for word, labels in zip(X, y):
-            labels = [self.reverse_classes[label] for label in labels]
+            # print(word, labels, self._paradigms_by_codes[self.classes_[labels[0]]])
+            # labels = [self.reverse_classes[label] for label in labels]
             for label in labels:
                 label_counts[label] += 1
-            if self.has_letter_classifiers:
-                letter = word[-1]
+            if self.has_letter_classifiers is not None:
+                letter = self._affix_extractor(word)
+                # print(word, letter, labels)
                 label_counts_for_letter = label_counts_by_letters[letter]
                 for label in labels:
                     label_counts_for_letter[label] += 1
@@ -674,7 +711,7 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                         [label for label in labels if label in constant_labels_for_letter]
         # теперь вычисляем вероятности по умолчанию
         self.new_letter_probs = counts_to_probs(label_counts, len(self.classes_))
-        if self.has_letter_classifiers:
+        if self.has_letter_classifiers is not None:
             self._default_letter_probs = dict()
             self._single_class_letters = dict()
             for letter, counts in label_counts_by_letters.items():
@@ -686,9 +723,10 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                 constant_labels_for_letter = constant_labels_for_letters[letter]
                 if len(constant_labels_for_letter) > 0:
                     self._single_class_letters[letter] = constant_labels_for_letter
-        if self.to_memorize_suffixes > 0:
-            self.memorized_suffixes = _memorize_suffixes(
-                self.to_memorize_suffixes, X, y, remove_last_letter=self.has_letter_classifiers)
+        if self.to_memorize_affixes != 0:
+            self.memorized_suffixes = _memorize_affixes(
+                self.to_memorize_affixes, X, y,
+                remove_affixes=(self.has_letter_classifiers is not None))
         return
 
     def _prepare_fragmentors(self):
@@ -1179,37 +1217,40 @@ class CombinedParadigmClassifier(BaseEstimator, ClassifierMixin):
         return answer
 
 
-def _memorize_suffixes(length, X, y, remove_last_letter=False):
-    if remove_last_letter:
-        answer = dict()
+def _memorize_affixes(length, X, y, remove_affixes=False):
+    if length == 0:
+        return Trie()
+    answer = dict()
+    step = -1 if length > 0 else 1
+    offset = int(remove_affixes)
+    if length > 0:
+        offset = -1 - offset
+    if remove_affixes:
+        # ключом служит последняя буква (в случае суффиксов) или первая (в случае префиксов)
+        index = -1 if length > 0 else 0
+        key_extractor = (lambda x:x[index])
     else:
-        answer = Trie()
-    offset = int(remove_last_letter)
+        key_extractor = (lambda x: None)
     for word, labels in zip(X, y):
-        suffix = word[(-1-offset):(-length-1):-1]
-        if remove_last_letter:
-            trie = answer.get(word[-1])
-            if trie is None:
-                trie = answer[word[-1]] = Trie()
-        else:
-            trie = answer
-        if suffix not in trie:
-            trie[suffix] = None
-        path = trie.path(suffix)
+        affix = word[offset:offset-length:step]
+        key = key_extractor(word)
+        trie = answer.get(key)
+        if trie is None:
+            trie = answer[key] = Trie()
+        if affix not in trie:
+            trie[affix] = None
+        path = trie.path(affix)
         for node in path:
             if node.data is None:
                 node.data = labels
             else:
                 node.data = [label for label in labels if label in node.data]
-    if remove_last_letter:
-        for letter, trie in answer.items():
-            for node in trie.nodes:
-                node.is_terminal = (len(node.data) > 0)
-            answer[letter] = prune_dead_branches(trie)
-    else:
-        for node in answer.nodes:
+    for letter, trie in answer.items():
+        for node in trie.nodes:
             node.is_terminal = (len(node.data) > 0)
-        answer = prune_dead_branches(answer)
+        answer[letter] = prune_dead_branches(trie)
+    if not remove_affixes:
+        answer = answer[None]
     return answer
 
 
@@ -1268,13 +1309,13 @@ def extract_classes_from_probs(probs, min_probs_ratio):
 #     return answer
 
 
-def arrange_indexes_by_last_letters(words, reps=None):
+def arrange_indexes_by_key(words, keyfunc=lambda: None, reps=None):
     if reps is None:
         reps = [1] * len(words)
     answer = defaultdict(list)
     i = 0
     for word, rep in zip(words, reps):
-        answer[word[-1]].extend(range(i, i+rep))
+        answer[keyfunc(word)].extend(range(i, i+rep))
         i += rep
     return answer
 

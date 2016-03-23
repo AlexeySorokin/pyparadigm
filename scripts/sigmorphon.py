@@ -6,7 +6,7 @@ from itertools import chain, product
 
 from sklearn.base import clone
 
-from pyparadigm import LcsSearcher, extract_tables, output_paradigms
+from pyparadigm import LcsSearcher, extract_tables, output_paradigms, vars_to_string
 from paradigm_classifier import ParadigmClassifier, JointParadigmClassifier
 from transformation_classifier import TransformationsHandler
 from paradigm_detector import ParadigmSubstitutor
@@ -144,14 +144,33 @@ class SigmorphonGuesser:
                                             'selection_params': {'nfeatures': 0.25, 'min_count': 2}}
         self.classifiers = [None] * self.problems_number
         # НЕМЕЦКИЙ
-        # classifier_params = {'paradigm_table': self.transform_codes, 'use_prefixes': False,
-        #                      'suffixes_to_delete': ['en']}
+        # classifier_params = {'paradigm_table': self.transform_codes, 'use_prefixes': True,
+        #                      'max_prefix_length': 2, 'suffixes_to_delete': ['en'],
+        #                      'has_letter_classifiers': False}
+        # ИСПАНСКИЙ
+        # classifier_params = {'paradigm_table': self.transform_codes, 'use_prefixes': False}
         # АРАБСКИЙ
         # classifier_params = {'paradigm_table': self.transform_codes, 'use_prefixes': True,
-        #                      'max_prefix_length': 3}
+        #                      'max_prefix_length': 4, 'max_length': 4,
+        #                      'has_letter_classifiers': None, 'to_memorize_affixes': 0}
         # ГРУЗИНСКИЙ
         classifier_params = {'paradigm_table': self.transform_codes, 'use_prefixes': True,
-                             'max_prefix_length': 3}
+                             'max_prefix_length': 4, 'has_letter_classifiers': 'suffix',
+                             'to_memorize_affixes': 0}
+        # ФИНСКИЙ
+        # classifier_params = {'paradigm_table': self.transform_codes, 'use_prefixes': False}
+        # РУССКИЙ
+        # classifier_params = {'paradigm_table': self.transform_codes, 'use_prefixes': False,
+        #                      'max_prefix_length': 3, 'suffixes_to_delete': ['ся', 'сь'],
+        #                      'to_memorize_affixes': 2, 'has_letter_classifiers': False}
+        # НАВАХО
+        # classifier_params = {'paradigm_table': self.transform_codes, 'use_prefixes': True,
+        #                      'max_prefix_length': 5, 'max_length': 3, 'has_letter_classifiers': 'prefix',
+        #                      'to_memorize_affixes': -3}
+        # ТУРЕЦКИЙ
+        # classifier_params = {'paradigm_table': self.transform_codes, 'use_prefixes': False}
+        classifier_params['min_feature_count'] = 3
+        classifier_params['nfeatures'] = 0.1
         for i in range(self.problems_number):
             self.classifiers[i] = JointParadigmClassifier(
                 ParadigmClassifier(**classifier_params), transformations_handler,
@@ -160,7 +179,7 @@ class SigmorphonGuesser:
             joint_data, self.problems_number, has_answers=True)
         for i, (_, curr_X, curr_y) in enumerate(data_by_problems):
             self.classifiers[i].fit(curr_X, [[x] for x in curr_y])
-            print("Classifier {0} of {1} fitted".format(i+1, self.problems_number))
+            # print("Classifier {0} of {1} fitted".format(i+1, self.problems_number))
         return self
 
     def predict(self, data, return_by_problems=False, return_descr=False):
@@ -182,7 +201,7 @@ class SigmorphonGuesser:
                 # проблема не встречалась в обучающей выборке, потому выдаём тождественный ответ
                 curr_words = [lemma for lemma in curr_X]
             else:
-                print("Classifier {} predicting...".format(i+1))
+                # print("Classifier {} predicting...".format(i+1))
                 cls = self.classifiers[i]
                 curr_answers = [x[0] for x in cls.predict(curr_X)]
                 curr_descrs = []
@@ -211,9 +230,24 @@ class SigmorphonGuesser:
                     answers[j] = word
         return answers
 
-def get_descr_string(problem_descr):
-    return ",".join("{0}={1}".format(*elem) for elem in problem_descr.items())
 
+def get_descr_string(problem_descr):
+    if isinstance(problem_descr, dict):
+        problem_descr = problem_descr.items()
+    else:
+        problem_descr = zip(*problem_descr)
+    return ",".join("{0}={1}".format(*elem) for elem in problem_descr)
+
+
+def output_inflection_data(data_for_output, outfile):
+    with open(outfile, "w", encoding="utf8") as fout:
+        for problem_descr, problem_data in data_for_output:
+            for lemma, transform_descr, word, var_values in problem_data:
+                fout.write("{}\t{}\t{}\t{}\t{}\n".format(
+                    lemma, get_descr_string(problem_descr), word,
+                    transform_descr, vars_to_string(lemma, var_values)))
+            if len(problem_data) > 0:
+                fout.write("\n")
 
 SHORT_OPTS = 'g:i:Ia'
 LONG_OPTS = ['gap=', 'initial_gap=', 'incorrect', 'group_all']
@@ -238,9 +272,10 @@ if __name__ == "__main__":
         sys.exit("First argument must be one of {0})".format(' '.join(MODES)))
     mode, args = args[0], args[1:]
     if mode == 'make_paradigms':
-        if len(args) != 3:
-            sys.exit("Pass train file, outfile for paradigms, outfile for paradigm_stats")
-        train_file, outfile, stats_outfile = args
+        if len(args) != 4:
+            sys.exit("Pass train file, outfile for inflection, "
+                     "outfile for paradigms, outfile for paradigm_stats")
+        train_file, inflection_outfile, outfile, stats_outfile = args
     elif mode == 'guess_inflection':
         if len(args) != 3:
             sys.exit("Pass train file, test file and output file")
@@ -255,11 +290,24 @@ if __name__ == "__main__":
     if mode == 'make_paradigms':
         # joint_data = [(lemma, problem_code, paradigm_code, var_values, word),...]
         joint_data = form_guesser.make_paradigms_from_data(input_data)
-        # data_for_output = [(lemma, [lemma, word], paradigm_repr, var_values), ...]
         paradigm_descrs_by_codes = list(form_guesser.transform_codes.keys())
+        problem_descrs_by_codes = list(form_guesser.problem_codes.keys())
+        data_by_problems = arrange_data_by_problems(
+            joint_data, form_guesser.problems_number, has_answers=True)
+        data_for_output = []
+        for descr, (curr_indexes, _, _) in zip(problem_descrs_by_codes, data_by_problems):
+            curr_data_for_output = []
+            for i in curr_indexes:
+                lemma, _, paradigm_code, var_values, word = joint_data[i]
+                curr_data_for_output.append((lemma, paradigm_descrs_by_codes[paradigm_code],
+                                             word, var_values))
+            data_for_output.append((descr, curr_data_for_output))
+        output_inflection_data(data_for_output, inflection_outfile)
+        # сохраняем статистику по парадигмам
         data_for_table_extraction =\
             [(lemma, [lemma, word], paradigm_descrs_by_codes[paradigm_code], var_values)
              for lemma, _, paradigm_code, var_values, word in joint_data]
+        # data_for_output = [(lemma, [lemma, word], paradigm_repr, var_values), ...]
         data_for_output = extract_tables(data_for_table_extraction)
         output_paradigms(data_for_output, outfile, stats_outfile)
     elif mode == 'guess_inflection':
@@ -272,23 +320,33 @@ if __name__ == "__main__":
     elif mode == 'test_inflection':
         form_guesser.fit(input_data)
         test_data = read_input_file(test_file, group_all=False)
-        # здесь надо вставить определение парадигмы по тестовым данным
         correct_paradigms_with_vars = form_guesser.lcs_seacrher.calculate_paradigms(
             [(lemma, words[0]) for lemma, _, words in test_data], count_paradigms=False)
         answers = form_guesser.predict([(x[0], x[1]) for x in test_data],
                                        return_by_problems=True, return_descr=True)
         with open(outfile, "w", encoding="utf8") as fout:
             for problem_answers in answers:
-                has_output = False
+                current_problem_output = []
+                curr_answers_number = 0
+                curr_correct_answers_number = 0
                 for i, (descr, word) in problem_answers:
                     lemma, problem_descrs, correct_words = test_data[i]
                     correct_word = correct_words[0]
                     correct_descr, _ = correct_paradigms_with_vars[i]
+                    curr_answers_number += 1
+                    curr_correct_answers_number += int(word == correct_word)
                     if word != correct_word or not output_only_incorrect:
-                        has_output = True
-                        fout.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n".format(
-                            lemma, get_descr_string(problem_descrs[0]), '#'.join(correct_descr),
-                            correct_word, '#'.join(descr), word))
-                if has_output:
+                        current_problem_output.append(
+                            (lemma, get_descr_string(problem_descrs[0]), '#'.join(correct_descr),
+                             correct_word, '#'.join(descr), word))
+                        # fout.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n".format(
+                        #     lemma, get_descr_string(problem_descrs[0]), '#'.join(correct_descr),
+                        #     correct_word, '#'.join(descr), word))
+                if len(current_problem_output) > 0:
+                    current_problem_descr = current_problem_output[0][1]
+                    fout.write("{}\tВсего: {}\tПравильно: {}({:.2f})\n".format(
+                        current_problem_descr, curr_answers_number, curr_correct_answers_number,
+                        100 * (curr_correct_answers_number / curr_answers_number)))
+                    for elem in current_problem_output:
+                        fout.write("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n".format(*elem))
                     fout.write("\n")
-

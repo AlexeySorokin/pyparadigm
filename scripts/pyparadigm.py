@@ -27,11 +27,13 @@ class LcsSearcher:
         метод для определения наилучшей LCS
     """
 
-    def __init__(self, gap=None, initial_gap=None, method='Hulden', count_gaps=True):
+    def __init__(self, gap=None, initial_gap=None, method='Hulden',
+                 count_gaps=True, count_initial_gap=False):
         self.gap = gap
         self.initial_gap = initial_gap
         self.method = method
         self.count_gaps = count_gaps
+        self.count_initial_gap = count_initial_gap
         self.paradigm_counts = defaultdict(int)
 
     def process_table(self, words):
@@ -67,7 +69,8 @@ class LcsSearcher:
                     self.paradigm_counts[paradigm] += 1
         # отбираем наиболее частотные
         answer = []
-        for elem in candidate_paradigms_with_vars:
+        for table, elem in zip(tables, candidate_paradigms_with_vars):
+            curr_paradigm_counts = [self.paradigm_counts[x[0]] for x in elem]
             answer.append(max(elem, key=(lambda x:self.paradigm_counts[x[0]])))
         return answer
 
@@ -219,8 +222,8 @@ class LcsSearcher:
         gap_positions_number: int, число непрерывных фрагментов в выравнивании для lcs
         total_gaps_number: int, суммарное число разрывов в выравнивании для lcs
         """
-        gap_positions = [[find_gap_positions(x, add_initial=True) for x in elem]
-                         for elem in indexes]
+        gap_positions = [[find_gap_positions(x, add_initial=self.count_initial_gap)
+                          for x in elem] for elem in indexes]
         optimal_gap_positions_sets, optimal_cover_size =\
                 find_optimal_cover_elements(gap_positions)
         total_best_score, best_indexes_combinations = None, []
@@ -822,8 +825,8 @@ def test():
     # other = first.intersect(second)
     # print(other.longest_words(gap=1))
 
-    words = ['mainehikas', 'kaampi']
-    lcs_searcher = LcsSearcher(gap=1, initial_gap=0)
+    words = ['takātaba', 'tatakātab']
+    lcs_searcher = LcsSearcher(gap=2, initial_gap=5, count_initial_gap=False)
     best_lcss = lcs_searcher.process_table(words)
     print(best_lcss)
 
@@ -835,7 +838,6 @@ def test():
 
 
 if __name__ == "__main__":
-    # test()
     args = sys.argv[1:]
     if len(args) == 0:
         test()
