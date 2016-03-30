@@ -70,6 +70,14 @@ class LcsSearcher:
         # отбираем наиболее частотные
         answer = []
         for table, elem in zip(tables, candidate_paradigms_with_vars):
+            to_print = False
+            for descr, var_values in elem:
+                if descr == ('1+о+2+ий', '1+2+ое'):
+                    to_print = True
+                    break
+            if to_print:
+                print("#".join(table))
+                print("\t".join("{} {}".format(descr, self.paradigm_counts[descr]) for descr, _ in elem))
             curr_paradigm_counts = [self.paradigm_counts[x[0]] for x in elem]
             answer.append(max(elem, key=(lambda x:self.paradigm_counts[x[0]])))
         return answer

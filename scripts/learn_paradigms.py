@@ -140,15 +140,15 @@ def cv_mode(testing_mode, multiclass, predict_lemmas, find_flection,
                 raise NotImplementedError()
         if predict_lemmas:
             pred_lemmas[i] = make_lemmas(paradigm_handlers, predictions[i])
+    descrs_by_codes = {code: descr for descr, code in paradigm_table.items()}
     if output_pred_dir:
-        descrs_by_codes = {code: descr for descr, code in paradigm_table.items()}
         test_words = test_data
         if testing_mode == 'predict_proba':
             prediction_probs_for_output = prediction_probs
         else:
             prediction_probs_for_output = None
     else:
-        descrs_by_codes, test_words, prediction_probs_for_output = None, None, None
+        test_words, prediction_probs_for_output = None, None
     if not predict_lemmas:
         label_precisions, variable_precisions, form_precisions =\
             output_accuracies(classes, test_labels_with_vars, predictions, multiclass,

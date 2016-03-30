@@ -1,3 +1,7 @@
+import sys
+from collections import defaultdict, OrderedDict
+import copy
+
 class TopologicalSorter:
     """
     Класс для выполнения топологической сортировки вершин графа
@@ -193,14 +197,18 @@ class TrieNode:
     """
     NOT_A_NODE = None
 
-    def __init__(self, index, data=None, is_terminal=False):
+    def __init__(self, index, parent=None, data=None, is_terminal=False):
         self.index = index
         self.data = data
         self.is_terminal = False
         self.children = dict()
+        self.parent = parent
 
     def set_child(self, c, child):
         self.children[c] = child
+
+    def set_parent(self, parent):
+        self.parent = parent
 
     def child(self, c):
         return self.children.get(c, TrieNode.NOT_A_NODE)
@@ -211,8 +219,9 @@ class TrieNode:
 
 class Trie:
 
-    def __init__(self):
-        self.root = TrieNode(0)
+    def __init__(self, default=None):
+        self.default = default
+        self.root = TrieNode(0, data=default)
         self.nodes = [self.root]
         self.nodes_number = 1
         self.size = 0
@@ -254,7 +263,7 @@ class Trie:
 
     def _add_descendant(self, curr, key):
         for a in key:
-            node = TrieNode(index=self.nodes_number)
+            node = TrieNode(index=self.nodes_number, parent=curr, data=self.default)
             curr.set_child(a, node)
             curr = node
             self.nodes.append(node)
@@ -295,6 +304,13 @@ class Trie:
         else:
             return None
 
+    def max_prefix(self, key):
+        """
+        Возвращает максимальный префикс key, принадлежащий данному дереву
+        """
+        answer = self.partial_path(key)
+        return key[:(len(answer) - 1)]
+
     def traverse(self, only_terminals=False, return_keys=False):
         """
         Обход дерева в глубину
@@ -321,11 +337,18 @@ class Trie:
         return answer
 
     def print_all(self):
-        for node in self.nodes:
+        offsets = [0] * len(self.nodes)
+        traversal = self.traverse(only_terminals=False, return_keys=False)[::-1]
+        for node in traversal:
+            offset = offsets[node.index]
+            for child in node.children.values():
+                offsets[child.index] = offset + 1
+            print(" " * offsets[node.index], end="")
             print("{0} {1} {2}".format(
                 node.index, " ".join("{0} {1}".format(first, second.index)
                                      for first, second in node.children.items()),
                 node.data))
+        print("")
 
     def __str__(self):
         return ("{{{0}}}".format(", ".join(
@@ -353,6 +376,9 @@ def prune_dead_branches(trie):
                 new_node = new_nodes[new_index]
                 new_node.is_terminal = node.is_terminal
                 new_node.data = node.data
+                if node.parent is not None:
+                    new_parent_index = new_node_indexes[node.parent.index]
+                    new_node.set_parent(new_nodes[new_parent_index])
                 for c, child in node.children.items():
                     new_child_index = new_node_indexes[child.index]
                     if new_child_index >= 0:
@@ -363,6 +389,83 @@ def prune_dead_branches(trie):
         pruned_trie.size = len(trie)
     # pruned_trie.print_all()
     return pruned_trie
+
+
+def make_affix_trie(words, affix_type='suffix', max_length=-1):
+    if affix_type not in ['prefix', 'suffix']:
+        raise ValueError("Affix type should be 'prefix' or 'suffix'.")
+    if max_length == -1:
+        affix_extractor = (lambda x:x) if affix_type=='prefix' else (lambda x: x[::-1])
+    elif affix_type == 'suffix':
+        affix_extractor = lambda x: x[-1:-max_length-1:-1]
+    elif affix_type == 'prefix':
+        affix_extractor = lambda x: x[:max_length]
+    affix_trie = Trie(default=0)
+    for word in words:
+        affix = affix_extractor(word)
+        node = affix_trie.get_node(affix)
+        if node is not None:
+            node.data += 1
+        else:
+            affix_trie[affix] = 1
+    traversal = affix_trie.traverse(only_terminals=False, return_keys=False)
+    for node in traversal:
+        for c, child in node.children.items():
+            node.data += child.data
+    return affix_trie
+
+
+def prune_by_counts(affix_trie, threshold, min_count=-1, simple=False):
+    """
+    Удаляет из бора все вершины, в дереве ниже которых
+    находится меньше threshold элементов. Если 0 <= threshold < 1,
+    то threshold = N * threshold, где N --- число терминальных вершин в дереве
+
+    делает терминальными все листья, а также все вершины, для которых
+    число элементов в их неотмеченных поддеревьях превышает threshold.
+    """
+    if 0.0 <= threshold and threshold < 1.0:
+        counts_sum = sum(node.data for node in affix_trie.nodes if node.is_terminal)
+        threshold = int(threshold * counts_sum)
+    threshold = max(threshold, min_count)
+    new_trie = copy.copy(affix_trie)
+    has_terminal_descendants = [False] * len(new_trie.nodes)
+    for node, key in new_trie.traverse(return_keys=True):
+        if not simple:
+            sum_of_unlabeled_children_data = 0
+            for child in node.children.values():
+                if has_terminal_descendants[child.index]:
+                    has_terminal_descendants[node.index] = True
+                else:
+                    sum_of_unlabeled_children_data += child.data
+            node.is_terminal = (sum_of_unlabeled_children_data >= threshold)
+            has_terminal_descendants[node.index] |= node.is_terminal
+        else:
+            node.is_terminal = (node.data >= threshold)
+    new_trie = prune_dead_branches(new_trie)
+    return new_trie
+
+
+def calculate_affixes_to_remove(data, affix_type, max_length, threshold, min_count):
+    data_by_tasks = defaultdict(list)
+    for word, key in data:
+        data_by_tasks[key].append(word)
+    answer = OrderedDict()
+    affix_modifier = (lambda x: x[::-1]) if affix_type=='suffix' else (lambda x:x)
+    for key, words in data_by_tasks.items():
+        affix_trie = make_affix_trie(words, affix_type=affix_type, max_length=max_length)
+        curr_threshold = max(int(len(words) * threshold), min_count)
+        affix_trie = prune_by_counts(affix_trie, curr_threshold)
+        # affix_trie.print_all()
+        traversal = affix_trie.traverse(return_keys=True, only_terminals=True)
+        # for node, word in traversal:
+        #     print(key, affix_modifier(word), node.data)
+        affixes = [affix_modifier(word) for _, word in traversal if word != ""]
+        answer[key] = affixes
+        # if len(affixes) > 0:
+        #     print(key, affixes)
+    return answer
+
 
 def test_graph():
     """
@@ -384,6 +487,14 @@ def test_trie():
     print(trie)
 
 
+def test_affix_trie():
+    words = ['abc', 'ba', 'bc', 'abcc', 'ba', 'b', 'cbaca']
+    affix_trie = make_affix_trie(words, affix_type='prefix', max_length=4)
+    new_trie = prune_by_counts(affix_trie, threshold=2)
+    # affix_trie.print_all()
+    print(affix_trie.max_prefix('bccac'))
+    # new_trie.print_all()
+    print(new_trie.max_prefix('bccac'))
 
 if __name__ == "__main__":
-    test_trie()
+    test_affix_trie()

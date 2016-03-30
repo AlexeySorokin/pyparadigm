@@ -143,10 +143,12 @@ class MulticlassFeatureSelector(BaseEstimator, SelectorMixin):
         if self._ndata_features > self.minfeatures:
             counts = np.ravel((X > 0).sum(axis=0))
             curr_min_count = self.min_count
+            frequent_features_indexes = []
             while curr_min_count >= 0:
                 frequent_features_indexes = np.where(counts >= curr_min_count)[0]
-                if any(frequent_features_indexes):
+                if (any(frequent_features_indexes)):
                     break
+                # frequent_features_indexes = new_frequent_features_indexes
                 curr_min_count -= 1
             X = X[:,frequent_features_indexes]
             curr_nfeatures = frequent_features_indexes.shape[0]

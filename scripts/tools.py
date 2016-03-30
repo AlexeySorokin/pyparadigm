@@ -31,7 +31,7 @@ def counts_to_probs(counts, classes_number):
     """
     answer = np.zeros(shape=(classes_number,), dtype=float)
     for label, count in counts.items():
-        answer[label] += 1
+        answer[label] += count
     answer /= np.sum(answer)
     return answer
 
