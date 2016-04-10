@@ -1,6 +1,7 @@
 import sys
 import copy
 import getopt
+import statprof
 from collections import OrderedDict, defaultdict
 from itertools import chain, product
 
@@ -154,11 +155,11 @@ class InflectionDataHandler:
         return joint_data
 
 
-def get_classifier_params(language):
+def get_classifier_params(language, task_type='lemma'):
     # НЕМЕЦКИЙ
     if language == 'german':
         classifier_params = {'use_prefixes': False, 'max_prefix_length': 0,
-                             'has_letter_classifiers': None}
+                             'has_letter_classifiers': 'suffix'}
     # ИСПАНСКИЙ
     elif language == 'spanish':
         classifier_params = {'use_prefixes': False}
@@ -169,7 +170,7 @@ def get_classifier_params(language):
     # ГРУЗИНСКИЙ
     elif language == 'georgian':
         classifier_params = {'use_prefixes': True, 'max_prefix_length': 3,
-                             'has_letter_classifiers': 'suffix', 'to_memorize_affixes': 0}
+                             'has_letter_classifiers': True, 'to_memorize_affixes': 0}
     # ФИНСКИЙ
     elif language == 'finnish':
         classifier_params = {'use_prefixes': False}
@@ -179,7 +180,7 @@ def get_classifier_params(language):
     # РУССКИЙ
     elif language == 'russian':
         classifier_params = {'use_prefixes': False, 'max_prefix_length': 3,
-                             'to_memorize_affixes': 2, 'has_letter_classifiers': 'suffix'}
+                             'to_memorize_affixes': 3, 'has_letter_classifiers': 'suffix'}
     # НАВАХО
     elif language == 'navajo':
         classifier_params = {'use_prefixes': True, 'max_prefix_length': 5, 'max_length': 3,
@@ -189,6 +190,9 @@ def get_classifier_params(language):
         classifier_params = {'use_prefixes': False,  'has_letter_classifiers': None}
     else:
         classifier_params = {'use_prefixes': False}
+    if task_type == 'form' and not classifier_params['use_prefixes']:
+        classifier_params['use_prefixes'] = True
+        classifier_params['max_prefix_length'] = 3
     return classifier_params
 
 
@@ -196,7 +200,7 @@ def get_affixes_removal_params(language, mode):
     if language == 'finnish':
         params = {'remove_affixes': 'suffix', 'max_affix_length': 10}
     elif language == 'german':
-        params = {'remove_affixes': None}
+        params = {'remove_affixes': 'suffix'}
     elif language == 'navajo':
         params = {'remove_affixes': 'prefix', 'max_affix_length': 10}
     elif language == 'russian':
@@ -205,15 +209,15 @@ def get_affixes_removal_params(language, mode):
     elif language == 'turkish':
         params = {'remove_affixes': 'suffix', 'max_affix_length': 8}
     elif language == 'arabic':
-        params = {'remove_affixes': 'suffix' if mode == 'form' else None}
+        params = {'remove_affixes': 'suffix'}
     elif language == 'georgian':
-        params = {'remove_affixes': 'suffix', 'max_affix_length': 8}
+        params = {'remove_affixes': None, 'max_affix_length': 8}
     else:
         params = {'remove_affixes': None}
     return params
 
-def save_language_model(data, outfile):
-    language_model_to_save = LanguageModel(order=self.lm_order)
+def save_language_model(data, order, outfile):
+    language_model_to_save = LanguageModel(order=order)
     language_model_to_save.train(data)
     language_model_to_save.make_WittenBell_smoothing()
     language_model_to_save.make_arpa_file(outfile)
@@ -256,7 +260,7 @@ class BasicSigmorphonGuesser:
 class AffixesRemover:
 
     def __init__(self, remove_affixes=None, max_affix_length=-1, affix_key='pos',
-                 affix_threshold=0.1, min_affix_count=3):
+                 affix_threshold=0.1, min_affix_count=10):
         self.remove_affixes = remove_affixes
         self.max_affix_length = max_affix_length
         self.affix_key = affix_key
@@ -308,13 +312,14 @@ class AffixesRemover:
 class SigmorphonFormGuesser(BasicSigmorphonGuesser):
 
     def __init__(self, cls, language=None, gap=1, initial_gap=0,
-                 remove_affixes=None, max_affix_length=-1, affix_key='pos',
+                 remove_affixes=None, max_affix_length=-1, affix_key='pos', task_type='lemma',
                  affix_threshold=0.1, min_affix_count=3,
                  fit_lm=False, lm_file=None, lm_order=3, save_lm_file=None):
         super().__init__(language=language, gap=gap, initial_gap=initial_gap)
         self.cls = cls
-        self.affixes_remover = AffixesRemover(remove_affixes, max_affix_length, 'pos',
+        self.affixes_remover = AffixesRemover(remove_affixes, max_affix_length, affix_key,
                                               affix_threshold, min_affix_count)
+        self.task_type = task_type
         self.fit_lm = fit_lm
         self.lm_file = lm_file
         self.lm_order = lm_order
@@ -322,11 +327,11 @@ class SigmorphonFormGuesser(BasicSigmorphonGuesser):
 
 
     def fit(self, data):
-        if fit_lm:
+        if self.fit_lm:
             if self.lm_file is None:
                 if self.save_lm_file is None:
                     raise ValueError("Either lm_file or save_lm_file should be given")
-                save_language_model([list(x[2][0]) for x in data], self.save_lm_file)
+                save_language_model([list(x[2][0]) for x in data], self.lm_order, self.save_lm_file)
                 self.lm_file = self.save_lm_file
             joint_classifier_params =\
                 {'has_language_model': True, 'lm_file': self.lm_file,
@@ -334,13 +339,13 @@ class SigmorphonFormGuesser(BasicSigmorphonGuesser):
         else:
             joint_classifier_params =\
                 {'has_language_model': False, 'has_joint_classifier': False}
-        self.affixes_remover.train([elem[:1] for elem in data])
+        self.affixes_remover.train(data)
         joint_data = self.make_paradigms_from_data(data)
         transformations_handler = TransformationsHandler(self.transform_codes)
         transformation_classifier_params = {'select_features': 'ambiguity',
                                             'selection_params': {'nfeatures': 0.25, 'min_count': 2}}
         self.classifiers = [None] * self.problems_number
-        classifier_params = get_classifier_params(self.language)
+        classifier_params = get_classifier_params(self.language, self.task_type)
         # classifier_params['paradigm_table'] = self.transform_codes
         classifier_params['min_feature_count'] = 3
         classifier_params['nfeatures'] = 0.1
@@ -350,12 +355,12 @@ class SigmorphonFormGuesser(BasicSigmorphonGuesser):
             curr_classifier_params['prefixes_to_remove'] = prefixes
             curr_classifier_params['suffixes_to_remove'] = suffixes
             self.classifiers[i] = JointParadigmClassifier(
-                ParadigmClassifier(self.transform_codes), transformations_handler,
-                curr_classifier_params, transformation_classifier_params, **joint_classifier_params)
+                self.transform_codes,  curr_classifier_params, transformations_handler,
+                transformation_classifier_params, **joint_classifier_params)
         data_by_problems = arrange_data_by_problems(
             joint_data, self.problems_number, has_answers=True)
         for i, (_, curr_X, curr_y) in enumerate(data_by_problems):
-            # if i != 7:
+            # if i != 87:
             #     continue
             if i % 20 == 0:
                 print("Classifier {} fitting...".format(i+1))
@@ -375,7 +380,7 @@ class SigmorphonFormGuesser(BasicSigmorphonGuesser):
         else:
             answers = [None] * len(data)
         for i, (indexes, curr_X, _) in enumerate(data_by_problems):
-            # if i != 16:
+            # if i != 87:
             #     continue
             if len(curr_X) == 0:
                 continue
@@ -446,13 +451,26 @@ class SigmorphonFormTransformer(BasicSigmorphonGuesser):
         return self
 
     def fit(self, data):
+        if self.fit_lm:
+            if self.lm_file is None:
+                if self.save_lm_file is None:
+                    raise ValueError("Either lm_file or save_lm_file should be given")
+                save_language_model([list(x[0]) for x in data], self.lm_order, self.save_lm_file)
+                self.lm_file = self.save_lm_file
+            joint_classifier_params =\
+                {'has_language_model': True, 'lm_file': self.lm_file,
+                 'has_joint_classifier': True, 'max_lm_coeff': 2.0}
+        else:
+            joint_classifier_params =\
+                {'has_language_model': False, 'has_joint_classifier': False}
         self._initialize_affix_removal_params()
         reversed_data =\
             [((elem[2][0], elem[1], [elem[0]]) + elem[2:]) for elem in data]
         self.form_affix_remover.train(reversed_data)
+        self.lemma_affix_remover.train(data)
         joint_data = self.make_paradigms_from_data(data)
         joint_reversed_data = self.make_paradigms_from_data(reversed_data)
-        transformations_handler = TransformationsHandler(self.transform_codes)
+        transformation_handler = TransformationsHandler(self.transform_codes)
         transformation_classifier_params = {'select_features': 'ambiguity',
                                             'selection_params': {'nfeatures': 0.25, 'min_count': 2}}
         classifier_params = get_classifier_params(self.language)
@@ -478,10 +496,12 @@ class SigmorphonFormTransformer(BasicSigmorphonGuesser):
             direct_classifier_params['prefixes_to_remove'] = prefixes
             direct_classifier_params['suffixes_to_remove'] = suffixes
             self.direct_classifiers[i] = JointParadigmClassifier(
-                ParadigmClassifier(**direct_classifier_params), transformations_handler,
-                dict(), transformation_classifier_params)
+                self.transform_codes, direct_classifier_params,
+                transformation_handler, transformation_classifier_params)
             _, curr_X, curr_y = data_by_problems[i]
             self.direct_classifiers[i].fit(curr_X, [[label] for label in curr_y])
+            if i % 1 == 0:
+                print("Classifiers {} fitted".format(i+1))
             # классификаторы словоформа-лемма
             # удаляем суффиксы, здесь это особенно важно (???)
             curr_classifier_params = copy.copy(reversed_classifier_params)
@@ -490,11 +510,11 @@ class SigmorphonFormTransformer(BasicSigmorphonGuesser):
             curr_classifier_params['prefixes_to_remove'] = prefixes
             curr_classifier_params['suffixes_to_remove'] = suffixes
             self.reversed_classifiers[i] = JointParadigmClassifier(
-                ParadigmClassifier(**curr_classifier_params),
-                transformations_handler, dict(), transformation_classifier_params)
+                self.transform_codes, curr_classifier_params, transformation_handler,
+                transformation_classifier_params, **joint_classifier_params)
             _, curr_X, curr_y = reversed_data_by_problems[i]
             self.reversed_classifiers[i].fit(curr_X, [[label] for label in curr_y])
-            if i % 20 == 0:
+            if i % 1 == 0:
                 print("Classifiers {} fitted".format(i+1))
         return self
 
@@ -584,7 +604,8 @@ def output_inflection_data(data_for_output, outfile):
 SHORT_OPTS = 'g:i:Iam:o:s:'
 LONG_OPTS = ['gap=', 'initial_gap=', 'incorrect', 'group_all',
              'model', 'order', 'save_model']
-MODES = ['make_paradigms', 'guess_inflection', 'test_inflection', 'guess_reinflection', 'test_reinflection']
+MODES = ['make_paradigms', 'guess_inflection', 'test_inflection',
+         'guess_reinflection', 'test_reinflection', 'guess_lemmatization', 'test_lemmatization']
 
 if __name__ == "__main__":
     args = sys.argv[1:]
@@ -631,7 +652,16 @@ if __name__ == "__main__":
         language, train_file, test_file, additional_train_file, outfile = args
     elif mode == 'test_reinflection':
         raise NotImplementedError
-    if mode in ['guess_inflection', 'test_inflection', 'guess_reinflection', 'test_reinflection']:
+    elif mode == 'guess_lemmatization':
+        if len(args) != 4:
+            sys.exit("Pass train file, test file and output file")
+        language, train_file, test_file, outfile = args
+    elif mode == 'test_lemmatization':
+        if len(args) != 4:
+            sys.exit("Pass train file, dev file, and output file")
+        language, train_file, test_file, outfile = args
+    if mode in ['guess_inflection', 'test_inflection', 'guess_reinflection', 'test_reinflection',
+                'guess_lemmatization', 'test_lemmatization']:
         basic_classifier = JointParadigmClassifier
     else:
         basic_classifier = None
@@ -639,9 +669,13 @@ if __name__ == "__main__":
         fit_lm = True
     else:
         fit_lm = False
-    if mode in ['make_paradigms', 'guess_inflection', 'test_inflection']:
+    if mode in ['make_paradigms', 'guess_inflection', 'test_inflection',
+                'guess_lemmatization', 'test_lemmatization']:
         input_data = read_input_file(train_file, group_all=group_all)
-        if mode != 'make_paradigms':
+        if mode in ['guess_lemmatization', 'test_lemmatization']:
+            affix_removal_params = get_affixes_removal_params(language, 'form')
+            affix_removal_params['affix_key'] = 'task'
+        elif mode != 'make_paradigms':
             affix_removal_params = get_affixes_removal_params(language, 'lemma')
             affix_removal_params['affix_key'] = 'pos'
         else:
@@ -657,7 +691,10 @@ if __name__ == "__main__":
         form_guesser = SigmorphonFormTransformer(
             word_cls=basic_classifier, lemma_cls=basic_classifier,
             language=language, gap=gap, initial_gap=initial_gap,
-            form_affix_removal_params=affix_removal_params)
+            lm_file=language_model_infile, fit_lm=fit_lm, lm_order=lm_order,
+            save_lm_file=language_model_save_file,
+            form_affix_removal_params=affix_removal_params,
+            lemma_affix_removal_params=lemma_affix_removal_params)
     if mode == 'make_paradigms':
         # joint_data = [(lemma, problem_code, paradigm_code, var_values, word),...]
         joint_data = form_guesser.make_paradigms_from_data(input_data)
@@ -681,14 +718,14 @@ if __name__ == "__main__":
         # data_for_output = [(lemma, [lemma, word], paradigm_repr, var_values), ...]
         data_for_output = extract_tables(data_for_table_extraction)
         output_paradigms(data_for_output, outfile, stats_outfile)
-    elif mode == 'guess_inflection':
+    elif mode == 'guess_inflection' or mode == 'guess_lemmatization':
         form_guesser.fit(input_data)
         test_data = read_input_file(test_file, group_all=False)
         answers = form_guesser.predict([(x[0], x[1]) for x in test_data])
         with open(outfile, "w", encoding="utf8") as fout:
             for (lemma, descrs, _), word in zip(test_data, answers):
                 fout.write("{0}\t{1}\t{2}\n".format(lemma, get_descr_string(descrs[0]), word))
-    elif mode == 'test_inflection':
+    elif mode == 'test_inflection' or mode == 'test_lemmatization':
         form_guesser.fit(input_data)
         test_data = read_input_file(test_file, group_all=False)
         correct_paradigms_with_vars = form_guesser.lcs_searcher.calculate_paradigms(

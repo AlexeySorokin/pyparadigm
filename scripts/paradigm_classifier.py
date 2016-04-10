@@ -26,8 +26,8 @@ except ImportError:
 from paradigm_detector import ParadigmFragment, make_flection_paradigm, get_flection_length,\
     ParadigmSubstitutor
 from feature_selector import MulticlassFeatureSelector, SelectingFeatureWeighter, ZeroFeatureRemover
-from transformation_classifier import LocalTransformationClassifier, OptimalPositionSearcher,\
-    extract_uncovered_substrings
+from transformation_classifier import TransformationsHandler, LocalTransformationClassifier, \
+    OptimalPositionSearcher, extract_uncovered_substrings
 from graph_utilities import Trie, prune_dead_branches
 from tools import counts_to_probs, extract_classes_from_sparse_probs
 from counts_collector import LanguageModel
@@ -754,7 +754,6 @@ class ParadigmClassifier(BaseEstimator, ClassifierMixin):
                 label_counts[label] += 1
             if self.has_letter_classifiers is not None:
                 letter = self._affix_extractor(word)
-                # print(word, letter, labels)
                 label_counts_for_letter = label_counts_by_letters[letter]
                 for label in labels:
                     label_counts_for_letter[label] += 1
@@ -830,15 +829,16 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
     Классификатор, определяющий абстрактную парадигму,
     а также вычисляющий значения переменных
     """
-    def __init__(self, paradigm_classifier, transformation_handler,
-                 paradigm_classifier_params, transformation_classifier_params,
+    def __init__(self, paradigm_codes, paradigm_classifier_params,
+                 transformation_handler=None, transformation_classifier_params=None,
                  multiclass=False, smallest_prob=0.001, min_probs_ratio=0.75,
-                 has_language_model=False, lm_file=None, lm_order=3, max_lm_coeff=1.0,
+                 has_language_model=False, lm_file=None, lm_order=3,
+                 max_lm_coeff=0.25, normalize_lm=True,
                  has_joint_classifier=False, joint_classifier=None,
                  sparse=True, tmp_folder=None, new=True):
-        self.paradigm_classifier = paradigm_classifier
-        self.transformation_handler = transformation_handler
+        self.paradigm_codes = paradigm_codes
         self.paradigm_classifier_params = paradigm_classifier_params
+        self.transformation_handler = transformation_handler
         self.transformation_classifier_params = transformation_classifier_params
         self.multiclass = multiclass
         self.smallest_prob = smallest_prob
@@ -849,9 +849,18 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
         self.has_joint_classifier = has_joint_classifier
         self.joint_classifier = joint_classifier
         self.max_lm_coeff = max_lm_coeff
+        self.normalize_lm = normalize_lm
         self.sparse = sparse
         self.tmp_folder = tmp_folder
         self.new = new
+        self.initialize()
+
+    def initialize(self):
+        self.paradigm_classifier = ParadigmClassifier(paradigm_table=self.paradigm_codes,
+                                                      multiclass=self.multiclass)
+        self.paradigm_classifier.set_params(**self.paradigm_classifier_params)
+        if self.transformation_handler is None:
+            self.transformation_handler = TransformationsHandler(self.paradigm_codes)
 
     def fit(self, X, y):
         """
@@ -894,7 +903,7 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
         # нужно создать обработчики парадигм по их описаниям
         self.make_paradigmers()
         self._fit_language_model(labels, var_values)
-        if self._fit_joint_classifier:
+        if self.has_joint_classifier:
             # РАЗОБРАТЬСЯ СО СЛУЧАЕМ, КОГДА ОТВЕТ ЗАРАНЕЕ ИЗВЕСТЕН
             predicted_answer = self._predict_base_probs(X)
             predicted_answer =\
@@ -909,8 +918,12 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
                 if len(data_for_joint) > 0:
                     self.joint_classifier.fit(data_for_joint, labels_for_joint)
                     # print(self.joint_classifier.coef_, self.joint_classifier.intercept_)
-                    # self.joint_classifier.coef_ = np.array([[-1.0, -1.0]])
-                    # self.joint_classifier.intercept_ = [0.0]
+                    if self.joint_classifier.coef_.max() > 0.0:
+                        self.joint_classifier.coef_ = np.maximum(self.joint_classifier.coef_, 0.0)
+                    else:
+                        # не учитываем энграммную модель
+                        self.joint_classifier.coef_ = np.array([[1.0, 0.0]])
+                    # print(self.joint_classifier.coef_, self.joint_classifier.intercept_)
                 else:
                     self.joint_classifier = None
             else:
@@ -951,7 +964,7 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
             for i, prob, variable_values in zip(indices, word_probs, curr_var_values):
                 if i >= self.active_classes_number:
                     continue
-                lm_scores = self._make_lm_score(self.classes_[i], variable_values)[1:]
+                lm_scores = self._make_lm_score(self.classes_[i], variable_values, normalize=self.normalize_lm)[1:]
                 lm_score = sum(lm_scores) / len(lm_scores)
                 # if labels is None:
                 #     print("{} {} {:.3f} {:.2f}".format(self._paradigmers[self.classes_[i]].descr,
@@ -1003,19 +1016,24 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
                     have_found = True
                     break
             corr_prob = probs[corr_pos] if have_found else 0.0
-            corr_lm_score = self._make_lm_score(self.classes_[label], variable_values)[1]
-            # print("{} {} {:.3f} {:.2f}".format(label, variable_values, corr_prob, corr_lm_score))
+            corr_lm_score = self._make_lm_score(self.classes_[label], variable_values,
+                                                normalize=self.normalize_lm)[1]
+            # print("{} {:.3f} {:.2f}".format(
+            #     self._paradigmers[self.classes_[label]]._substitute_words(variable_values),
+            #     corr_prob, corr_lm_score))
             for pos, (curr_label, prob, curr_variable_values) in\
                     enumerate(zip(indices, probs, predicted_variable_values)):
                 if pos == corr_pos:
                     continue
-                lm_score = self._make_lm_score(self.classes_[curr_label], curr_variable_values)[1]
+                lm_score = self._make_lm_score(self.classes_[curr_label], curr_variable_values,
+                                               normalize=self.normalize_lm)[1]
                 diff = np.array([corr_prob - prob, corr_lm_score - lm_score])
-                # diff[0] = max(-3.0, min(diff[0], 3.0))
-                # diff[1] = max(-3.0, min(diff[1], 3.0))
-                # print("{} {} {:.3f} {:.2f}".format(curr_label, curr_variable_values, prob, lm_score))
+                # print("{} {:.3f} {:.2f} {}".format(
+                #     self._paradigmers[self.classes_[curr_label]]._substitute_words(curr_variable_values),
+                #     prob, lm_score, diff))
                 data_for_training.extend([diff, -diff])
                 labels_for_training.extend([1, 0])
+            # print("")
         return data_for_training, labels_for_training
 
     def predict(self, X):
@@ -1058,6 +1076,10 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
         Возвращает возможные наборы ((код, переменные), вероятность) в порядке убывания вероятности
         """
         codes_with_probs = self.paradigm_classifier._predict_proba(X)
+        # for word, (indices, probs) in zip(X, codes_with_probs):
+        #     for code, prob in zip(indices, probs):
+        #         print(self.paradigm_classifier._paradigms_by_codes[self.classes_[code]],
+        #               word, "{:.2f}".format(prob))
         labels_for_variable_prediction =\
             list(chain.from_iterable(np.take(self.classes_, indices)
                                      for indices, probs in codes_with_probs))
@@ -1081,7 +1103,7 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
         """
         answer = self._predict_base_probs(X)
         if self.has_language_model:
-            answer = [self._remove_unprobable_indices(elem) for elem in answer]
+            # answer = [self._remove_unprobable_indices(elem) for elem in answer]
             if self.has_joint_classifier:
                 if self.new:
                     new_answer = []
@@ -1091,8 +1113,12 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
                             if len(indices_and_vars) == 1:
                                 new_answer.append(answer[j])
                                 continue
-                            lm_scores = [self._make_lm_score(self.classes_[label], variable_values)
-                                         for label, variable_values in indices_and_vars][1]
+                            lm_scores = [self._make_lm_score(self.classes_[label], variable_values, normalize=self.normalize_lm)[1]
+                                         for label, variable_values in indices_and_vars]
+                            # for (label, var_values), prob, lm_score in\
+                            #         zip(indices_and_vars, probs, lm_scores):
+                            #     print("{} {:.2f} {:.2f}".format(self._paradigmers[self.classes_[label]].descr,
+                            #                                     prob, lm_score))
                             data_for_prediction = list(map(list, zip(probs, lm_scores)))
                             positive_class_probs = self.joint_classifier.predict_proba(data_for_prediction)[:,1]
                             positive_class_probs /= np.sum(positive_class_probs)
@@ -1101,6 +1127,7 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
                             #     print("{} {} {:.2f} {:.2f} {:.2f}".format(
                             #         X[j], self._paradigmers[self.classes_[index]]._substitute_words(variable_values),
                             #         prob, score, final_prob))
+                            # print("")
                             positions_order = np.argsort(positive_class_probs)[::-1]
                             new_indices_and_vars = [indices_and_vars[pos] for pos in positions_order]
                             new_probs = [positive_class_probs[pos] for pos in positions_order]
@@ -1197,11 +1224,14 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
         forms = self._paradigmers[label]._substitute_words(variable_values)
         forms = [form for form in forms if form not in ['-', '']]
         scores = [self.language_model.score(" ".join(form)) for form in forms]
+        if normalize:
+            for i, form in enumerate(forms):
+                scores[i] /= (len(form) + 1)
         return scores
 
     def _remove_unprobable_indices(self, data, use_max=True):
         first, probs = data
-        lm_scores = [self._make_lm_score(self.classes_[i], variable_values)[1:]
+        lm_scores = [self._make_lm_score(self.classes_[i], variable_values, normalize=self.normalize_lm)[1:]
                      for i, variable_values in first]
         if use_max:
             aggregated_lm_scores = [np.min(elem) for elem in lm_scores]
@@ -1217,6 +1247,15 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
         for i in range(len(new_probs)):
             new_probs[i] /= probs_sum
         return new_first, new_probs
+
+
+class PairedParadigmClassifier(BaseEstimator, ClassifierMixin):
+    """
+    Классификатор, учитывающий как прямое, так и обратное словоизменение
+    """
+    def __init__(self, direct_classifier, reverse_classifier=None,
+                 joint_classifier=None):
+        pass
 
 
 class CombinedParadigmClassifier(BaseEstimator, ClassifierMixin):

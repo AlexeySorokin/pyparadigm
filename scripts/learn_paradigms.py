@@ -305,11 +305,12 @@ def output_accuracies(classes, test_labels_with_vars, pred_labels_with_vars, mul
                         fout.write("{0}\t{1}\n".format(word, paradigm_descrs[code]))
                     if predicted_probs:
                         curr_answer = predicted_probs[fold-1][i]
+                        print(elem[0] for elem in curr_answer)
                         for (code, var_values), prob in zip(*curr_answer):
                             fout.write("{0}\t{1:.2f}\n".format(paradigm_descrs[code], 100 * prob))
                     else:
-                        curr_answer = pred_elem
-                        for (code, var_values), in zip(*curr_answer):
+                        curr_answer = pred_sample[i]
+                        for (code, var_values) in curr_answer:
                             fout.write("{0}\n".format(paradigm_descrs[code]))
                     fout.write("\n")
             curr_outfile = os.path.join(outfile, "fold_{0}_incorrect.out".format(fold))

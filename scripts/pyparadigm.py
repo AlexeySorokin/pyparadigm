@@ -28,13 +28,17 @@ class LcsSearcher:
     """
 
     def __init__(self, gap=None, initial_gap=None, method='Hulden',
-                 count_gaps=True, count_initial_gap=False):
+                 count_gaps=True, count_initial_gap=False, remove_constant_variables=False,
+                 min_constant_count=3):
         self.gap = gap
         self.initial_gap = initial_gap
         self.method = method
         self.count_gaps = count_gaps
         self.count_initial_gap = count_initial_gap
         self.paradigm_counts = defaultdict(int)
+        self._possible_var_values = dict()
+        self.remove_constant_variables = remove_constant_variables
+        self.min_constant_count = min_constant_count
 
     def process_table(self, words):
         """
@@ -64,22 +68,45 @@ class LcsSearcher:
             [self.calculate_all_paradigms(table) for table in tables]
         # считаем парадигмы
         if count_paradigms:
-            for paradigms_with_vars in candidate_paradigms_with_vars:
-                for paradigm, _ in paradigms_with_vars:
+            for i, paradigms_with_vars in enumerate(candidate_paradigms_with_vars):
+                for paradigm, var_values in paradigms_with_vars:
                     self.paradigm_counts[paradigm] += 1
-        # отбираем наиболее частотные
+                    if self.remove_constant_variables:
+                        if paradigm not in self._possible_var_values:
+                            self._possible_var_values[paradigm] = [set() for _ in var_values]
+                        current_possible_var_values = self._possible_var_values[paradigm]
+                        for elem, var_value in zip(current_possible_var_values, var_values):
+                            elem.add(var_value)
+            if self.remove_constant_variables:
+                new_paradigm_counts = defaultdict(int)
+                self.paradigm_simplifications = dict()
+                for paradigm, count in self.paradigm_counts.items():
+                    var_indexes_with_values = [(i, list(elem)[0]) for i, elem in\
+                                               enumerate(self._possible_var_values[paradigm])
+                                               if len(elem) == 1]
+                    if len(var_indexes_with_values) > 0 and count >= self.min_constant_count:
+                        var_indexes, var_values = zip(*var_indexes_with_values)
+                        simplified_descr = collapse_variables(paradigm, var_indexes, var_values)
+                        self.paradigm_simplifications[paradigm] = (simplified_descr, var_indexes)
+                        new_paradigm_counts[simplified_descr] += count
+                for descr, count in new_paradigm_counts.items():
+                    self.paradigm_counts[descr] += count
+        # отбираем наиболее частотные и преобразуем в описание
         answer = []
         for table, elem in zip(tables, candidate_paradigms_with_vars):
-            to_print = False
-            for descr, var_values in elem:
-                if descr == ('1+о+2+ий', '1+2+ое'):
-                    to_print = True
-                    break
-            if to_print:
-                print("#".join(table))
-                print("\t".join("{} {}".format(descr, self.paradigm_counts[descr]) for descr, _ in elem))
-            curr_paradigm_counts = [self.paradigm_counts[x[0]] for x in elem]
-            answer.append(max(elem, key=(lambda x:self.paradigm_counts[x[0]])))
+            if self.remove_constant_variables:
+                new_elem = []
+                for descr, var_values in elem:
+                    descr_simplification = self.paradigm_simplifications.get(descr)
+                    if descr_simplification is None:
+                        new_elem.append((descr, var_values))
+                    else:
+                        simplified_descr, var_indexes = descr_simplification
+                        new_elem.append((simplified_descr,
+                                         return_vars_after_collapse(var_values, var_indexes)))
+                    elem = new_elem
+            best_descr, var_values = max(elem, key=(lambda x:self.paradigm_counts[x[0]]))
+            answer.append((make_string_descr(best_descr), var_values))
         return answer
 
     def calculate_all_paradigms(self, table):
@@ -99,7 +126,8 @@ class LcsSearcher:
             # lcs_vars = ['пес', 'к']
             lcs_vars = [lcs[i:j] for i, j in zip(var_beginnings[:-1], var_beginnings[1:])]
             # paradigm_repr = ['1+о+2', '1+2+ом', '1+2+ов']
-            paradigm_repr = compute_paradigm(correct_table, lcs_indexes, var_beginnings)
+            # paradigm_repr = compute_paradigm(correct_table, lcs_indexes, var_beginnings)
+            paradigm_repr = compute_pseudoparadigm(correct_table, lcs_indexes, var_beginnings)
             # вспоминаем, что парадигма могла быть дефектной
             final_paradigm_repr = ['-' for form in table]
             for i, form in zip(correct_indices, paradigm_repr):
@@ -411,6 +439,9 @@ class WordGraph:
                 break
             path = path[:(k + 1)]
             answer.extend(self._extract_indexes_from_path(path))
+        answer = [(word, tuple(tuple(map(tuple, elem)) for elem in indexes))
+                  for word, indexes in answer]
+        answer = list(set(answer))
         return answer
 
     def make_unambigious_automaton(self, gap, initial_gap):
@@ -687,7 +718,112 @@ def compute_paradigm(table, indexes, var_beginnings):
         paradigm.append(form_with_vars)
     return paradigm
 
+def compute_pseudoparadigm(table, indexes, var_beginnings):
+    """
+    Аргументы:
+    ----------
+    table: list
+    список словоформ, для которого вычисляется парадигма
+    indexes: list of lists
+    список списков, содержащих позиции наибольшей общей последовательности
+    var_beginnings: list
+    позиции наибольшей общей последовательности, в которых начинаются переменные
 
+    Возвращает:
+    -----------
+    paradigms: list of lists
+    список списков, каждый из которых содержит k+1 постоянный фрагмент
+    соответствующего элемента парадигмы, где k --- число переменных
+
+    Пример:
+    --------
+    Вход:
+    table=['песок', 'песком', 'песков'],
+    indexes=[[0, 1, 2, 4], [0, 1, 2, 3], [0, 1, 2, 3]],
+    var_beginnings=[0, 3, 4]
+
+    Выход:
+    --------
+    paradigm = ['1+о+2', '1+2+ом', '1+2+ов']
+    """
+    paradigm_repr = []
+    for form, form_indexes in zip(table, indexes):
+        var_spans = []
+        curr = var_beginnings[0]
+        for next in var_beginnings[1:]:
+            var_spans.append((form_indexes[curr], form_indexes[next - 1] + 1))
+            curr = next
+        var_spans.append((len(form), None))
+        fragments_list = [form[:var_spans[0][0]]]
+        fragments_list += [form[elem[1]:var_spans[i+1][0]] for i, elem in enumerate(var_spans[:-1])]
+        paradigm_repr.append(tuple(fragments_list))
+    return paradigm_repr
+
+
+def collapse_variables(descr, var_indexes, var_values):
+    """
+    Подставляет значения переменных, равные var_values, вместо пробелов
+    после константных фрагментов с индексами, равными var_values
+
+    Пример:
+    --------
+    Вход:
+    descr = [['', 'о', ''], ['', '', 'ом']], var_indexes = [1], var_values = ['к']
+    Выход:
+    answer = [['', 'ок'], ['', 'ком']]
+    """
+    new_descr = []
+    for pattern in descr:
+        new_pattern, pos = [pattern[0]], 0
+        for i, fragment in enumerate(pattern[1:]):
+            if pos == len(var_indexes):
+                new_pattern.extend(pattern[i+1:])
+                break
+            if i == var_indexes[pos]:
+                new_pattern[-1] += var_values[pos] + fragment
+                pos += 1
+            else:
+                new_pattern.append(fragment)
+        new_descr.append(new_pattern)
+    return tuple(map(tuple, new_descr))
+
+
+def return_vars_after_collapse(var_values, collapse_indexes):
+    """
+    Возвращает значения переменных, оставшиеся после удаления позиций в collapse_indexes
+    """
+    new_var_values, pos = [], 0
+    for i, var_value in enumerate(var_values):
+        if pos >= len(collapse_indexes):
+            new_var_values.extend(var_values[i:])
+            break
+        if i == collapse_indexes[pos]:
+            pos += 1
+        else:
+            new_var_values.append(var_value)
+    return new_var_values
+
+
+def make_string_descr(descr):
+    """
+    Преобразует описание в формате списка константных подстрок в список строк
+
+    Пример:
+    ----------
+    Вход:
+    descr = [['', 'о', ''], ['', '', 'ом'], ['', '', 'ов']]
+    Выход:
+    string_descr = ['1+о+2', '1+2+ом', '1+2+ов']
+    """
+    string_descr = []
+    for fragment in descr:
+        if fragment == '-':
+            string_descr.append('-')
+            continue
+        fragment_repr = "+{}+".join(fragment).format(*range(1, len(fragment)))
+        fragment_repr = re.sub("[+]+", "+", fragment_repr.strip('+'))
+        string_descr.append(fragment_repr)
+    return tuple(string_descr)
 # вход/выход
 
 def read_input(infile, language, method='first'):
@@ -833,8 +969,8 @@ def test():
     # other = first.intersect(second)
     # print(other.longest_words(gap=1))
 
-    words = ['takātaba', 'tatakātab']
-    lcs_searcher = LcsSearcher(gap=2, initial_gap=5, count_initial_gap=False)
+    words = ['явиться', 'являться']
+    lcs_searcher = LcsSearcher(gap=1, initial_gap=3)
     best_lcss = lcs_searcher.process_table(words)
     print(best_lcss)
 
@@ -849,6 +985,7 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     if len(args) == 0:
         test()
+        sys.exit()
     if len(args) != 7:
         sys.exit("Pass input file, language code, paradigm_extraction_method, "
                  "maximal gap in lcs, maximal initial gap, "
@@ -867,7 +1004,7 @@ if __name__ == "__main__":
             print(num, lemma)
         paradigms_with_vars.append(lcs_searcher.calculate_all_paradigms(table))
     tables_by_paradigm = extract_tables(list(chain.from_iterable(
-        [(lemma, table, paradigm_repr, lcs_vars)
+        [(lemma, table, make_string_descr(paradigm_repr), lcs_vars)
          for paradigm_repr, lcs_vars in elem]
         for (lemma, table), elem in zip(tables, paradigms_with_vars))))
     output_paradigms(tables_by_paradigm, outfile, stats_outfile)
