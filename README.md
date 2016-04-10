@@ -4,7 +4,7 @@ A project for automatic construction of morphological paradigms
 **1. Assigning words to paradigms according to full inflection table.**  
 python3 pyparadigm.py  &lt;inflection_tables&gt;  &lt;LANGUAGE_CODE&gt; &lt;maximal_gap&gt; &lt;maximal_initial_gap&gt;  &lt;table_processing_mode&gt; &lt;words_by_paradigms_file&gt;  &lt;paradigm_codes_file&gt;   
 **&lt;inflection_tables&gt; :** file with paradigms in the format as in data/Latin/latin_noun_paradigms.txt  
-**&lt;LANGUAGE_CODE&gt; :** code of the language (only LA for 'Latin' and RU for 'Russian' are supported yet)  
+**&lt;LANGUAGE_CODE&gt; :** code of the language (LA for 'Latin', RU for 'Russian', FI for 'Finnish' and RU_verbs for Russian verbs are supported)  
 **&lt;maximal_gap&gt; :** maximal gap length in lcs method  
 **&lt;maximal_initial_gap&gt; :** maximal initial gap length in lcs method  
 **&lt;paradigm_processing_mode&gt; :** paradigm processing method, &laquo;first&raquo; uses only first variant in case of multiple word forms for one word, &laquo;all&raquo; considers all the variants  
