@@ -111,8 +111,8 @@ def cv_mode(testing_mode, multiclass, predict_lemmas, find_flection,
     transformation_classifier_params = {'select_features': 'ambiguity',
                                         'selection_params': {'nfeatures': 0.1, 'min_count': 2}}
     # statprof.start()
-    cls = JointParadigmClassifier(paradigm_classifier, transformation_handler,
-                                  paradigm_classifier_params, transformation_classifier_params)
+    cls = JointParadigmClassifier(paradigm_table, paradigm_classifier_params,
+                                  transformation_handler, transformation_classifier_params)
     # cls = CombinedParadigmClassifier(paradigm_classifier, transformation_handler,
     #                                  paradigm_classifier_params, transformation_classifier_params)
     # сохраняем тестовые данные

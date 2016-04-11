@@ -861,6 +861,8 @@ class JointParadigmClassifier(BaseEstimator, ClassifierMixin):
         self.paradigm_classifier.set_params(**self.paradigm_classifier_params)
         if self.transformation_handler is None:
             self.transformation_handler = TransformationsHandler(self.paradigm_codes)
+        if self.transformation_classifier_params is None:
+            self.transformation_classifier_params = dict()
 
     def fit(self, X, y):
         """
